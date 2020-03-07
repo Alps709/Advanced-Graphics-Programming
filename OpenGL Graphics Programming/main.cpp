@@ -83,7 +83,7 @@ void SetGlobalGLSettings()
 {
 	///Set global settings
 
-	////Disable the cursor for the first person camera
+	//Disable the cursor for the first person camera
 	glutWarpPointer(0, 0);
 	myInputManager.g_mousePosX = 0;
 	myInputManager.g_mousePosY = 0;
@@ -93,7 +93,7 @@ void SetGlobalGLSettings()
 	GLCall(glEnable(GL_CULL_FACE));
 	GLCall(glCullFace(GL_BACK));
 
-	//Normal are calculated counter clockwise
+	//Normals are calculated counter clockwise
 	GLCall(glFrontFace(GL_CCW));
 
 	//Setup alpha blending

@@ -116,6 +116,12 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>Source Files\Characters</Filter>
     </ClCompile>
+    <ClCompile Include="TerrainMesh.cpp">
+      <Filter>Source Files\Object stuff\Meshes\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>Source Files\Object stuff\Objects\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Snek.h">
@@ -198,6 +204,12 @@
     </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>Source Files\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainMesh.h">
+      <Filter>Source Files\Object stuff\Meshes\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>Source Files\Object stuff\Objects\Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

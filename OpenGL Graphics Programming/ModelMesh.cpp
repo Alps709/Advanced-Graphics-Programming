@@ -1,7 +1,7 @@
 #include "ModelMesh.h"
 
 
-ModelMesh::ModelMesh(vector<Vertex> vertices, vector<GLuint> indices, vector<MeshTexture> textures)
+ModelMesh::ModelMesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<MeshTexture> textures)
 {
 	this->vertices = vertices;
 	this->indices = indices;
@@ -21,9 +21,9 @@ void ModelMesh::Render(glm::mat4 PVMMat, Shader* shader)
 	{
 		glActiveTexture(GL_TEXTURE0 + i); // Active proper texture unit before binding
 										  // Retrieve texture number (the N in diffuse_textureN)
-		stringstream ss;
-		string number;
-		string name = this->textures[i].type;
+		std::stringstream ss;
+		std::string number;
+		std::string name = this->textures[i].type;
 		if (name == "texture_diffuse")
 			ss << diffuseNr++; // Transfer GLuint to stream
 		else if (name == "texture_specular")

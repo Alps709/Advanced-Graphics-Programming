@@ -8,8 +8,6 @@
 #include <glm.hpp>
 #include "Shader.h"
 
-using namespace std;
-
 struct Vertex 
 {
 	glm::vec3 Position; // Position	
@@ -20,20 +18,21 @@ struct Vertex
 struct MeshTexture 
 {
 	GLuint id;
-	string type;
+	std::string type;
 	aiString path;
 };
 
-class ModelMesh {
+class ModelMesh 
+{
 public:
 	/*  Mesh Data  */
-	vector<Vertex> vertices;
-	vector<GLuint> indices;
-	vector<MeshTexture> textures;
+	std::vector<Vertex> vertices;
+	std::vector<GLuint> indices;
+	std::vector<MeshTexture> textures;
 
 	/*  Functions  */
 	// Constructor
-	ModelMesh(vector<Vertex> vertices, vector<GLuint> indices, vector<MeshTexture> textures);
+	ModelMesh(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<MeshTexture> textures);
 
 	// Render the mesh
 	void Render(glm::mat4 PVMMat, Shader* shader);
