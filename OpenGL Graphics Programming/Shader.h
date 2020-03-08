@@ -27,5 +27,9 @@ public:
 
 private:
 	unsigned int m_programID{};
+
+	std::string m_VSFile;
+	std::string m_FSFile;
+
 };
 

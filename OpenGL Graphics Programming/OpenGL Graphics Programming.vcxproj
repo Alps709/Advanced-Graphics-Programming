@@ -151,6 +151,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="clock.cpp" />
     <ClCompile Include="CubeMap.cpp" />
+    <ClCompile Include="FastNoise.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="clock.h" />
     <ClInclude Include="CubeMap.h" />
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="FastNoise.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputManager.h" />

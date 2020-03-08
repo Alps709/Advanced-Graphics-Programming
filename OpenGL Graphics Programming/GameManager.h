@@ -68,8 +68,6 @@ private:
 
 	//Boids that the snek will collect for points
 	std::vector<Boid> m_boidObjects;
-	Mesh* m_boidMesh = nullptr;
-	Texture* m_boidTexture = nullptr;
 
 	std::vector<Bullet> m_bulletObjects;
 

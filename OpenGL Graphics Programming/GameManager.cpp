@@ -25,23 +25,16 @@ GameManager::GameManager()
 	m_CubeMap.Initialise();
 	m_CubeMap.ChangePRS(0.0f, 0.0f, 0.0f, 0.0f, 200000.0f, 200000.0f, 200000.f);
 
-	m_terrain = new Terrain(128, 128, glm::vec3(0.0f));
+	//Set background mesh and texture
+	//m_backgroundMesh = new Mesh(Objects::verticesBackground, Objects::indicesBackground);
+	m_backgroundTexture = new Texture("Resources/Textures/Grass.png", 0);
+
+	//Terrain
+	m_terrain = new Terrain(128, 128, glm::vec3(0.0f), m_backgroundTexture);
 
 	//Set sphere mesh and texture
 	m_sphereMesh = new SphereMesh();
 	m_sphereTexture = new Texture("Resources/Textures/Grass.png", 0);
-
-	//Create 1 background object
-	m_sphereObject = Object(m_sphereMesh, m_defaultShader, glm::vec3(0.0f));
-	m_sphereObject.SetTexture0(m_sphereTexture);
-
-	//Set boid mesh and texture
-	m_boidMesh = new Mesh(Objects::verticesBoid, Objects::indicesBoid);
-	m_boidTexture = new Texture("Resources/Textures/Grass.png", 0);
-
-	//Set background mesh and texture
-	/*m_backgroundMesh = new Mesh(Objects::verticesBackground, Objects::indicesBackground);
-	m_backgroundTexture = new Texture("Resources/Textures/Grass.png", 0);*/
 
 	//Create 1 background object
 	/*m_backgroundObject = Object(m_backgroundMesh, m_defaultShader, glm::vec3(0.0f, 0.0f, -1000.0f));
@@ -88,8 +81,6 @@ GameManager::~GameManager()
 	delete m_menuTitleText;
 	delete m_menuInstructText;
 	delete m_timeText;
-	delete m_boidMesh;
-	delete m_boidTexture;
 	delete m_backgroundMesh;
 	delete m_backgroundTexture;
 	delete m_defaultShader;
@@ -199,7 +190,7 @@ void GameManager::ProcessBoids()
 
 		//Create 1 boid model
 		Boid myTempObject = Boid(m_sphereMesh, m_sphereCubeMapReflectShader, glm::vec3(randXPos(rng), 0.0f, randZPos(rng)));
-		myTempObject.SetTexture0(m_boidTexture);
+		myTempObject.SetTexture0(m_backgroundTexture);
 		myTempObject.ChangePRS(0.0f, 0.0f, 0.0f, 0.0f, 50.0f, 50.0f, 50.0f);
 		m_boidObjects.push_back(myTempObject);
 	}

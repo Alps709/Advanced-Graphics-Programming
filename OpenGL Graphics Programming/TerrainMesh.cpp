@@ -1,4 +1,5 @@
 #include "TerrainMesh.h"
+#include "FastNoise.h"
 
 TerrainMesh::TerrainMesh(unsigned int _xSize = 128, unsigned int _zSize = 128)
 {
@@ -69,6 +70,11 @@ TerrainMesh::~TerrainMesh()
 
 void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 {
+	FastNoise noiseGenerator;
+	noiseGenerator.SetNoiseType(FastNoise::Perlin);
+
+	noiseGenerator.SetGradientPerturbAmp(50);
+	
 	const int SIZE = 800;
 	const int VERTEX_COUNT = 128;
 	const int count = VERTEX_COUNT * VERTEX_COUNT;
@@ -78,16 +84,30 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 	std::vector<unsigned int> indices(6 * (VERTEX_COUNT - 1) * (VERTEX_COUNT - 1));
 
 	int vertexPointer = 0;
+
+	int tempX = 0;
+	int tempZ = 0;
 	for (int i = 0; i < 128; i++) 
 	{
 		for (int j = 0; j < 128; j++) 
 		{
-			vertices[vertexPointer * 3]     = (float)j / ((float)VERTEX_COUNT - 1) * SIZE;
-			vertices[vertexPointer * 3 + 1] = 0;
-			vertices[vertexPointer * 3 + 2] = (float)i / ((float)VERTEX_COUNT - 1) * SIZE;
+			//Variables of current x and z positions to give to the noise generator
+			tempX = (float)j / ((float)VERTEX_COUNT - 1) * SIZE;
+			tempZ = (float)i / ((float)VERTEX_COUNT - 1) * SIZE;
+
+			//Positions
+			vertices[vertexPointer * 3]     = tempX;
+			vertices[vertexPointer * 3 + 1] = noiseGenerator.GetNoise(tempX, tempZ) * 50;
+			vertices[vertexPointer * 3 + 2] = tempZ;
+
+			//Normals
 			vertices[vertexPointer * 3 + 3] = 0;
 			vertices[vertexPointer * 3 + 4] = 1;
 			vertices[vertexPointer * 3 + 5] = 0;
+
+			//Texture co-ords
+			vertices[vertexPointer * 3 + 6] = (float)j / ((float)VERTEX_COUNT - 1);
+			vertices[vertexPointer * 3 + 7] = (float)i / ((float)VERTEX_COUNT - 1);
 			vertexPointer++;
 		}
 	}

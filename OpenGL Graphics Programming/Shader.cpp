@@ -13,6 +13,8 @@ Shader::Shader()
 
 Shader::Shader(const char* _vertexSrc, const char* _fragmentSrc)
 {
+	m_VSFile = _vertexSrc;
+	m_FSFile = _fragmentSrc;
 	m_programID = ShaderLoader::CreateProgram(_vertexSrc, _fragmentSrc);
 }
 
@@ -64,7 +66,9 @@ int Shader::GetUniformLocation(const std::string& _name) const
 
 	if(uniformLocation == -1)
 	{
+		std::cout << "Warning: " << m_VSFile << " or " << m_FSFile << " has a problem!\n";
 		std::cout << "Warning! Couldn't find uniform: " << _name << std::endl;
+		system("pause");
 	}
 
 	return uniformLocation;

@@ -5,11 +5,12 @@
 #include "Object.h"
 #include "Camera.h"
 
-Terrain::Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position)
+Terrain::Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, Texture* _myTex)
 {
 	m_mesh = new TerrainMesh(_xSize, _zSize);
 	m_shader = new Shader("Shaders/TerrainVS.glsl", "Shaders/TerrainFS.glsl");
 	m_position = _position;
+	m_tex0 = _myTex;
 
 	//SetScale(glm::vec3(200.0f, 200.0f, 200.0f));
 
@@ -77,8 +78,11 @@ void Terrain::SetShaderUniforms(Camera& _myCamera, long long _time) const
 	glm::mat4 pvmMat = projViewMat * m_modelMat;
 
 	//Set object specific uniforms
-	m_shader->SetUniform1i("u_time", _time);
+	m_shader->SetUniform1i("u_tex", 0);
 	m_shader->SetUniformMat4f("u_PVM", pvmMat);
+	m_shader->SetUniformMat4f("u_modelMat", const_cast<glm::mat4&>(m_modelMat));
+
+	//m_shader->SetUniform1i("u_time", _time);
 }
 
 void Terrain::Render(Camera& _myCamera, long long _time)
@@ -87,10 +91,9 @@ void Terrain::Render(Camera& _myCamera, long long _time)
 	m_mesh->Bind();
 	m_shader->Bind();
 
-	SetShaderUniforms(_myCamera, _time);
-
 	//Prepare the object for drawing
-	//BindTexture(0);
+	SetShaderUniforms(_myCamera, _time);
+	BindTexture(0);
 
 	//Draw the object
 	GLCall(glDrawElements(GL_TRIANGLES, m_mesh->GetindicesCount(), GL_UNSIGNED_INT, static_cast<void*>(0)));
@@ -101,12 +104,9 @@ void Terrain::Render(Camera& _myCamera, long long _time)
 
 void Terrain::BindTexture(unsigned int _texNum) const
 {
+	//Meant to be expanded if the object needs more than one texture
 	if (_texNum == 0)
 	{
 		m_tex0->Bind();
-	}
-	else if (_texNum == 1)
-	{
-		m_tex1->Bind();
 	}
 }

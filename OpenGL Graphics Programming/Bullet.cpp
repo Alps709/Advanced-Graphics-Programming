@@ -17,10 +17,6 @@ void Bullet::Render(Camera& _myCamera)
 	//Prepare the object for drawing
 	BindTexture(0);
 
-	GLCall(glActiveTexture(GL_TEXTURE1));
-	m_shader->SetUniform1i("u_skyBox", 1);
-	GLCall(glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMap->m_texID));
-
 	//Set object specific uniforms
 	SetShaderUniforms(_myCamera);
 

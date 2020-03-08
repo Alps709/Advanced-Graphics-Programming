@@ -122,6 +122,9 @@
     <ClCompile Include="Terrain.cpp">
       <Filter>Source Files\Object stuff\Objects\Base</Filter>
     </ClCompile>
+    <ClCompile Include="FastNoise.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Snek.h">
@@ -210,6 +213,9 @@
     </ClInclude>
     <ClInclude Include="Terrain.h">
       <Filter>Source Files\Object stuff\Objects\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="FastNoise.h">
+      <Filter>Source Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
