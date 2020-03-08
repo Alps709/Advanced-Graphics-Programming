@@ -99,15 +99,15 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 			tempX = topLeftX + x;
 
 			//Positions
-			vertices[vertexPointer]     = tempX * SIZE;
+			vertices[vertexPointer]     = tempX;
 			vertices[vertexPointer + 1] = noiseGenerator.GetNoise(tempX, tempZ) * 50;
-			vertices[vertexPointer + 2] = tempZ * SIZE;
-									
+			vertices[vertexPointer + 2] = tempZ;
+
 			//Normals				
 			vertices[vertexPointer + 3] = 0;
 			vertices[vertexPointer + 4] = 1;
 			vertices[vertexPointer + 5] = 0;
-									
+
 			//Texture co-ords		
 			vertices[vertexPointer + 6] = (float)x / ((float)_xSize - 1);
 			vertices[vertexPointer + 7] = (float)z / ((float)_zSize - 1);
@@ -115,6 +115,7 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 		}
 	}
 
+	int countIndices = 0;
 	int pointer = 0;
 	for (int gz = 0; gz < _zSize - 1; gz++) 
 	{
@@ -122,16 +123,18 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 		{
 			if (gx < _zSize - 1 && gz < _xSize - 1)
 			{
-				indices[pointer]     = pointer;
-				indices[pointer + 1] = pointer + _xSize + 1;
-				indices[pointer + 2] = pointer + _zSize;
+				indices[pointer]     = countIndices;
+				indices[pointer + 1] = countIndices + _xSize + 1;
+				indices[pointer + 2] = countIndices + _zSize;
 
-				indices[pointer + 3] = pointer + _xSize + 1;
-				indices[pointer + 4] = pointer;
-				indices[pointer + 5] = pointer + 1;
+				indices[pointer + 3] = countIndices + _xSize + 1;
+				indices[pointer + 4] = countIndices;
+				indices[pointer + 5] = countIndices + 1;
 
-				pointer += 6;
+				
 			}
+			pointer += 6;
+			countIndices++;
 		}
 	}
 
