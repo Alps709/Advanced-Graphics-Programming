@@ -8,6 +8,7 @@
 #include "Bullet.h"
 #include "Snek.h"
 #include "Model.h"
+#include "Terrain.h"
 
 #include <fmod.hpp>
 #include "SphereMesh.h"
@@ -52,6 +53,9 @@ private:
 
 	//Cube map
 	CubeMap& m_CubeMap = CubeMap::getInstance();
+
+	//Terrain
+	Terrain* m_terrain = nullptr;
 
 	///Characters
 	//SphereMesh

@@ -1,6 +1,6 @@
 #include "TerrainMesh.h"
 
-TerrainMesh::TerrainMesh(unsigned int _xSize, unsigned int _zSize)
+TerrainMesh::TerrainMesh(unsigned int _xSize = 128, unsigned int _zSize = 128)
 {
 	GenerateTerrainMesh(_xSize, _zSize);
 	m_indicesCount = m_indices.size();
@@ -69,49 +69,47 @@ TerrainMesh::~TerrainMesh()
 
 void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 {
-	const unsigned int count = m_verticesPerSide * m_verticesPerSide;
-	std::vector<Vertex> vertices(count * 3);
-	//std::vector<float> colours(count * 4);
-	std::vector<unsigned> indices(6 * (m_verticesPerSide - 1) * (m_verticesPerSide - 1));
+	const int SIZE = 800;
+	const int VERTEX_COUNT = 128;
+	const int count = VERTEX_COUNT * VERTEX_COUNT;
+
+	std::vector<float> vertices(count * 6);
+
+	std::vector<unsigned int> indices(6 * (VERTEX_COUNT - 1) * (VERTEX_COUNT - 1));
 
 	int vertexPointer = 0;
-	Vertex tempVert{};
-	for (int j = 0; j < _xSize; j++)
+	for (int i = 0; i < 128; i++) 
 	{
-		for (int i = 0; i < _zSize; i++)
+		for (int j = 0; j < 128; j++) 
 		{
-			tempVert.Position.x = (float)j / ((float)m_verticesPerSide - 1) * _xSize;
-			tempVert.Position.y = 0;
-			tempVert.Position.z = (float)i / ((float)m_verticesPerSide - 1) * _zSize;
-			tempVert.Normal.x = 0;
-			tempVert.Normal.y = 1;
-			tempVert.Normal.z = 0;
-			//textureCoords[vertexPointer * 2] = (float)j / ((float)m_xSize - 1);
-			//textureCoords[vertexPointer * 2 + 1] = (float)i / ((float)m_xSize - 1);
-
-			vertices[vertexPointer] = tempVert;
+			vertices[vertexPointer * 3]     = (float)j / ((float)VERTEX_COUNT - 1) * SIZE;
+			vertices[vertexPointer * 3 + 1] = 0;
+			vertices[vertexPointer * 3 + 2] = (float)i / ((float)VERTEX_COUNT - 1) * SIZE;
+			vertices[vertexPointer * 3 + 3] = 0;
+			vertices[vertexPointer * 3 + 4] = 1;
+			vertices[vertexPointer * 3 + 5] = 0;
 			vertexPointer++;
 		}
 	}
 
 	int pointer = 0;
-	auto index = &indices[pointer];
-	for (int gz = 0; gz < m_verticesPerSide - 1; gz++) 
+	for (int gz = 0; gz < VERTEX_COUNT - 1; gz++) 
 	{
-		for (int gx = 0; gx < m_verticesPerSide - 1; gx++) 
+		for (int gx = 0; gx < VERTEX_COUNT - 1; gx++) 
 		{
-			int topLeft = (gz * m_verticesPerSide) + gx;
+			int topLeft = (gz * VERTEX_COUNT) + gx;
 			int topRight = topLeft + 1;
-			int bottomLeft = ((gz + 1) * m_verticesPerSide) + gx;
+			int bottomLeft = ((gz + 1) * VERTEX_COUNT) + gx;
 			int bottomRight = bottomLeft + 1;
-			*(index++) = topLeft;
-			*(index++) = bottomLeft;
-			*(index++) = topRight;
-			*(index++) = topRight;
-			*(index++) = bottomLeft;
-			*(index++) = bottomRight;
+			indices[pointer++] = topLeft;
+			indices[pointer++] = bottomLeft;
+			indices[pointer++] = topRight;
+			indices[pointer++] = topRight;
+			indices[pointer++] = bottomLeft;
+			indices[pointer++] = bottomRight;
 		}
 	}
 
+	m_vertices = vertices;
 	m_indices = indices;
 }

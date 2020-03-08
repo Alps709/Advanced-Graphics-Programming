@@ -2,7 +2,7 @@
 #include "VertexBufferInfo.h"
 #include <glm.hpp>
 
-struct Vertex
+struct VertexT
 {
 	glm::vec3 Position; // Position	
 	glm::vec3 Normal; // Normal	
@@ -21,7 +21,6 @@ public:
 	void AddVAOBuffer(const VertexBufferInfo _info);
 	void SetVertexAttributes();
 
-	std::vector<float> m_vertices;
 	unsigned int GetindicesCount() const { return m_indicesCount; }
 
 	void Bind() const;
@@ -37,7 +36,7 @@ private:
 	unsigned int m_xSize{};
 	unsigned int m_zSize{};
 
-	std::vector<Vertex> m_vertices{};
+	std::vector<float> m_vertices{};
 	std::vector<unsigned int> m_indices{};
 
 	//Used by the renderer to know how many indices to draw

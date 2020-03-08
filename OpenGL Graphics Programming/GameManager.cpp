@@ -25,12 +25,14 @@ GameManager::GameManager()
 	m_CubeMap.Initialise();
 	m_CubeMap.ChangePRS(0.0f, 0.0f, 0.0f, 0.0f, 200000.0f, 200000.0f, 200000.f);
 
+	m_terrain = new Terrain(128, 128, glm::vec3(0.0f));
+
 	//Set sphere mesh and texture
 	m_sphereMesh = new SphereMesh();
 	m_sphereTexture = new Texture("Resources/Textures/Grass.png", 0);
 
 	//Create 1 background object
-	m_sphereObject = Object(m_sphereMesh, m_defaultShader, glm::vec3(0.0f, 0.0f, 0.0f));
+	m_sphereObject = Object(m_sphereMesh, m_defaultShader, glm::vec3(0.0f));
 	m_sphereObject.SetTexture0(m_sphereTexture);
 
 	//Set boid mesh and texture
@@ -92,6 +94,7 @@ GameManager::~GameManager()
 	delete m_backgroundTexture;
 	delete m_defaultShader;
 	delete m_camera;
+	delete m_terrain;
 }
 
 void GameManager::AudioInitialise()
@@ -284,6 +287,8 @@ void GameManager::Render()
 
 	//Draw CubeMap
 	m_CubeMap.Render(*m_camera);
+
+	m_terrain->Render(*m_camera, m_clock.GetTimeElapsedS());
 
 	myTank.Render(*m_camera);
 

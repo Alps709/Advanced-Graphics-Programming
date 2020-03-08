@@ -10,14 +10,16 @@ class Terrain
 {
 public:
 	Terrain() = default;
-	Terrain(TerrainMesh * _mesh, Shader * _shader, glm::vec3 _position);
+	Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position);
 	virtual ~Terrain() = default;
 
 	//Getters
 	glm::vec3 GetPosition() const { return m_position; }
+	glm::vec3 GetScale() const { return m_scale; }
 
 	//Setters
 	void SetPosition(glm::vec3 _pos);
+	void SetScale(glm::vec3 _scale);
 	void SetTexture0(Texture * _tex);
 	void SetTexture1(Texture * _tex);
 
@@ -34,8 +36,8 @@ public:
 
 	//Rendering stuff
 	//Render is overidden by all derived classes, but can still be used for a base object
-	virtual void SetShaderUniforms(Camera & _myCamera) const;
-	virtual void Render(Camera & _myCamera);
+	virtual void SetShaderUniforms(Camera& _myCamera, long long _time) const;
+	virtual void Render(Camera& _myCamera, long long _time);
 
 	void BindTexture(unsigned int _texNum) const;
 
