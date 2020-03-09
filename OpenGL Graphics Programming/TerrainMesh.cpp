@@ -71,14 +71,16 @@ TerrainMesh::~TerrainMesh()
 void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 {
 	FastNoise noiseGenerator;
-	noiseGenerator.SetNoiseType(FastNoise::Perlin);
-	noiseGenerator.SetGradientPerturbAmp(50);
-	
-	const int SIZE = 800;
+	noiseGenerator.SetNoiseType(FastNoise::NoiseType::PerlinFractal);
+	noiseGenerator.SetFractalOctaves(2);
+	noiseGenerator.SetFractalLacunarity(2.0);
+
+	const int SIZE = 100;
+	const int noiseHeightMod = SIZE * 25;
 	const int count = _xSize * _zSize;
 
-	const int topLeftX = (_xSize - 1) / -2.0f;
-	const int topLeftZ = (_zSize - 1) / 2.0f;
+	const float topLeftX = (_xSize - 1) / -2.0f;
+	const float topLeftZ = (_zSize - 1) / 2.0f;
 
 	std::vector<float> vertices(count * 8);
 
@@ -88,20 +90,20 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 
 	int tempX = 0;
 	int tempZ = 0;
-	for (int z = 0; z < _zSize; z++)
+	for (unsigned int z = 0; z < _zSize; z++)
 	{
-		//Variable of current x position to give to the noise generator
-		tempZ = topLeftZ - z;
+		//Variable of current z position to give to the noise generator
+		//tempZ = topLeftZ - z;
 
-		for (int x = 0; x < _xSize; x++)
+		for (unsigned int x = 0; x < _xSize; x++)
 		{
 			//Variable of current x position to give to the noise generator
-			tempX = topLeftX + x;
+			//tempX = topLeftX + x;
 
 			//Positions
-			vertices[vertexPointer]     = tempX;
-			vertices[vertexPointer + 1] = noiseGenerator.GetNoise(tempX, tempZ) * 50;
-			vertices[vertexPointer + 2] = tempZ;
+			vertices[vertexPointer]     = (float)(x * SIZE);
+			vertices[vertexPointer + 1] = noiseGenerator.GetNoise((float)x, (float)z) * noiseHeightMod;
+			vertices[vertexPointer + 2] = (float)(z * SIZE);
 
 			//Normals				
 			vertices[vertexPointer + 3] = 0;
@@ -109,33 +111,30 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 			vertices[vertexPointer + 5] = 0;
 
 			//Texture co-ords		
-			vertices[vertexPointer + 6] = (float)x / ((float)_xSize - 1);
-			vertices[vertexPointer + 7] = (float)z / ((float)_zSize - 1);
+			vertices[vertexPointer + 6] = (float)x;
+			vertices[vertexPointer + 7] = (float)z;
 			vertexPointer += 8;
 		}
 	}
 
 	int countIndices = 0;
 	int pointer = 0;
-	for (int gz = 0; gz < _zSize - 1; gz++) 
+	for (unsigned int gz = 0; gz < _zSize - 1; gz++) 
 	{
-		for (int gx = 0; gx < _xSize - 1; gx++) 
+		for (unsigned int gx = 0; gx < _xSize - 1; gx++) 
 		{
-			if (gx < _zSize - 1 && gz < _xSize - 1)
-			{
-				indices[pointer]     = countIndices;
-				indices[pointer + 1] = countIndices + _xSize + 1;
-				indices[pointer + 2] = countIndices + _zSize;
+			indices[pointer]     = countIndices;
+			indices[pointer + 1] = countIndices + _xSize;
+			indices[pointer + 2] = countIndices + _xSize + 1;
 
-				indices[pointer + 3] = countIndices + _xSize + 1;
-				indices[pointer + 4] = countIndices;
-				indices[pointer + 5] = countIndices + 1;
+			indices[pointer + 3] = countIndices + _xSize + 1;
+			indices[pointer + 4] = countIndices + 1;
+			indices[pointer + 5] = countIndices;
 
-				
-			}
 			pointer += 6;
 			countIndices++;
 		}
+		countIndices++;
 	}
 
 	m_vertices = vertices;
