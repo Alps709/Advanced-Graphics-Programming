@@ -159,8 +159,8 @@ void GameManager::ProcessInput()
 		float frustumTopSide = 2340;
 		float frustumBottomSide = -2340;
 
-		float z = (int)(Utils::remap(inputManager.g_mousePosX, -inputManager.HSCREEN_WIDTH, inputManager.HSCREEN_WIDTH, frustumLeftSide, frustumRightSide));
-		float x = (int)(Utils::remap(inputManager.g_mousePosY, -inputManager.HSCREEN_HEIGHT, inputManager.HSCREEN_HEIGHT, frustumBottomSide, frustumTopSide));
+		float z = (float)(Utils::remap(inputManager.g_mousePosX, -inputManager.HSCREEN_WIDTH, inputManager.HSCREEN_WIDTH, frustumLeftSide, frustumRightSide));
+		float x = (float)(Utils::remap(inputManager.g_mousePosY, -inputManager.HSCREEN_HEIGHT, inputManager.HSCREEN_HEIGHT, frustumBottomSide, frustumTopSide));
 
 		glm::vec3 bulletSeekPos = (glm::vec3(-x, 0.0f, z) - glm::vec3(myTank.GetPosition().x, 0.0f, myTank.GetPosition().z)) * 50.0f;
 
@@ -198,7 +198,7 @@ void GameManager::ProcessBoids()
 	//Process the movement (seek behaviour) of all the boids
 	for (auto boidIt = m_boidObjects.begin(); boidIt != m_boidObjects.end(); ++boidIt)
 	{
-		boidIt->Process(myTank.GetPosition(), m_clock.GetDeltaTick());
+		boidIt->Process(myTank.GetPosition(), (float)m_clock.GetDeltaTick());
 	}
 
 	//Find all bullets that have existed for 5 seconds and erase them from the vector
@@ -211,7 +211,7 @@ void GameManager::ProcessBoids()
 		}
 		else
 		{
-			bulletIt->Process(m_clock.GetDeltaTick());
+			bulletIt->Process((float)m_clock.GetDeltaTick());
 			++bulletIt;
 		}
 	}
@@ -222,7 +222,7 @@ void GameManager::ProcessBoids()
 		for (auto boidIt = m_boidObjects.begin(); boidIt != m_boidObjects.end();)
 		{
 			//Find the distance between the boid and the bullet
-			float distance = glm::length(bulletIt->GetPosition() - boidIt->GetPosition()) - (bulletIt->GetRadius() + boidIt->GetRadius());
+			float distance = glm::length(bulletIt->GetPosition() - boidIt->GetPosition()) - (float)(bulletIt->GetRadius() + boidIt->GetRadius());
 
 			if (distance <= 0.0)
 			{
@@ -254,7 +254,7 @@ void GameManager::Update()
 	{
 		if (!inputManager.CAMERA_FREEEVIEW_MODE)
 		{
-			myTank.Update(m_gameScore, m_clock.GetDeltaTick());
+			myTank.Update(m_gameScore, (float)m_clock.GetDeltaTick());
 
 			//Process boid spawning and despawning
 			ProcessBoids();
@@ -279,7 +279,7 @@ void GameManager::Render()
 	//Draw CubeMap
 	m_CubeMap.Render(*m_camera);
 
-	m_terrain->Render(*m_camera, m_clock.GetTimeElapsedS());
+	m_terrain->Render(*m_camera, m_clock.GetTimeElapsedMS());
 
 	myTank.Render(*m_camera);
 

@@ -107,6 +107,8 @@ void SetGlobalGLSettings()
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
+	//glPolygonMode(GL_FRONT, GL_LINE);
+
 	//Sets the clear colour when calling glClear()
 	GLCall(glClearColor(0.0f, 0.0f, 1.0f, 1.0f));
 }

@@ -35,8 +35,8 @@ public:
 
 	//Rendering stuff
 	//Render is overidden by all derived classes, but can still be used for a base object
-	virtual void SetShaderUniforms(Camera& _myCamera, long long _time) const;
-	virtual void Render(Camera& _myCamera, long long _time);
+	virtual void SetShaderUniforms(Camera& _myCamera, double _time) const;
+	virtual void Render(Camera& _myCamera, double _time);
 
 	void BindTexture(unsigned int _texNum) const;
 

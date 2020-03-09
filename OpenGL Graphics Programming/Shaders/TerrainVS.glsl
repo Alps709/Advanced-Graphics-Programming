@@ -14,7 +14,7 @@ out vec2 fragmentTextureCoord;
 
 void main(void)
 {
-	gl_Position = u_PVM * vec4(position.x, position.y, position.z, 1.0f);
+	gl_Position = u_PVM * vec4(position.x, position.y * sin(u_time * 0.001), position.z, 1.0f);
 	fragmentPos = vec3(u_modelMat * vec4(position, 1.0f));
 	fragmentNormal = mat3(transpose(inverse(u_modelMat))) * normal;
 	fragmentTextureCoord = textureCoord; 

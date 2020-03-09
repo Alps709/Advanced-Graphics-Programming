@@ -70,7 +70,7 @@ void Terrain::UpdateModelMat()
 	m_modelMat = Math::Create2DModelMatrix(m_position.x, m_position.y, m_position.z, m_rotationZ, m_scale.x, m_scale.y, m_scale.z);
 }
 
-void Terrain::SetShaderUniforms(Camera& _myCamera, long long _time) const
+void Terrain::SetShaderUniforms(Camera& _myCamera, double _time) const
 {
 	//Prepare renderer (eg. clear buffer, create PVM matrix etc.)
 	glm::mat4 projViewMat = _myCamera.GetProjView();
@@ -82,10 +82,10 @@ void Terrain::SetShaderUniforms(Camera& _myCamera, long long _time) const
 	m_shader->SetUniformMat4f("u_PVM", pvmMat);
 	m_shader->SetUniformMat4f("u_modelMat", const_cast<glm::mat4&>(m_modelMat));
 
-	//m_shader->SetUniform1i("u_time", _time);
+	m_shader->SetUniform1f("u_time", (float)_time);
 }
 
-void Terrain::Render(Camera& _myCamera, long long _time)
+void Terrain::Render(Camera& _myCamera, double _time)
 {
 	//Bind the mesh that all the model will use
 	m_mesh->Bind();

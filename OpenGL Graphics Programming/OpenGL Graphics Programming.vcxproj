@@ -92,7 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <TreatWarningAsError>false</TreatWarningAsError>
+      <TreatWarningAsError>true</TreatWarningAsError>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;freeglut.lib;glew32.lib;SOIL.lib;fmod_vc.lib;freetype.lib;assimp-vc130-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>

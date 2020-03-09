@@ -61,21 +61,21 @@ void VertexBufferInfo::Push(GLuint _count)
 template <>
 inline void VertexBufferInfo::Push<double>(GLuint _count)
 {
-	m_indices.push_back({GL_DOUBLE, _count, false});
+	m_indices.push_back({GL_DOUBLE, _count, true});
 	m_Stride += _count * sizeof(GLdouble);
 }
 
 template <>
 inline void VertexBufferInfo::Push<float>(GLuint _count)
 {
-	m_indices.push_back({GL_FLOAT, _count, false});
+	m_indices.push_back({GL_FLOAT, _count, true});
 	m_Stride += _count * sizeof(GLfloat);
 }
 
 template <>
 inline void VertexBufferInfo::Push<unsigned>(GLuint _count)
 {
-	m_indices.push_back({GL_UNSIGNED_INT, _count, false});
+	m_indices.push_back({GL_UNSIGNED_INT, _count, true});
 	m_Stride += _count * sizeof(GLuint);
 }
 

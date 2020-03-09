@@ -19,9 +19,9 @@ SphereMesh::SphereMesh()
 
 		for (int j = 0; j < sections; j++)
 		{
-			float x = cos(phi) * sin(theta);
-			float y = cos(theta);
-			float z = sin(phi) * sin(theta);
+			float x = (float)(cos(phi) * sin(theta));
+			float y = (float)cos(theta);
+			float z = (float)(sin(phi) * sin(theta));
 
 			vertices[offset++] = x * radius;
 			vertices[offset++] = y * radius;

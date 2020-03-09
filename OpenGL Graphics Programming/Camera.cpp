@@ -145,8 +145,8 @@ void Camera::ProcessInput()
 			SetPosition(glm::vec3(tempVec));
 		}
 
-		inputManager.g_mousePosDifX *= m_mouseSens;
-		inputManager.g_mousePosDifY *= m_mouseSens;
+		inputManager.g_mousePosDifX *= (int)m_mouseSens;
+		inputManager.g_mousePosDifY *= (int)m_mouseSens;
 
 		m_camYaw += inputManager.g_mousePosDifX;
 
