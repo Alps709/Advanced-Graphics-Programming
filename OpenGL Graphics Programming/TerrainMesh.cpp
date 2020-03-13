@@ -48,7 +48,7 @@ void TerrainMesh::SetVertexAttributes()
 	vbInfo.Push<float>(3);
 
 	//2 tex co-ord ints
-	vbInfo.Push<unsigned>(2);
+	vbInfo.Push<float>(2);
 
 	AddVAOBuffer(vbInfo);
 }
