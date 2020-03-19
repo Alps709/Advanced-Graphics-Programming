@@ -8,13 +8,16 @@ uniform float u_time;
 uniform mat4 u_PVM;
 uniform mat4 u_modelMat;
 
+uniform sampler2D u_grassTex;
+uniform sampler2D u_perlinNoiseTex;
+
 out vec3 fragmentPos;
 out vec3 fragmentNormal;
 out vec2 fragmentTextureCoord;
 
 void main(void)
 {
-	gl_Position = u_PVM * vec4(position.x, position.y * sin(u_time * 0.001), position.z, 1.0f);
+	gl_Position = u_PVM * vec4(position.x, position.y + (sin(((sin(position.x) * cos(position.z) / 10) * (u_time * 0.01))/2 + 1) * 50), position.z, 1.0f);
 	fragmentPos = vec3(u_modelMat * vec4(position, 1.0f));
 	fragmentNormal = mat3(transpose(inverse(u_modelMat))) * normal;
 	fragmentTextureCoord = textureCoord; 

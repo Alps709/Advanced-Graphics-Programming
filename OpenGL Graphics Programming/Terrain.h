@@ -10,7 +10,7 @@ class Terrain
 {
 public:
 	Terrain() = default;
-	Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, Texture* _myTex);
+	Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, Texture* _terrainTexture, Texture* _noiseTexture);
 	virtual ~Terrain() = default;
 
 	//Getters
@@ -20,7 +20,8 @@ public:
 	//Setters
 	void SetPosition(glm::vec3 _pos);
 	void SetScale(glm::vec3 _scale);
-	void SetTexture0(Texture * _tex);
+	void SetTexture0(Texture* _tex);
+	void SetTexture1(Texture* _tex);
 
 	//Getters
 	TerrainMesh* GetMesh() const { return m_mesh; }

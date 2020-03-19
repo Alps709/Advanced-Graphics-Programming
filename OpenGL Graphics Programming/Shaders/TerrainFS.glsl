@@ -9,7 +9,7 @@ in vec2 fragmentTextureCoord;
 out vec4 colour;
 
 //Texture
-uniform sampler2D u_tex;
+uniform sampler2D u_grassTex;
 
 //Ambient lighting
 uniform float u_ambientStr    = 0.25f;
@@ -31,5 +31,5 @@ void main(void)
 	float diffuseStr = max(dot(norm, -lightDir), 0.0f);
 	vec3 diffuse = diffuseStr * u_lightColour;
 
-	colour = vec4(ambient + diffuse, 1.0f) * (texture(u_tex, fragmentTextureCoord));
+	colour = vec4(ambient + diffuse, 1.0f) * (texture(u_grassTex, fragmentTextureCoord));
 }

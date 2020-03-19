@@ -5,12 +5,12 @@
 #include "Object.h"
 #include "Camera.h"
 
-Terrain::Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, Texture* _myTex)
+Terrain::Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, Texture* _terrainTexture, Texture* _noiseTexture)
 {
 	m_mesh = new TerrainMesh(_xSize, _zSize);
 	m_shader = new Shader("Shaders/TerrainVS.glsl", "Shaders/TerrainFS.glsl");
 	m_position = _position;
-	m_tex0 = _myTex;
+	m_tex0 = _terrainTexture;
 
 	//SetScale(glm::vec3(200.0f, 200.0f, 200.0f));
 
@@ -34,6 +34,11 @@ void Terrain::SetScale(glm::vec3 _scale)
 void Terrain::SetTexture0(Texture* _tex)
 {
 	m_tex0 = _tex;
+}
+
+void Terrain::SetTexture1(Texture* _tex)
+{
+	m_tex1 = _tex;
 }
 
 void Terrain::ChangePRS(float _translateX, float _translateY, float _translateZ, float _rotationAngle, float _scaleX, float _scaleY, float _scaleZ)
@@ -108,5 +113,9 @@ void Terrain::BindTexture(unsigned int _texNum) const
 	if (_texNum == 0)
 	{
 		m_tex0->Bind();
+	}
+	else if (_texNum == 1)
+	{
+		m_tex1->Bind();
 	}
 }

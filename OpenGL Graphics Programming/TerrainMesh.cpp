@@ -111,8 +111,8 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 			vertices[vertexPointer + 5] = 0;
 
 			//Texture co-ords		
-			vertices[vertexPointer + 6] = (float)x;
-			vertices[vertexPointer + 7] = (float)z;
+			vertices[vertexPointer + 6] = (float)x / (_xSize - 1) * 5; //We times by 5 here cause we want the texture to repeat 5 times 
+			vertices[vertexPointer + 7] = (float)z / (_zSize - 1) * 5; //across the x and y of the mesh
 			vertexPointer += 8;
 		}
 	}
