@@ -27,10 +27,11 @@ GameManager::GameManager()
 
 	//Set background mesh and texture
 	//m_backgroundMesh = new Mesh(Objects::verticesBackground, Objects::indicesBackground);
-	m_backgroundTexture = new Texture("Resources/Textures/Grass.png", 0);
+	m_grassTexture = new Texture("Resources/Textures/Grass.png", 0);
+	m_noiseTexture = new Texture("Resources/Textures/perlin_noise.png", 1);
 
 	//Terrain
-	m_terrain = new Terrain(128, 128, glm::vec3(0.0f), m_backgroundTexture);
+	m_terrain = new Terrain(128, 128, glm::vec3(0.0f), m_grassTexture, m_noiseTexture);
 
 	//Set sphere mesh and texture
 	m_sphereMesh = new SphereMesh();
@@ -81,8 +82,7 @@ GameManager::~GameManager()
 	delete m_menuTitleText;
 	delete m_menuInstructText;
 	delete m_timeText;
-	delete m_backgroundMesh;
-	delete m_backgroundTexture;
+	delete m_grassTexture;
 	delete m_defaultShader;
 	delete m_camera;
 	delete m_terrain;
@@ -190,7 +190,7 @@ void GameManager::ProcessBoids()
 
 		//Create 1 boid model
 		Boid myTempObject = Boid(m_sphereMesh, m_sphereCubeMapReflectShader, glm::vec3(randXPos(rng), 0.0f, randZPos(rng)));
-		myTempObject.SetTexture0(m_backgroundTexture);
+		myTempObject.SetTexture0(m_grassTexture);
 		myTempObject.ChangePRS(0.0f, 0.0f, 0.0f, 0.0f, 50.0f, 50.0f, 50.0f);
 		m_boidObjects.push_back(myTempObject);
 	}

@@ -17,8 +17,9 @@ out vec2 fragmentTextureCoord;
 
 void main(void)
 {
-	gl_Position = u_PVM * vec4(position.x, position.y + (sin(((sin(position.x) * cos(position.z) / 10) * (u_time * 0.01))/2 + 1) * 50), position.z, 1.0f);
+	double yPos = sin(texture2D(u_perlinNoiseTex, vec2(textureCoord.x / 20, textureCoord.y / 20)).r);
+	gl_Position = u_PVM * vec4(position.x, yPos, position.z, 1.0f);
 	fragmentPos = vec3(u_modelMat * vec4(position, 1.0f));
-	fragmentNormal = mat3(transpose(inverse(u_modelMat))) * normal;
+	fragmentNormal = normal;
 	fragmentTextureCoord = textureCoord; 
 }

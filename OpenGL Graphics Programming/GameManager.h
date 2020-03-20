@@ -71,10 +71,9 @@ private:
 
 	std::vector<Bullet> m_bulletObjects;
 
-	//Game Background
-	Object m_backgroundObject;
-	Mesh* m_backgroundMesh = nullptr;
-	Texture* m_backgroundTexture = nullptr;
+	//Game terrain textures
+	Texture* m_grassTexture = nullptr;
+	Texture* m_noiseTexture = nullptr;
 
 	//Shaders
 	Shader* m_defaultShader = nullptr;
