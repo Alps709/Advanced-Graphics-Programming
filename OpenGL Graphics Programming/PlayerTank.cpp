@@ -23,44 +23,6 @@ void PlayerTank::Update(unsigned int& _score, float _deltaTime)
 {
 	ProcessInput(_deltaTime);
 	LookAtMouse();
-
-	//Do head collision checks
-	for (auto boidIt = m_boidObjects->begin(); boidIt != m_boidObjects->end();)
-	{
-		//Find distance to current boid
-		const double distanceX = boidIt->GetPosition().x - m_position.x;
-		const double distanceZ = boidIt->GetPosition().z - m_position.z;
-		const double boidDist = sqrt(distanceX * distanceX + distanceZ * distanceZ);
-
-		if (boidDist < boidIt->GetRadius() + m_collisionRadius)
-		{
-			//tank and current boid are colliding
-			//Erase boid
-			boidIt = m_boidObjects->erase(boidIt);
-
-			//Update score text
-			if (_score != 0)
-			{
-				std::string tempScore = "Score: ";
-				tempScore = tempScore + std::to_string(--_score);
-				m_scoreText->SetText(tempScore);
-			}
-			
-
-			//Play sound
-			const FMOD_RESULT play = m_audioSystem->playSound(m_yeatSound, 0, false, 0);
-			if (play != FMOD_OK)
-			{
-				std::cout << "Failed to play sound: Thump.wav" << std::endl;
-			}
-		}
-		else
-		{
-			//Only move the iterator forward if nothing was erased
-			//Because it is automatically moved forward after erase() is called
-			++boidIt;
-		}
-	}
 }
 
 void PlayerTank::ProcessInput(float _deltaTime)

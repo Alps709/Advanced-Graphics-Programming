@@ -7,7 +7,7 @@ Camera::Camera(bool isFreeView)
 	m_camPosition(glm::vec3{ 0.0f, 0.0f, 500.0f }),
 	m_camLookDir(glm::vec3{0.0f, 0.0f, -1.0f}),
 	m_worldUp(glm::vec3{ 0.0f, 1.0f, 0.0f }), 
-	m_camYaw(-90.0f), m_camPitch(0), m_camRoll(0), m_camSpeed(5), m_mouseSens(1.0f),
+	m_camYaw(-90.0f), m_camPitch(0), m_camRoll(0), m_camSpeed(1), m_mouseSens(1.0f),
 	m_viewMat(glm::lookAt(m_camPosition, m_camPosition + m_camLookDir, m_worldUp)),
 	m_orthoProjectionMat(glm::ortho(-inputManager.HSCREEN_WIDTH, inputManager.HSCREEN_WIDTH, -inputManager.HSCREEN_HEIGHT, inputManager.HSCREEN_HEIGHT, -10000.0f, 10000.0f)),
 	m_perspectiveProjectionMat(glm::perspective(glm::radians(90.0f), 1280.0f/720.0f, 0.1f, 1000000.0f))
@@ -87,7 +87,7 @@ void Camera::UpdateVectors()
 	m_camUp = glm::normalize(glm::cross(m_camRight, m_camLookDir));
 }
 
-void Camera::ProcessInput()
+void Camera::ProcessInput(double _deltaTime)
 {
 	//Change the camera projection
 	if (inputManager.KeyState['p'] == inputManager.INPUT_DOWN_FIRST ||
@@ -103,7 +103,7 @@ void Camera::ProcessInput()
 			inputManager.KeyState['W'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['W'] == inputManager.INPUT_DOWN)
 		{
 			//move camera forward
-			SetPosition(GetPosition() + GetLookDirection() * GetCamSpeed());
+			SetPosition(GetPosition() + GetLookDirection() * GetCamSpeed() * (float)_deltaTime);
 
 			//Print camera m_position for debugging
 			//std::cout << "Camera pos: x: " << m_camera->GetPosition().x << " y: " << m_camera->GetPosition().y << " z: " << m_camera->GetPosition().z  << std::endl;
@@ -113,21 +113,21 @@ void Camera::ProcessInput()
 			inputManager.KeyState['A'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['A'] == inputManager.INPUT_DOWN)
 		{
 			//move camera left
-			SetPosition(GetPosition() - GetCamRight() * GetCamSpeed());
+			SetPosition(GetPosition() - GetCamRight() * GetCamSpeed() * (float)_deltaTime);
 		}
 		//Move the camera backwards with the s button
 		if (inputManager.KeyState['s'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['s'] == inputManager.INPUT_DOWN ||
 			inputManager.KeyState['S'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['S'] == inputManager.INPUT_DOWN)
 		{
 			//move camera backward
-			SetPosition(GetPosition() - GetLookDirection() * GetCamSpeed());
+			SetPosition(GetPosition() - GetLookDirection() * GetCamSpeed() * (float)_deltaTime);
 		}
 		//Move the camera to the right witht the d button
 		if (inputManager.KeyState['d'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['d'] == inputManager.INPUT_DOWN ||
 			inputManager.KeyState['D'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['D'] == inputManager.INPUT_DOWN)
 		{
 			//move camera right
-			SetPosition(GetPosition() + GetCamRight() * GetCamSpeed());
+			SetPosition(GetPosition() + GetCamRight() * GetCamSpeed() * (float)_deltaTime);
 		}
 
 		//Move the camera up with the space button

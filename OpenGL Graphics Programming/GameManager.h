@@ -9,6 +9,7 @@
 #include "Snek.h"
 #include "Model.h"
 #include "Terrain.h"
+#include "WaterTerrain.h"
 
 #include <fmod.hpp>
 #include "SphereMesh.h"
@@ -55,7 +56,8 @@ private:
 	CubeMap& m_CubeMap = CubeMap::getInstance();
 
 	//Terrain
-	Terrain* m_terrain = nullptr;
+	Terrain* m_grassTerrain = nullptr;
+	WaterTerrain* m_waterTerrain = nullptr;
 
 	///Characters
 	//SphereMesh
@@ -87,7 +89,7 @@ private:
 	TextLabel* m_menuInstructText = nullptr;
 	TextLabel* m_overText = nullptr;
 	TextLabel* m_overScoreText = nullptr;
-	TextLabel* m_scoreText = nullptr;
+	TextLabel* m_fpsText = nullptr;
 	TextLabel* m_timeText = nullptr;
 
 	//Audio

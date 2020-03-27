@@ -173,6 +173,7 @@
     <ClCompile Include="TextLabel.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VertexBufferInfo.cpp" />
+    <ClCompile Include="WaterTerrain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="VertexBufferInfo.h" />
+    <ClInclude Include="WaterTerrain.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

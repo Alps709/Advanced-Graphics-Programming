@@ -10,7 +10,7 @@ class Terrain
 {
 public:
 	Terrain() = default;
-	Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, Texture* _terrainTexture, Texture* _noiseTexture);
+	Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, Texture* _terrainTexture);
 	virtual ~Terrain() = default;
 
 	//Getters

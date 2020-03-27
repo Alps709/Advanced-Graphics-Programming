@@ -23,7 +23,7 @@ public:
 
 	void UpdateView();
 	void UpdateVectors();
-	void ProcessInput();
+	void ProcessInput(double _deltaTime);
 
 
 private:

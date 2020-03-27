@@ -125,6 +125,9 @@
     <ClCompile Include="FastNoise.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="WaterTerrain.cpp">
+      <Filter>Source Files\Object stuff\Objects\Derived</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Snek.h">
@@ -216,6 +219,9 @@
     </ClInclude>
     <ClInclude Include="FastNoise.h">
       <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="WaterTerrain.h">
+      <Filter>Source Files\Object stuff\Objects\Derived</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

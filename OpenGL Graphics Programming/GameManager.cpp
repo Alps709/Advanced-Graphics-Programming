@@ -12,7 +12,7 @@ GameManager::GameManager()
 	m_clock.Initialise();
 
 	//Start audio system
-	AudioInitialise();
+	//AudioInitialise();
 
 	//Create defaut shader
 	m_defaultShader = new Shader();
@@ -31,7 +31,8 @@ GameManager::GameManager()
 	m_noiseTexture = new Texture("Resources/Textures/perlin_noise.png", 1);
 
 	//Terrain
-	m_terrain = new Terrain(128, 128, glm::vec3(0.0f), m_grassTexture, m_noiseTexture);
+	m_grassTerrain = new Terrain(128, 128, glm::vec3(0.0f), m_grassTexture);
+	m_waterTerrain = new WaterTerrain(128, 128, glm::vec3(0.0f), m_grassTexture, m_noiseTexture);
 
 	//Set sphere mesh and texture
 	m_sphereMesh = new SphereMesh();
@@ -49,14 +50,14 @@ GameManager::GameManager()
 	const std::uniform_real_distribution<double> randYPos(-inputManager.HSCREEN_HEIGHT + 50, inputManager.HSCREEN_HEIGHT - 50);
 
 	//Create the text objects
-	m_scoreText = new TextLabel("Score: 0", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.HSCREEN_WIDTH + 20.0f, inputManager.HSCREEN_HEIGHT - 40.0f));
+	m_fpsText = new TextLabel("FPS: ", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.HSCREEN_WIDTH + 20.0f, inputManager.HSCREEN_HEIGHT - 40.0f));
 	m_menuTitleText = new TextLabel("The Tenk Game!", "Resources/Fonts/kirbyss.ttf", glm::vec2(-625, 200), glm::vec3(0.0f, 1.0f, 1.0f), 2.8f);
 	m_menuInstructText = new TextLabel("Press enter to play", "Resources/Fonts/kirbyss.ttf", glm::vec2(-600, -200), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f);
 	m_overText = new TextLabel("Game Over!", "Resources/Fonts/kirbyss.ttf", glm::vec2(-625, 200), glm::vec3(1.0f, 0.0f, 0.0f), 4);
 	m_overScoreText = new TextLabel("Your final score is: ", "Resources/Fonts/arial.ttf", glm::vec2(-600, -200), glm::vec3(1.0f, 0.0f, 0.0f), 1.5f);
 
 	//Initialise tank model
-	myTank = PlayerTank("Resources/Models/Tank/Tank.obj", m_tankModelShader, &m_boidObjects, m_scoreText, m_audioSystem, m_yeatSound, m_shoopSound);
+	myTank = PlayerTank("Resources/Models/Tank/Tank.obj", m_tankModelShader, &m_boidObjects, m_fpsText, m_audioSystem, m_yeatSound, m_shoopSound);
 	myTank.ChangePRS(0.0f, 0.0f, 0.0f, 0.0f, 50.0f, 50.0f, 50.0f);
 
 	//Create the camera
@@ -76,7 +77,7 @@ GameManager::~GameManager()
 	delete m_sphereRimLightShader;
 	delete m_sphereCubeMapReflectShader;
 	delete m_tankModelShader;
-	delete m_scoreText;
+	delete m_fpsText;
 	delete m_overText;
 	delete m_overScoreText;
 	delete m_menuTitleText;
@@ -85,7 +86,7 @@ GameManager::~GameManager()
 	delete m_grassTexture;
 	delete m_defaultShader;
 	delete m_camera;
-	delete m_terrain;
+	delete m_grassTerrain;
 }
 
 void GameManager::AudioInitialise()
@@ -151,7 +152,7 @@ void GameManager::ProcessInput()
 	}
 
 	//Mouse Input
-	if (inputManager.MouseState[0] == INPUT_DOWN_FIRST || inputManager.MouseState[0] == INPUT_DOWN_FIRST)
+	if (inputManager.MouseState[0] == INPUT_DOWN_FIRST)
 	{	//Left click
 		//Create 1 bullet sphere
 		float frustumLeftSide = 4200;
@@ -171,93 +172,27 @@ void GameManager::ProcessInput()
 	}
 }
 
-//Do substance abuse here
-void GameManager::ProcessBoids()
-{
-	m_boidSpawnTimer += m_clock.GetDeltaTick();
-
-	//Spawn a boid every 1000 milliseconds
-	if (m_boidSpawnTimer > 250)
-	{
-		//Reset timer
-		m_boidSpawnTimer = 0.0;
-
-		//Create random generator for boid positions
-		std::random_device dev;
-		std::mt19937 rng(dev());
-		const std::uniform_real_distribution<double> randXPos(-2300, 2300);
-		const std::uniform_real_distribution<double> randZPos(-4000, 4000);
-
-		//Create 1 boid model
-		Boid myTempObject = Boid(m_sphereMesh, m_sphereCubeMapReflectShader, glm::vec3(randXPos(rng), 0.0f, randZPos(rng)));
-		myTempObject.SetTexture0(m_grassTexture);
-		myTempObject.ChangePRS(0.0f, 0.0f, 0.0f, 0.0f, 50.0f, 50.0f, 50.0f);
-		m_boidObjects.push_back(myTempObject);
-	}
-
-	//Process the movement (seek behaviour) of all the boids
-	for (auto boidIt = m_boidObjects.begin(); boidIt != m_boidObjects.end(); ++boidIt)
-	{
-		boidIt->Process(myTank.GetPosition(), (float)m_clock.GetDeltaTick());
-	}
-
-	//Find all bullets that have existed for 5 seconds and erase them from the vector
-	for (auto bulletIt = m_bulletObjects.begin(); bulletIt != m_bulletObjects.end();)
-	{
-		if (bulletIt->GetTimeAlive() > 5.0)
-		{
-			//Bullet has been alive for more than 5 seconds
-			bulletIt = m_bulletObjects.erase(bulletIt);
-		}
-		else
-		{
-			bulletIt->Process((float)m_clock.GetDeltaTick());
-			++bulletIt;
-		}
-	}
-
-	//Find all bullets that are colliding with boids, and delete those boids
-	for (auto bulletIt = m_bulletObjects.begin(); bulletIt != m_bulletObjects.end(); ++bulletIt)
-	{
-		for (auto boidIt = m_boidObjects.begin(); boidIt != m_boidObjects.end();)
-		{
-			//Find the distance between the boid and the bullet
-			float distance = glm::length(bulletIt->GetPosition() - boidIt->GetPosition()) - (float)(bulletIt->GetRadius() + boidIt->GetRadius());
-
-			if (distance <= 0.0)
-			{
-				//This boid is colliding with the bullet
-				//So delete the boid
-				boidIt = m_boidObjects.erase(boidIt);
-				++m_gameScore;
-
-				std::string tempText = "Score: ";
-				tempText.append(std::to_string(m_gameScore));
-				m_scoreText->SetText(tempText);
-			}
-			else
-			{
-				++boidIt;
-			}
-		}
-	}
-}
-
 void GameManager::Update()
 {
 	//Update clock
 	m_clock.Process();
-	m_camera->ProcessInput();
+	double deltaTime = m_clock.GetDeltaTick();
+
+	std::string tempText = "FPS: ";
+
+	int fps = int(1000.0f / deltaTime);
+	tempText = tempText + std::to_string(fps);
+	
+	m_fpsText->SetText(tempText);
+
+	m_camera->ProcessInput(deltaTime);
 	ProcessInput();
 
 	if (m_gameState == GAME_PLAY)
 	{
 		if (!inputManager.CAMERA_FREEEVIEW_MODE)
 		{
-			myTank.Update(m_gameScore, (float)m_clock.GetDeltaTick());
-
-			//Process boid spawning and despawning
-			ProcessBoids();
+			myTank.Update(m_gameScore, (float)deltaTime);
 		}
 	}
 
@@ -279,7 +214,7 @@ void GameManager::Render()
 	//Draw CubeMap
 	m_CubeMap.Render(*m_camera);
 
-	m_terrain->Render(*m_camera, m_clock.GetTimeElapsedMS());
+	m_grassTerrain->Render(*m_camera, m_clock.GetTimeElapsedMS());
 
 	myTank.Render(*m_camera);
 
@@ -290,29 +225,16 @@ void GameManager::Render()
 	}
 	else if (m_gameState == GAME_PLAY)
 	{
-		//Render boids
-		for (auto& boid : m_boidObjects)
-		{
-			boid.Render(*m_camera);
-		}
-
-		//Render boids
+		//Render bullets
 		for (auto& bullets : m_bulletObjects)
 		{
 			bullets.Render(*m_camera);
 		}
 
-		m_scoreText->Render();
+		m_fpsText->Render();
 	}
-	else if (m_gameState == GAME_OVER)
-	{
-		std::string tempText = "Your final score is: ";
-		tempText = tempText + std::to_string(m_gameScore);
 
-		m_overScoreText->SetText(tempText);
-		m_overText->Render();
-		m_overScoreText->Render();
-	}
+	m_waterTerrain->Render(*m_camera, m_clock.GetTimeElapsedMS());
 
 	glutSwapBuffers();
 	u_frameNum++;

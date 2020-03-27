@@ -17,7 +17,6 @@ uniform sampler2D u_grassTex;
 //uniform vec3  u_lightColour   = vec3(1.0f, 1.0f, 1.0f);
 //uniform vec3  u_lightPos      = vec3(0.0f, 0.0f, 2000.0f);
 
-
 void main(void)
 {
 	//Ambient light
@@ -31,5 +30,5 @@ void main(void)
 	//float diffuseStr = max(dot(norm, -lightDir), 0.0f);
 	//vec3 diffuse = diffuseStr * u_lightColour;
 
-	colour = (texture(u_grassTex, fragmentTextureCoord));
+	colour = (texture(u_grassTex, fragmentTextureCoord) * vec4(0.0f, 0.1f, 1.0f, 0.75f));
 }
