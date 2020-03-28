@@ -8,7 +8,7 @@
 Terrain::Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, Texture* _terrainTexture)
 {
 	m_mesh = new TerrainMesh(_xSize, _zSize);
-	m_shader = new Shader("Shaders/TerrainVS.glsl", "Shaders/TerrainFS.glsl");
+	m_shader = Shader("Shaders/TerrainVS.glsl", "Shaders/TerrainFS.glsl");
 	m_position = _position;
 	m_tex0 = _terrainTexture;
 
@@ -83,16 +83,16 @@ void Terrain::SetShaderUniforms(Camera& _myCamera, double _time) const
 	glm::mat4 pvmMat = projViewMat * m_modelMat;
 
 	//Set object specific uniforms
-	m_shader->SetUniform1i("u_grassTex", 0);
-	m_shader->SetUniformMat4f("u_PVM", pvmMat);
-	//m_shader->SetUniformMat4f("u_modelMat", const_cast<glm::mat4&>(m_modelMat));
+	m_shader.SetUniform1i("u_grassTex", 0);
+	m_shader.SetUniformMat4f("u_PVM", pvmMat);
+	//m_shader.SetUniformMat4f("u_modelMat", const_cast<glm::mat4&>(m_modelMat));
 }
 
 void Terrain::Render(Camera& _myCamera, double _time)
 {
 	//Bind the mesh that all the model will use
 	m_mesh->Bind();
-	m_shader->Bind();
+	m_shader.Bind();
 
 	//Prepare the object for drawing
 	SetShaderUniforms(_myCamera, _time);

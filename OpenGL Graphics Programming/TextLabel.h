@@ -19,7 +19,6 @@
 //Local includes
 #include "ShaderLoader.h"
 #include "Shader.h"
-#include "Utils.h"
 #include "InputManager.h"
 
 

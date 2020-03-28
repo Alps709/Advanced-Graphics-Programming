@@ -1,5 +1,5 @@
 #include "Camera.h"
-#include "Utils.h"
+#include "Math.h"
 #include <freeglut.h>
 
 Camera::Camera(bool isFreeView)

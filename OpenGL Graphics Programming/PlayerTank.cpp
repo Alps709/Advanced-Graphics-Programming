@@ -70,8 +70,8 @@ void PlayerTank::LookAtMouse()
 		float frustumTopSide = 2340;
 		float frustumBottomSide = -2340;
 
-		float z = (float)(Utils::remap(inputManager->g_mousePosX, -inputManager->HSCREEN_WIDTH, inputManager->HSCREEN_WIDTH, frustumLeftSide, frustumRightSide));
-		float x = (float)(Utils::remap(inputManager->g_mousePosY, -inputManager->HSCREEN_HEIGHT, inputManager->HSCREEN_HEIGHT, frustumBottomSide, frustumTopSide));
+		float z = (float)(Math::remap(inputManager->g_mousePosX, -inputManager->HSCREEN_WIDTH, inputManager->HSCREEN_WIDTH, frustumLeftSide, frustumRightSide));
+		float x = (float)(Math::remap(inputManager->g_mousePosY, -inputManager->HSCREEN_HEIGHT, inputManager->HSCREEN_HEIGHT, frustumBottomSide, frustumTopSide));
 
 		float vecX = x - -m_position.x;
 		float vecZ = z - m_position.z;

@@ -32,8 +32,6 @@ public:
 	void AudioInitialise();
 	void ProcessInput();
 
-	void ProcessBoids();
-
 	void Update();
 	void Render();
 
@@ -101,5 +99,8 @@ private:
 	//Uniforms
 	GLfloat u_currentTime = 0;
 	int u_frameNum = 0;
+
+	//Debug stuff
+	bool WireframeRenderMode = false;
 };
 

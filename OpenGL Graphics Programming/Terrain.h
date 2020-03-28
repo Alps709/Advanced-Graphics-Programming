@@ -50,7 +50,7 @@ protected:
 	glm::mat4 m_modelMat = glm::mat4(1.0f);
 
 	TerrainMesh* m_mesh;
-	Shader* m_shader;
+	Shader m_shader;
 	Texture* m_tex0{};
 	Texture* m_tex1{};
 };

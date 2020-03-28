@@ -1,6 +1,6 @@
 #pragma once
 //Debug file taken from TheChernoProject OpenGL Tutorial series: https://www.youtube.com/playlist?list=PLlrATfBNZ98foTJPJ_Ev03o2oq3-GGOS2
-//Defines a macro that can better debug each and every OpenGL function call, 
+//Defines a macro that can better debug each and every OpenGL function call
 //that would otherwise leave no error message when something goes wrong
 #include <glew.h>
 
@@ -48,6 +48,7 @@ bool inline GLCheckError()
 			std::cout << "Unrecognized error" << error;
 		}
 		std::cout << std::endl;
+		system("pause");
 		return false;
 	}
 	return true;

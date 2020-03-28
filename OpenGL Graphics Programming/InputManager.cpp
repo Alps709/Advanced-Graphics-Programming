@@ -13,6 +13,13 @@ void InputManager::Update()
 		KeyState['P'] = INPUT_DOWN;
 	}
 
+	if (KeyState['o'] == INPUT_DOWN_FIRST ||
+		KeyState['O'] == INPUT_DOWN_FIRST)
+	{
+		//The key is has now been processed for a frame, so set it to the appropriate state
+		KeyState['o'] = INPUT_DOWN;
+		KeyState['O'] = INPUT_DOWN;
+	}
 
 	if (KeyState['w'] ==  INPUT_DOWN_FIRST ||
 		KeyState['W'] ==  INPUT_DOWN_FIRST)

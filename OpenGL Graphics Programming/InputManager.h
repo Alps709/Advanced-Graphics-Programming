@@ -1,5 +1,4 @@
 #pragma once
-#include "Utils.h"
 
 class InputManager
 {
@@ -53,6 +52,7 @@ public:
 	//Keyboard input
 	InputState KeyState[255];
 	InputState SpecialKeyState[255];
+
 private:
 	InputManager() {}                  
 

@@ -155,14 +155,12 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MasterRenderer.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelMesh.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Boid.cpp" />
     <ClCompile Include="PlayerTank.cpp" />
-    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="Snek.cpp" />
@@ -185,7 +183,6 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputManager.h" />
-    <ClInclude Include="MasterRenderer.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
@@ -194,7 +191,6 @@
     <ClInclude Include="Obj.h" />
     <ClInclude Include="Boid.h" />
     <ClInclude Include="PlayerTank.h" />
-    <ClInclude Include="Renderer.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="Snek.h" />
@@ -204,7 +200,6 @@
     <ClInclude Include="TerrainMesh.h" />
     <ClInclude Include="TextLabel.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="Utils.h" />
     <ClInclude Include="VertexBufferInfo.h" />
     <ClInclude Include="WaterTerrain.h" />
   </ItemGroup>

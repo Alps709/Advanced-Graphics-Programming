@@ -1,28 +1,9 @@
 #pragma once
 #include <vector>
-#include "Utils.h"
 #include "Input.h"
 
 namespace Objects
 {
-	//Quad for snek texture
-	static std::vector<float> verticesSnekPart =
-	{
-		///Bottom right quad
-		//Position			     //Colour			        //Texture co-ords
-		-20.0f, -20.0f, 0.0f,	 1.0f, 0.0f, 1.0f, 1.0f,   0.0f, 1.0f,    //Bottom left
-		-20.0f,  20.0f, 0.0f,	 0.0f, 1.0f, 1.0f, 1.0f,   0.0f, 0.0f,    //Top left
-		 20.0f,  20.0f, 0.0f,	 0.0f, 1.0f, 0.0f, 1.0f,   1.0f, 0.0f,    //Top right
-		 20.0f, -20.0f, 0.0f,	 1.0f, 1.0f, 0.0f, 1.0f,   1.0f, 1.0f,    //Bottom right
-	};
-
-	static std::vector<unsigned int> indicesSnekPart =
-	{
-		//First quad							
-		0, 2, 1,
-		0, 3, 2,
-	};
-
 	//Scrolling texture
 	static std::vector<float> verticesBoid =
 	{
@@ -41,7 +22,7 @@ namespace Objects
 		0, 3, 2,
 	};
 
-	//Background texture
+	//2D Background texture
 	static std::vector<float> verticesBackground =
 	{
 		///Bottom right quad

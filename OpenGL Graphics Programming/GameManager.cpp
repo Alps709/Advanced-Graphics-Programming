@@ -1,6 +1,5 @@
 #include "GameManager.h"
 #include "Obj.h"
-#include "Renderer.h"
 
 #include <fmod.h>
 #include "Input.h"
@@ -84,9 +83,11 @@ GameManager::~GameManager()
 	delete m_menuInstructText;
 	delete m_timeText;
 	delete m_grassTexture;
+	delete m_noiseTexture;
 	delete m_defaultShader;
 	delete m_camera;
 	delete m_grassTerrain;
+	delete m_waterTerrain;
 }
 
 void GameManager::AudioInitialise()
@@ -151,6 +152,22 @@ void GameManager::ProcessInput()
 		}
 	}
 
+	//'O' key is pressed
+	if (inputManager.KeyState['o'] == INPUT_DOWN_FIRST || inputManager.KeyState['O'] == INPUT_DOWN_FIRST)
+	{
+		//Turn wireframe mode on/off
+		WireframeRenderMode = !WireframeRenderMode;
+
+		if (WireframeRenderMode)
+		{
+			GLCall(glPolygonMode(GL_FRONT, GL_LINE));
+		}
+		else
+		{
+			GLCall(glPolygonMode(GL_FRONT, GL_FILL));
+		}
+	}
+
 	//Mouse Input
 	if (inputManager.MouseState[0] == INPUT_DOWN_FIRST)
 	{	//Left click
@@ -160,8 +177,8 @@ void GameManager::ProcessInput()
 		float frustumTopSide = 2340;
 		float frustumBottomSide = -2340;
 
-		float z = (float)(Utils::remap(inputManager.g_mousePosX, -inputManager.HSCREEN_WIDTH, inputManager.HSCREEN_WIDTH, frustumLeftSide, frustumRightSide));
-		float x = (float)(Utils::remap(inputManager.g_mousePosY, -inputManager.HSCREEN_HEIGHT, inputManager.HSCREEN_HEIGHT, frustumBottomSide, frustumTopSide));
+		float z = (float)(Math::remap(inputManager.g_mousePosX, -inputManager.HSCREEN_WIDTH, inputManager.HSCREEN_WIDTH, frustumLeftSide, frustumRightSide));
+		float x = (float)(Math::remap(inputManager.g_mousePosY, -inputManager.HSCREEN_HEIGHT, inputManager.HSCREEN_HEIGHT, frustumBottomSide, frustumTopSide));
 
 		glm::vec3 bulletSeekPos = (glm::vec3(-x, 0.0f, z) - glm::vec3(myTank.GetPosition().x, 0.0f, myTank.GetPosition().z)) * 50.0f;
 
@@ -178,9 +195,10 @@ void GameManager::Update()
 	m_clock.Process();
 	double deltaTime = m_clock.GetDeltaTick();
 
+	//Calculate the current FPS based on the delta time
 	std::string tempText = "FPS: ";
 
-	int fps = int(1000.0f / deltaTime);
+	int fps = int(1000.0 / deltaTime);
 	tempText = tempText + std::to_string(fps);
 	
 	m_fpsText->SetText(tempText);
@@ -209,7 +227,7 @@ void GameManager::Update()
 void GameManager::Render()
 {
 	//Clear the screen before every frame
-	Renderer::Clear();
+	GLCall(glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT| GL_COLOR_BUFFER_BIT));
 
 	//Draw CubeMap
 	m_CubeMap.Render(*m_camera);

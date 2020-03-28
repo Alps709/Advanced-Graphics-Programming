@@ -5,7 +5,6 @@
 
 #include "TextLabel.h"
 
-#include "Utils.h"
 #include "GameManager.h"
 #include "Input.h"
 
@@ -23,7 +22,7 @@ int main(int argc, char ** argv)
 {
 	//Setup and create at glut controlled window
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize((int)inputManager.SCREEN_WIDTH, (int)inputManager.SCREEN_HEIGHT);
 	glutCreateWindow("The Snek Game - By Anton Le Prevost-Smith");
@@ -90,8 +89,12 @@ void SetGlobalGLSettings()
 	glutSetCursor(GLUT_CURSOR_NONE);
 
 	//Cull the back faces of objects (only do so for 3D)
-	GLCall(glEnable(GL_CULL_FACE));
 	GLCall(glCullFace(GL_BACK));
+	GLCall(glEnable(GL_CULL_FACE));
+
+	//Enable multisampling anti-aliasing with 4 samples per pixel
+	glutSetOption(GLUT_MULTISAMPLE, 4);
+	glEnable(GL_MULTISAMPLE);
 
 	//Normals are calculated counter clockwise
 	GLCall(glFrontFace(GL_CCW));
@@ -106,8 +109,6 @@ void SetGlobalGLSettings()
 	// Enable depth test (only do so for 3D)
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
-
-	//glPolygonMode(GL_FRONT, GL_LINE);
 
 	//Sets the clear colour when calling glClear()
 	GLCall(glClearColor(0.0f, 0.0f, 1.0f, 1.0f));

@@ -50,12 +50,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Source Files\RenderStuff</Filter>
-    </ClCompile>
-    <ClCompile Include="MasterRenderer.cpp">
-      <Filter>Source Files\RenderStuff</Filter>
-    </ClCompile>
     <ClCompile Include="VertexBufferInfo.cpp">
       <Filter>Source Files\Object stuff</Filter>
     </ClCompile>
@@ -136,12 +130,6 @@
     <ClInclude Include="VertexBufferInfo.h">
       <Filter>Source Files\Object stuff</Filter>
     </ClInclude>
-    <ClInclude Include="MasterRenderer.h">
-      <Filter>Source Files\RenderStuff</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Source Files\RenderStuff</Filter>
-    </ClInclude>
     <ClInclude Include="Debug.h">
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
@@ -152,9 +140,6 @@
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="ShaderLoader.h">
-      <Filter>Source Files\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="Utils.h">
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="GameManager.h">
