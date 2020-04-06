@@ -72,8 +72,8 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 {
 	FastNoise noiseGenerator;
 	noiseGenerator.SetNoiseType(FastNoise::NoiseType::PerlinFractal);
-	noiseGenerator.SetFractalOctaves(4.0);
-	noiseGenerator.SetFractalLacunarity(2.0);
+	noiseGenerator.SetFractalOctaves(4);
+	noiseGenerator.SetFractalLacunarity(2.0f);
 
 	const int SIZE = 100;
 	const int noiseHeightMod = SIZE * 25;

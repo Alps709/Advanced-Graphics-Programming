@@ -18,6 +18,11 @@ Terrain::Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, 
 	UpdateModelMat();
 }
 
+Terrain::~Terrain()
+{
+	delete m_mesh;
+}
+
 void Terrain::SetPosition(glm::vec3 _pos)
 {
 	m_position = _pos;

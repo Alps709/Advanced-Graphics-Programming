@@ -11,7 +11,7 @@ class Terrain
 public:
 	Terrain() = default;
 	Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, Texture* _terrainTexture);
-	virtual ~Terrain() = default;
+	virtual ~Terrain();
 
 	//Getters
 	glm::vec3 GetPosition() const { return m_position; }
