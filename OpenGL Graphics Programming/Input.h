@@ -48,6 +48,7 @@ namespace
 		}
 		else
 		{
+			//Warp the mouse to the middle of the screen
 			glutWarpPointer((int)inputManager.HSCREEN_WIDTH, (int)inputManager.HSCREEN_HEIGHT);
 			inputManager.g_mousePosX = 0;
 			inputManager.g_mousePosY = 0;

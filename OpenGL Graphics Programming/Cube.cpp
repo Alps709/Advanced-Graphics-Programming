@@ -13,6 +13,12 @@ Cube::Cube(glm::vec3 _position, Texture* _texture)
 	UpdateModelMat();
 }
 
+Cube::~Cube()
+{
+	delete m_mesh;
+	delete m_shader;
+}
+
 void Cube::SetShaderUniforms(Camera& _myCamera, bool _fogRenderMode, bool _stencilOutline) const
 {
 	//Prepare renderer (eg. create PVM matrix etc.)
@@ -37,6 +43,7 @@ void Cube::Render(Camera& _myCamera, bool _fogRenderMode)
 	glStencilFunc(GL_ALWAYS, 1, 0xFF);
 	glStencilMask(0xFF); //enable writing to stencil buffer
 
+	///OBJECT DRAW
 	this->SetPRS(70, 5, 70, 0.0f, 1.0f, 1.0f, 1.0f);
 	this->UpdateModelMat();
 
@@ -57,10 +64,10 @@ void Cube::Render(Camera& _myCamera, bool _fogRenderMode)
 	Shader::Unbind();
 
 	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-	glStencilMask(0x00); //disable writing to stencil buffer
+	glStencilMask(~0); //disable writing to stencil buffer
 	
 
-	//Draw the scaled up stencil outline
+	///STENCIL OUTLINE DRAW
 	this->SetPRS(m_position.x, m_position.y, m_position.z, 0.0f, 1.2f, 1.2f, 1.2f);
 	this->UpdateModelMat();
 
@@ -83,6 +90,5 @@ void Cube::Render(Camera& _myCamera, bool _fogRenderMode)
 	//disable writing to stencil mask
 	//glStencilMask(0x00);
 	glStencilMask(~0);
-	//GLCall(glClear(GL_STENCIL_BUFFER_BIT));
 	glDisable(GL_STENCIL_TEST);
 }

@@ -40,7 +40,8 @@ GameManager::GameManager()
 	m_menuInstructText = new TextLabel("Press enter to continue", "Resources/Fonts/kirbyss.ttf", glm::vec2(-600, -200), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f);
 
 	//Create the camera
-	m_camera = new Camera(true);
+	//Set freeview to false at the start
+	m_camera = new Camera(false);
 }
 
 
@@ -147,9 +148,9 @@ void GameManager::ProcessInput()
 	}
 
 	//'O' key is pressed
-	if (inputManager.KeyState['i'] == INPUT_DOWN_FIRST || inputManager.KeyState['i'] == INPUT_DOWN_FIRST)
+	if (inputManager.KeyState['i'] == INPUT_DOWN_FIRST || inputManager.KeyState['I'] == INPUT_DOWN_FIRST)
 	{
-		//Turn wireframe mode on/off
+		//Turn fog render mode on/off
 		m_FogRenderMode = !m_FogRenderMode;
 	}
 

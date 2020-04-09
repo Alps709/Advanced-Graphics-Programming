@@ -50,7 +50,6 @@ private:
 
 	//Camera matrices
 	glm::mat4 m_viewMat{};
-	glm::mat4 m_orthoProjectionMat{};
 	glm::mat4 m_perspectiveProjectionMat{};
 	glm::mat4 m_projViewMat{};
 };

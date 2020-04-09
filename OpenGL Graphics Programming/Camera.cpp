@@ -7,9 +7,8 @@ Camera::Camera(bool isFreeView)
 	m_camPosition(glm::vec3{ 64.0f, 5.0f, 64.0f }),
 	m_camLookDir(glm::vec3{0.0f, 0.0f, -1.0f}),
 	m_worldUp(glm::vec3{ 0.0f, 1.0f, 0.0f }), 
-	m_camYaw(-90.0f), m_camPitch(0), m_camRoll(0), m_camSpeed(0.01f), m_mouseSens(0.5f),
+	m_camYaw(0.0f), m_camPitch(0), m_camRoll(0), m_camSpeed(0.01f), m_mouseSens(0.5f),
 	m_viewMat(glm::lookAt(m_camPosition, m_camPosition + m_camLookDir, m_worldUp)),
-	m_orthoProjectionMat(glm::ortho(-inputManager.HSCREEN_WIDTH, inputManager.HSCREEN_WIDTH, -inputManager.HSCREEN_HEIGHT, inputManager.HSCREEN_HEIGHT, -10000.0f, 10000.0f)),
 	m_perspectiveProjectionMat(glm::perspective(glm::radians(90.0f), 1280.0f/720.0f, 0.1f, 1000000.0f))
 {
 	inputManager.CAMERA_FREEEVIEW_MODE = isFreeView;
@@ -45,11 +44,20 @@ void Camera::SetFreeView(bool isFreeView)
 	{
 		//Turn off cursor
 		glutSetCursor(GLUT_CURSOR_NONE);
+		inputManager.g_mousePosX = 0;
+		inputManager.g_mousePosY = 0;
+		inputManager.g_mousePosDifX = 0;
+		inputManager.g_mousePosDifY = 0;
 	}
 	else
 	{
 		//Turn on cursor
 		glutSetCursor(GLUT_CURSOR_BOTTOM_SIDE);
+		inputManager.g_mousePosX = 0;
+		inputManager.g_mousePosY = 0;
+		inputManager.g_mousePosDifX = 0;
+		inputManager.g_mousePosDifY = 0;
+
 		ResetView();
 	}
 }
@@ -59,9 +67,9 @@ void Camera::ResetView()
 	//Change the view back to the original
 	//So that it is changed back to a view that is perpendicular to the 2d plane
 	m_camYaw = 0.0f;
-	m_camPitch = -90.0f;
+	m_camPitch = 0.0f;
 	m_camRoll = 0.0f;
-	m_camPosition = glm::vec3(0.0f, 2000.0f, 0.0f);
+	m_camPosition = glm::vec3(64.0f, 5.0f, 64.0f);
 }
 
 void Camera::UpdateView()
@@ -89,6 +97,12 @@ void Camera::UpdateVectors()
 
 void Camera::ProcessInput(double _deltaTime)
 {
+	//Change the camera projection
+	if (!freeView && inputManager.KeyState[13] == inputManager.INPUT_DOWN_FIRST)
+	{
+		SetFreeView(!freeView);
+	}
+
 	if (freeView)
 	{
 		//Move the camera forward with the w button
