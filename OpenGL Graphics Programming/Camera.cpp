@@ -4,10 +4,10 @@
 
 Camera::Camera(bool isFreeView)
    :freeView(isFreeView),
-	m_camPosition(glm::vec3{ 0.0f, 0.0f, 500.0f }),
+	m_camPosition(glm::vec3{ 0.0f, 5.0f, 0.0f }),
 	m_camLookDir(glm::vec3{0.0f, 0.0f, -1.0f}),
 	m_worldUp(glm::vec3{ 0.0f, 1.0f, 0.0f }), 
-	m_camYaw(-90.0f), m_camPitch(0), m_camRoll(0), m_camSpeed(1), m_mouseSens(1.0f),
+	m_camYaw(-90.0f), m_camPitch(0), m_camRoll(0), m_camSpeed(0.01f), m_mouseSens(0.5f),
 	m_viewMat(glm::lookAt(m_camPosition, m_camPosition + m_camLookDir, m_worldUp)),
 	m_orthoProjectionMat(glm::ortho(-inputManager.HSCREEN_WIDTH, inputManager.HSCREEN_WIDTH, -inputManager.HSCREEN_HEIGHT, inputManager.HSCREEN_HEIGHT, -10000.0f, 10000.0f)),
 	m_perspectiveProjectionMat(glm::perspective(glm::radians(90.0f), 1280.0f/720.0f, 0.1f, 1000000.0f))
@@ -89,13 +89,6 @@ void Camera::UpdateVectors()
 
 void Camera::ProcessInput(double _deltaTime)
 {
-	//Change the camera projection
-	if (inputManager.KeyState['p'] == inputManager.INPUT_DOWN_FIRST ||
-		inputManager.KeyState['P'] == inputManager.INPUT_DOWN_FIRST)
-	{
-		SetFreeView(!freeView);
-	}
-
 	if (freeView)
 	{
 		//Move the camera forward with the w button
@@ -134,26 +127,26 @@ void Camera::ProcessInput(double _deltaTime)
 		if (inputManager.KeyState[32] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState[32] == inputManager.INPUT_DOWN)
 		{
 			glm::vec3 tempVec = GetPosition();
-			tempVec.y += 2.5f;
+			tempVec.y += GetCamSpeed() * (float)_deltaTime;
 			SetPosition(glm::vec3(tempVec));
 		}
 		//Move the camera down with the left shift button
 		if (inputManager.SpecialKeyState[GLUT_KEY_SHIFT_L] == inputManager.INPUT_DOWN_FIRST || inputManager.SpecialKeyState[GLUT_KEY_SHIFT_L] == inputManager.INPUT_DOWN)
 		{
 			glm::vec3 tempVec = GetPosition();
-			tempVec.y -= 2.5f;
+			tempVec.y -= GetCamSpeed() * (float)_deltaTime;
 			SetPosition(glm::vec3(tempVec));
 		}
 
-		inputManager.g_mousePosDifX *= (int)m_mouseSens;
-		inputManager.g_mousePosDifY *= (int)m_mouseSens;
+		float deltaYaw = (float)inputManager.g_mousePosDifX * m_mouseSens;
+		float deltaPitch = (float)inputManager.g_mousePosDifY * m_mouseSens;
 
-		m_camYaw += inputManager.g_mousePosDifX;
+		m_camYaw += deltaYaw;
 
 		//Limit the pitch between 90 and -90 degrees, so the camera can't get flipped
 		if (m_limitPitch)
 		{
-			m_camPitch += inputManager.g_mousePosDifY;
+			m_camPitch += deltaPitch;
 			if (m_camPitch > 89)
 			{
 				m_camPitch = 89;

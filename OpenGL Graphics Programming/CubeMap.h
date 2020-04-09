@@ -7,13 +7,13 @@
 #include <detail/type_vec3.hpp>
 #include <detail/type_mat4x4.hpp>
 
-
+//This cubemap class is a singleton
 class CubeMap
 {
 public:
 	static CubeMap& getInstance()
 	{
-		static CubeMap instance; // Guaranteed to be destroyed.
+		static CubeMap instance;
 		return instance;
 	}
 
@@ -46,10 +46,8 @@ public:
 
 	//Rendering stuff
 	//Render is overidden by all derived classes, but can still be used for a base object
-	virtual void SetShaderUniforms(Camera& _myCamera) const;
-	virtual void Render(Camera& _myCamera);
-
-	void BindTexture(unsigned int _texNum) const;
+	virtual void SetShaderUniforms(Camera& _myCamera, bool _fogRenderMode) const;
+	virtual void Render(Camera& _myCamera, bool _fogRenderMode);
 
 	GLuint m_texID;
 
@@ -66,6 +64,5 @@ protected:
 	GLuint m_iboID;
 	int m_indicesCount;
 	Shader* m_shader;
-	
 };
 

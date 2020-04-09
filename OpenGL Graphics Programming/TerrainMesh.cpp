@@ -75,7 +75,7 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 	noiseGenerator.SetFractalOctaves(4);
 	noiseGenerator.SetFractalLacunarity(2.0f);
 
-	const int SIZE = 100;
+	const int SIZE = 1;
 	const int noiseHeightMod = SIZE * 25;
 	const int count = _xSize * _zSize;
 

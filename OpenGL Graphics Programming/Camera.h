@@ -8,6 +8,7 @@ public:
 	Camera(bool isFreeView = true);
 	~Camera();
 
+	glm::mat4 GetProjection() const { return m_perspectiveProjectionMat; }
 	glm::mat4 GetView() const { return m_viewMat; }
 	glm::mat4 GetProjView() const { return m_projViewMat; }
 	

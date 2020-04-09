@@ -4,32 +4,32 @@
 in vec3 fragmentPos;
 in vec3 fragmentNormal;
 in vec2 fragmentTextureCoord;
+in vec4 mWorldPos;
 
 //Colour output
 out vec4 colour;
 
 //Texture
 uniform sampler2D u_grassTex;
+uniform vec3 u_camPos;
+uniform bool u_fogRenderMode;
 
-//Ambient lighting
-//uniform float u_ambientStr    = 0.25f;
-//uniform vec3  u_ambientColour = vec3(1.0f, 1.0f, 1.0f);
-//uniform vec3  u_lightColour   = vec3(1.0f, 1.0f, 1.0f);
-//uniform vec3  u_lightPos      = vec3(0.0f, 0.0f, 2000.0f);
-
+vec4 vFogColor = vec4(0.5f, 0.5f, 0.5f, 1.0f);
 
 void main(void)
 {
-	//Ambient light
-	//vec3 ambient = u_ambientStr * u_ambientColour;
+	float d = distance(mWorldPos.xyz, u_camPos);
+	float lerp = (d - 5.0f)/100.f;
+	lerp = clamp(lerp, 0.0, 1.0);
 
-	//Light Direction
-	//vec3 norm = normalize(fragmentNormal);
-	//vec3 lightDir = normalize(fragmentPos - u_lightPos);
+	vec4 texColour = texture(u_grassTex, fragmentTextureCoord);
 
-	//Diffuse colouring
-	//float diffuseStr = max(dot(norm, -lightDir), 0.0f);
-	//vec3 diffuse = diffuseStr * u_lightColour;
-
-	colour = (texture(u_grassTex, fragmentTextureCoord));
+	if(u_fogRenderMode)
+	{
+		colour = mix(texColour, vFogColor, lerp);
+	}
+	else
+	{
+	    colour = texColour;
+	}
 }

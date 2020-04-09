@@ -18,7 +18,6 @@ GameManager::GameManager()
 	m_sphereShader = new Shader("Shaders/SphereVS.glsl", "Shaders/SphereFS.glsl");
 	m_sphereRimLightShader = new Shader("Shaders/SphereRimLightVS.glsl", "Shaders/SphereRimLightFS.glsl");
 	m_sphereCubeMapReflectShader = new Shader("Shaders/CubeMapReflectVS.glsl", "Shaders/CubeMapReflectFS.glsl");
-	m_tankModelShader = new Shader("Shaders/TankModelVS.glsl", "Shaders/TankModelFS.glsl");
 
 	//Create Cube map
 	m_CubeMap.Initialise();
@@ -37,31 +36,13 @@ GameManager::GameManager()
 	m_sphereMesh = new SphereMesh();
 	m_sphereTexture = new Texture("Resources/Textures/Grass.png", 0);
 
-	//Create 1 background object
-	/*m_backgroundObject = Object(m_backgroundMesh, m_defaultShader, glm::vec3(0.0f, 0.0f, -1000.0f));
-	m_backgroundObject.SetTexture0(m_backgroundTexture);
-	m_backgroundObject.ChangePRS(0.0f, 0.0f, 0.0f, 0.0f, 10.0f, 10.0f, 0.0f);*/
-
-	//Create random generator for boid positions
-	std::random_device dev;
-	std::mt19937 rng(dev());
-	const std::uniform_real_distribution<double> randXPos(-inputManager.HSCREEN_WIDTH + 50, inputManager.HSCREEN_WIDTH - 50);
-	const std::uniform_real_distribution<double> randYPos(-inputManager.HSCREEN_HEIGHT + 50, inputManager.HSCREEN_HEIGHT - 50);
-
 	//Create the text objects
-	m_fpsText = new TextLabel("FPS: ", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.HSCREEN_WIDTH + 20.0f, inputManager.HSCREEN_HEIGHT - 40.0f));
-	m_menuTitleText = new TextLabel("The Tenk Game!", "Resources/Fonts/kirbyss.ttf", glm::vec2(-625, 200), glm::vec3(0.0f, 1.0f, 1.0f), 2.8f);
-	m_menuInstructText = new TextLabel("Press enter to play", "Resources/Fonts/kirbyss.ttf", glm::vec2(-600, -200), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f);
-	m_overText = new TextLabel("Game Over!", "Resources/Fonts/kirbyss.ttf", glm::vec2(-625, 200), glm::vec3(1.0f, 0.0f, 0.0f), 4);
-	m_overScoreText = new TextLabel("Your final score is: ", "Resources/Fonts/arial.ttf", glm::vec2(-600, -200), glm::vec3(1.0f, 0.0f, 0.0f), 1.5f);
-
-	//Initialise tank model
-	myTank = PlayerTank("Resources/Models/Tank/Tank.obj", m_tankModelShader, &m_boidObjects, m_fpsText, m_audioSystem, m_yeatSound, m_shoopSound);
-	myTank.ChangePRS(0.0f, 0.0f, 0.0f, 0.0f, 50.0f, 50.0f, 50.0f);
+	m_fpsText = new TextLabel("FPS: ", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.HSCREEN_WIDTH + 20.0f, inputManager.HSCREEN_HEIGHT * 0.5f));
+	m_menuTitleText = new TextLabel("Graphics showcase!", "Resources/Fonts/kirbyss.ttf", glm::vec2(-625, 160), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f);
+	m_menuInstructText = new TextLabel("Press enter to continue", "Resources/Fonts/kirbyss.ttf", glm::vec2(-600, -200), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f);
 
 	//Create the camera
-	//Pass in false to say it is not using an orthographic view initially (it will then use a perspective view projection)
-	m_camera = new Camera(false);
+	m_camera = new Camera(true);
 }
 
 
@@ -156,9 +137,9 @@ void GameManager::ProcessInput()
 	if (inputManager.KeyState['o'] == INPUT_DOWN_FIRST || inputManager.KeyState['O'] == INPUT_DOWN_FIRST)
 	{
 		//Turn wireframe mode on/off
-		WireframeRenderMode = !WireframeRenderMode;
+		m_WireframeRenderMode = !m_WireframeRenderMode;
 
-		if (WireframeRenderMode)
+		if (m_WireframeRenderMode)
 		{
 			GLCall(glPolygonMode(GL_FRONT, GL_LINE));
 		}
@@ -168,24 +149,17 @@ void GameManager::ProcessInput()
 		}
 	}
 
+	//'O' key is pressed
+	if (inputManager.KeyState['i'] == INPUT_DOWN_FIRST || inputManager.KeyState['i'] == INPUT_DOWN_FIRST)
+	{
+		//Turn wireframe mode on/off
+		m_FogRenderMode = !m_FogRenderMode;
+	}
+
 	//Mouse Input
 	if (inputManager.MouseState[0] == INPUT_DOWN_FIRST)
 	{	//Left click
-		//Create 1 bullet sphere
-		float frustumLeftSide = 4200;
-		float frustumRightSide = -4200;
-		float frustumTopSide = 2340;
-		float frustumBottomSide = -2340;
 
-		float z = (float)(Math::remap(inputManager.g_mousePosX, -inputManager.HSCREEN_WIDTH, inputManager.HSCREEN_WIDTH, frustumLeftSide, frustumRightSide));
-		float x = (float)(Math::remap(inputManager.g_mousePosY, -inputManager.HSCREEN_HEIGHT, inputManager.HSCREEN_HEIGHT, frustumBottomSide, frustumTopSide));
-
-		glm::vec3 bulletSeekPos = (glm::vec3(-x, 0.0f, z) - glm::vec3(myTank.GetPosition().x, 0.0f, myTank.GetPosition().z)) * 50.0f;
-
-		Bullet myTempObject = Bullet(m_sphereMesh, m_sphereRimLightShader, myTank.m_position, bulletSeekPos);
-		myTempObject.SetTexture0(m_sphereTexture);
-		myTempObject.ChangePRS(0.0f, 0.0f, 0.0f, 0.0f, 50.0f, 50.0f, 50.0f);
-		m_bulletObjects.push_back(myTempObject);
 	}
 }
 
@@ -206,12 +180,10 @@ void GameManager::Update()
 	m_camera->ProcessInput(deltaTime);
 	ProcessInput();
 
+	//Update game play state here
 	if (m_gameState == GAME_PLAY)
 	{
-		if (!inputManager.CAMERA_FREEEVIEW_MODE)
-		{
-			myTank.Update(m_gameScore, (float)deltaTime);
-		}
+
 	}
 
 	//Update sounds
@@ -230,12 +202,27 @@ void GameManager::Render()
 	GLCall(glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT| GL_COLOR_BUFFER_BIT));
 
 	//Draw CubeMap
-	m_CubeMap.Render(*m_camera);
+	m_CubeMap.Render(*m_camera, m_FogRenderMode);
 
-	m_grassTerrain->Render(*m_camera, m_clock.GetTimeElapsedMS());
+	m_grassTerrain->Render(*m_camera, m_clock.GetTimeElapsedMS(), m_FogRenderMode);
 
-	myTank.Render(*m_camera);
+	//Render game menu non transparent here
+	if (m_gameState == GAME_MENU)
+	{
+		
+	}
+	//Render game play state non-transparent here
+	else if (m_gameState == GAME_PLAY)
+	{
+		
+	}
 
+	///Render transparent objects last
+
+	//Transparent water terrain
+	m_waterTerrain->Render(*m_camera, m_clock.GetTimeElapsedMS(), m_FogRenderMode);
+
+	//transparent text
 	if (m_gameState == GAME_MENU)
 	{
 		m_menuTitleText->Render();
@@ -243,16 +230,8 @@ void GameManager::Render()
 	}
 	else if (m_gameState == GAME_PLAY)
 	{
-		//Render bullets
-		for (auto& bullets : m_bulletObjects)
-		{
-			bullets.Render(*m_camera);
-		}
-
 		m_fpsText->Render();
 	}
-
-	m_waterTerrain->Render(*m_camera, m_clock.GetTimeElapsedMS());
 
 	glutSwapBuffers();
 	u_frameNum++;

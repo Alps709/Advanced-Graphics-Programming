@@ -70,7 +70,7 @@ int main(int argc, char ** argv)
 void Render()
 {
 	myGameManager->Render();
-	GLCall(glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT));
+	GLCall(glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_SCISSOR_BIT));
 }
 
 void Update()
@@ -87,6 +87,10 @@ void SetGlobalGLSettings()
 	myInputManager.g_mousePosX = 0;
 	myInputManager.g_mousePosY = 0;
 	glutSetCursor(GLUT_CURSOR_NONE);
+
+	//Use a scissor test to only draw the middle of the viewport
+	glScissor(0, (GLsizei)(inputManager.TRUE_SCREEN_HEIGHT * 0.1f), (GLsizei)inputManager.TRUE_SCREEN_WIDTH, (GLsizei)(inputManager.TRUE_SCREEN_HEIGHT * 0.8f));
+	glEnable(GL_SCISSOR_TEST);
 
 	//Cull the back faces of objects (only do so for 3D)
 	GLCall(glCullFace(GL_BACK));

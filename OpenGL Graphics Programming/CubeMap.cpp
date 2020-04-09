@@ -56,7 +56,7 @@ void CubeMap::Initialise()
 	//Generate vbo
 	GLCall(glGenBuffers(1, &m_vboID));
 	GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_vboID));
-	GLCall(glBufferData(GL_ARRAY_BUFFER, Objects::verticesCubeMap.size() * sizeof(float), static_cast<const void*>(Objects::verticesCubeMap.data()), GL_STATIC_DRAW));
+	GLCall(glBufferData(GL_ARRAY_BUFFER, Objects::verticesCube.size() * sizeof(float), static_cast<const void*>(Objects::verticesCube.data()), GL_STATIC_DRAW));
 
 	//Generate ibo
 	GLCall(glGenBuffers(1, &m_iboID));
@@ -117,26 +117,29 @@ void CubeMap::UpdateModelMat()
 	m_modelMat = Math::Create2DModelMatrix(m_position.x, m_position.y, m_position.z, m_rotationZ, m_scale.x, m_scale.y, m_scale.z);
 }
 
-void CubeMap::SetShaderUniforms(Camera& _myCamera) const
+void CubeMap::SetShaderUniforms(Camera& _myCamera, bool _fogRenderMode) const
 {
-	//Prepare renderer (eg. clear buffer, create PVM matrix etc.)
-	glm::mat4 projViewMat = _myCamera.GetProjView();
-
-	glm::mat4 pvmMat = projViewMat * m_modelMat;
+	//Prepare renderer (eg. create PVM matrix etc.)
+	glm::mat4 pvmMat = _myCamera.GetProjView() * m_modelMat;
+	glm::mat4 modelMat = m_modelMat;
+	glm::vec3 camPos = _myCamera.GetPosition();
 
 	//Set object specific uniforms
 	m_shader->SetUniform1i("u_cubeSampler", 0);
 	m_shader->SetUniformMat4f("u_PVM", pvmMat);
+	m_shader->SetUniformMat4f("u_modelMat", modelMat);
+	m_shader->SetUniform3f("u_camPos", camPos);
+	m_shader->SetUniform1i("u_fogRenderMode", _fogRenderMode);
 }
 
-void CubeMap::Render(Camera& _myCamera)
+void CubeMap::Render(Camera& _myCamera, bool _fogRenderMode)
 {
 	//Bind the mesh that all the model will use
 	m_shader->Bind();
 
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
-	SetShaderUniforms(_myCamera);
+	SetShaderUniforms(_myCamera, _fogRenderMode);
 
 	//Prepare the object for drawing
 	GLCall(glActiveTexture(GL_TEXTURE0));

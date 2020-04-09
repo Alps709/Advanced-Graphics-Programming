@@ -12,9 +12,6 @@
     <Filter Include="Source Files\Utils">
       <UniqueIdentifier>{206e7c79-c50a-4c01-8160-18aab171d38e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Characters">
-      <UniqueIdentifier>{97c750d4-8e51-41db-bc5a-5dfacc4a4dbc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Object stuff">
       <UniqueIdentifier>{971ff6ec-82ae-4837-8706-f31e6296a39c}</UniqueIdentifier>
     </Filter>
@@ -59,9 +56,6 @@
     <ClCompile Include="GameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Snek.cpp">
-      <Filter>Source Files\Characters</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Camera</Filter>
     </ClCompile>
@@ -89,12 +83,6 @@
     <ClCompile Include="Object.cpp">
       <Filter>Source Files\Object stuff\Objects\Base</Filter>
     </ClCompile>
-    <ClCompile Include="SnekPart.cpp">
-      <Filter>Source Files\Object stuff\Objects\Derived</Filter>
-    </ClCompile>
-    <ClCompile Include="Boid.cpp">
-      <Filter>Source Files\Characters</Filter>
-    </ClCompile>
     <ClCompile Include="CubeMap.cpp">
       <Filter>Source Files\Object stuff\Objects</Filter>
     </ClCompile>
@@ -103,12 +91,6 @@
     </ClCompile>
     <ClCompile Include="ModelMesh.cpp">
       <Filter>Source Files\Object stuff\Meshes\Base</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerTank.cpp">
-      <Filter>Source Files\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Source Files\Characters</Filter>
     </ClCompile>
     <ClCompile Include="TerrainMesh.cpp">
       <Filter>Source Files\Object stuff\Meshes\Base</Filter>
@@ -124,9 +106,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Snek.h">
-      <Filter>Source Files\Characters</Filter>
-    </ClInclude>
     <ClInclude Include="VertexBufferInfo.h">
       <Filter>Source Files\Object stuff</Filter>
     </ClInclude>
@@ -175,12 +154,6 @@
     <ClInclude Include="Object.h">
       <Filter>Source Files\Object stuff\Objects\Base</Filter>
     </ClInclude>
-    <ClInclude Include="SnekPart.h">
-      <Filter>Source Files\Object stuff\Objects\Derived</Filter>
-    </ClInclude>
-    <ClInclude Include="Boid.h">
-      <Filter>Source Files\Characters</Filter>
-    </ClInclude>
     <ClInclude Include="CubeMap.h">
       <Filter>Source Files\Object stuff\Objects</Filter>
     </ClInclude>
@@ -189,12 +162,6 @@
     </ClInclude>
     <ClInclude Include="ModelMesh.h">
       <Filter>Source Files\Object stuff\Meshes\Base</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerTank.h">
-      <Filter>Source Files\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Source Files\Characters</Filter>
     </ClInclude>
     <ClInclude Include="TerrainMesh.h">
       <Filter>Source Files\Object stuff\Meshes\Base</Filter>

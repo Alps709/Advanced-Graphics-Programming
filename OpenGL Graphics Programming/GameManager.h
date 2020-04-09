@@ -4,16 +4,12 @@
 #include "Texture.h"
 #include "Object.h"
 #include "CubeMap.h"
-#include "Boid.h"
-#include "Bullet.h"
-#include "Snek.h"
 #include "Model.h"
 #include "Terrain.h"
 #include "WaterTerrain.h"
 
 #include <fmod.hpp>
 #include "SphereMesh.h"
-#include "PlayerTank.h"
 
 
 enum GameState
@@ -63,14 +59,6 @@ private:
 	SphereMesh* m_sphereMesh = nullptr;
 	Texture* m_sphereTexture = nullptr;
 
-	//Tank model
-	PlayerTank myTank;
-
-	//Boids that the snek will collect for points
-	std::vector<Boid> m_boidObjects;
-
-	std::vector<Bullet> m_bulletObjects;
-
 	//Game terrain textures
 	Texture* m_grassTexture = nullptr;
 	Texture* m_noiseTexture = nullptr;
@@ -101,6 +89,7 @@ private:
 	int u_frameNum = 0;
 
 	//Debug stuff
-	bool WireframeRenderMode = false;
+	bool m_FogRenderMode = true;
+	bool m_WireframeRenderMode = false;
 };
 

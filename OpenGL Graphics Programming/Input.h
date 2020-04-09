@@ -1,5 +1,6 @@
 #pragma once
 #include "Debug.h"
+#include "Math.h"
 #include <freeglut.h>
 
 //Callback functions for glut input
@@ -207,5 +208,6 @@ namespace
 		inputManager.TRUE_HSCREEN_WIDTH = inputManager.TRUE_SCREEN_WIDTH / 2;
 
 		glViewport((GLsizei)0, (GLsizei)0, (GLsizei)inputManager.TRUE_SCREEN_WIDTH, (GLsizei)inputManager.TRUE_SCREEN_HEIGHT);
+		glScissor(0, (GLsizei)(inputManager.TRUE_SCREEN_HEIGHT * 0.1f), (GLsizei)inputManager.TRUE_SCREEN_WIDTH, (GLsizei)(inputManager.TRUE_SCREEN_HEIGHT * 0.8f));
 	}
 }

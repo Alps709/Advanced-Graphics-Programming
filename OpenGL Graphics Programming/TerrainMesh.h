@@ -2,13 +2,6 @@
 #include "VertexBufferInfo.h"
 #include <glm.hpp>
 
-struct VertexT
-{
-	glm::vec3 Position; // Position	
-	glm::vec3 Normal; // Normal	
-	//glm::vec2 TexCoords; // TexCoords
-};
-
 class TerrainMesh
 {
 public:

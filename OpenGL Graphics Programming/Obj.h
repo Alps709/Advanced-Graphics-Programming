@@ -2,12 +2,13 @@
 #include <vector>
 #include "Input.h"
 
+//Hold the vertices and indices for basic shapes
 namespace Objects
 {
 	//Scrolling texture
 	static std::vector<float> verticesBoid =
 	{
-		///Bottom right quad
+		///Quad
 		//Position			     //Colour			        //Texture co-ords
 		-5.0f, -5.0f, 0.0f,	 1.0f, 0.0f, 0.0f, 1.0f,   0.0f, 1.0f,    //Bottom left
 		-5.0f,  5.0f, 0.0f,	 1.0f, 0.0f, 0.0f, 1.0f,   0.0f, 0.0f,    //Top left
@@ -17,31 +18,14 @@ namespace Objects
 
 	static std::vector<unsigned int> indicesBoid =
 	{
-		//First quad							
+		//Quad	indices						
 		0, 2, 1,
 		0, 3, 2,
 	};
 
-	//2D Background texture
-	static std::vector<float> verticesBackground =
-	{
-		///Bottom right quad
-		//Position															 //Colour			       //Texture co-ords
-		-inputManager.HSCREEN_WIDTH, 0.0f, -inputManager.HSCREEN_HEIGHT,	 1.0f, 1.0f, 1.0f, 1.0f,   0.0f, 10.0f,    //Bottom left
-		-inputManager.HSCREEN_WIDTH, 0.0f,  inputManager.HSCREEN_HEIGHT,	 1.0f, 1.0f, 1.0f, 1.0f,   0.0f, 0.0f,    //Top left
-		 inputManager.HSCREEN_WIDTH, 0.0f,  inputManager.HSCREEN_HEIGHT,	 1.0f, 1.0f, 1.0f, 1.0f,   10.0f, 0.0f,    //Top right
-		 inputManager.HSCREEN_WIDTH, 0.0f, -inputManager.HSCREEN_HEIGHT,	 1.0f, 1.0f, 1.0f, 1.0f,   10.0f, 10.0f,    //Bottom right
-	};
-
-	static std::vector<unsigned int> indicesBackground =
-	{
-		//First quad							
-		0, 2, 1,
-		0, 3, 2,
-	};
 
 	//Cube Map vertices
-	static std::vector<float> verticesCubeMap =
+	static std::vector<float> verticesCube =
 	{
 		//Position              //Normal                //TexCoords
 		-0.5f,   0.5f,  0.5f,    0.0f,  0.0f,  1.0f,    0.0f, 0.0f,
@@ -76,6 +60,28 @@ namespace Objects
 	};
 
 	//Cube map indices
+	static std::vector<GLuint>indicesCube =
+	{
+		0, 1, 2,
+		0, 2, 3,
+
+		7, 6, 5,
+		7, 5, 4,
+
+		8, 9, 10,
+		8, 10, 11,
+
+		12, 13, 14,
+		12, 14, 15,
+
+		16, 17, 18,
+		16, 18, 19,
+
+		20, 21, 22,
+		20, 22, 23,
+	};
+
+	//Cube map indices (just a copy of the cube indices but with the opposite winding order so the normals calculate inwards)
 	static std::vector<GLuint>indicesCubeMap =
 	{
 		0, 2, 1,

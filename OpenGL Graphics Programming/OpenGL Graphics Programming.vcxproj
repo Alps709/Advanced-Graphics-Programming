@@ -147,7 +147,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="clock.cpp" />
     <ClCompile Include="CubeMap.cpp" />
@@ -159,12 +158,8 @@
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelMesh.cpp" />
     <ClCompile Include="Object.cpp" />
-    <ClCompile Include="Boid.cpp" />
-    <ClCompile Include="PlayerTank.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
-    <ClCompile Include="Snek.cpp" />
-    <ClCompile Include="SnekPart.cpp" />
     <ClCompile Include="SphereMesh.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="TerrainMesh.cpp" />
@@ -174,7 +169,6 @@
     <ClCompile Include="WaterTerrain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="clock.h" />
     <ClInclude Include="CubeMap.h" />
@@ -189,12 +183,8 @@
     <ClInclude Include="ModelMesh.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="Obj.h" />
-    <ClInclude Include="Boid.h" />
-    <ClInclude Include="PlayerTank.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderLoader.h" />
-    <ClInclude Include="Snek.h" />
-    <ClInclude Include="SnekPart.h" />
     <ClInclude Include="SphereMesh.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="TerrainMesh.h" />
