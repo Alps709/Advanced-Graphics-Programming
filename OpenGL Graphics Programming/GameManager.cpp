@@ -196,7 +196,7 @@ void GameManager::Update()
 void GameManager::Render()
 {
 	//Clear the screen before every frame
-	GLCall(glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT| GL_COLOR_BUFFER_BIT | GL_SCISSOR_BUFFER_BIT));
+	GLCall(glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT| GL_COLOR_BUFFER_BIT | GL_SCISSOR_BIT));
 
 	//Draw CubeMap
 	m_CubeMap.Render(*m_camera, m_FogRenderMode);
