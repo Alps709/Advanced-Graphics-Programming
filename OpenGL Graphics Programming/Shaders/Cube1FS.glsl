@@ -14,8 +14,9 @@ uniform sampler2D u_grassTex;
 
 uniform vec3 u_camPos;
 uniform bool u_fogRenderMode;
+uniform bool u_stencilOutline;
 
-vec4 stencilTestColour = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+vec4 stencilOutlineColour = vec4(1.0f, 0.0f, 0.0f, 1.0f);
 
 vec4 vFogColor = vec4(0.5f, 0.5f, 0.5f, 1.0f);
 
@@ -25,14 +26,23 @@ void main(void)
 	float lerp = (d - 5.0f)/100.f;
 	lerp = clamp(lerp, 0.0, 1.0);
 
-	vec4 texColour = texture(u_grassTex, fragmentTextureCoord);
+	vec4 finalColour;
 
-	if(u_fogRenderMode)
+	if(u_stencilOutline)
 	{
-		colour = mix(texColour, vFogColor, lerp);
+		finalColour = stencilOutlineColour;
 	}
 	else
 	{
-	    colour = mix(texColour, stencilTestColour, 0.5f);
+		finalColour = texture(u_grassTex, fragmentTextureCoord);
+	}
+
+	if(u_fogRenderMode)
+	{
+		colour = mix(finalColour, vFogColor, lerp);
+	}
+	else
+	{
+	    colour = finalColour;
 	}
 }

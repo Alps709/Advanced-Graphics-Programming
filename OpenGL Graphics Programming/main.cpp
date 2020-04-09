@@ -84,10 +84,6 @@ void SetGlobalGLSettings()
 	//Disable the cursor for the first person camera
 	glutSetCursor(GLUT_CURSOR_NONE);
 
-	//enable stencil and set stencil operation
-	glEnable(GL_STENCIL_TEST);
-	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE); //stPass, dpFail, bothPass 
-
 	//Use a scissor test to only draw the middle of the viewport
 	glScissor(0, (GLsizei)(inputManager.TRUE_SCREEN_HEIGHT * 0.1f), (GLsizei)inputManager.TRUE_SCREEN_WIDTH, (GLsizei)(inputManager.TRUE_SCREEN_HEIGHT * 0.8f));
 	glEnable(GL_SCISSOR_TEST);

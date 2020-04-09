@@ -13,7 +13,7 @@ Cube::Cube(glm::vec3 _position, Texture* _texture)
 	UpdateModelMat();
 }
 
-void Cube::SetShaderUniforms(Camera& _myCamera, bool _fogRenderMode) const
+void Cube::SetShaderUniforms(Camera& _myCamera, bool _fogRenderMode, bool _stencilOutline) const
 {
 	//Prepare renderer (eg. create PVM matrix etc.)
 	glm::mat4 pvmMat = _myCamera.GetProjView() * m_modelMat;
@@ -26,6 +26,7 @@ void Cube::SetShaderUniforms(Camera& _myCamera, bool _fogRenderMode) const
 	m_shader->SetUniformMat4f("u_modelMat", modelMat);
 	m_shader->SetUniform3f("u_camPos", camPos);
 	m_shader->SetUniform1i("u_fogRenderMode", _fogRenderMode);
+	m_shader->SetUniform1i("u_stencilOutline", _stencilOutline);
 }
 
 void Cube::Render(Camera& _myCamera, bool _fogRenderMode)
@@ -44,7 +45,7 @@ void Cube::Render(Camera& _myCamera, bool _fogRenderMode)
 	m_shader->Bind();
 
 	//Prepare the object for drawing
-	SetShaderUniforms(_myCamera, true);
+	SetShaderUniforms(_myCamera, _fogRenderMode, false);
 
 	//Bind grass texture
 	BindTexture(0);
@@ -58,7 +59,9 @@ void Cube::Render(Camera& _myCamera, bool _fogRenderMode)
 	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
 	glStencilMask(0x00); //disable writing to stencil buffer
 	
-	this->SetPRS(70, 5, 70, 0.0f, 2.0f, 2.0f, 2.0f);
+
+	//Draw the scaled up stencil outline
+	this->SetPRS(m_position.x, m_position.y, m_position.z, 0.0f, 1.2f, 1.2f, 1.2f);
 	this->UpdateModelMat();
 
 	//Bind the mesh that all the model will use
@@ -66,7 +69,7 @@ void Cube::Render(Camera& _myCamera, bool _fogRenderMode)
 	m_shader->Bind();
 
 	//Prepare the object for drawing
-	SetShaderUniforms(_myCamera, false);
+	SetShaderUniforms(_myCamera, _fogRenderMode, true);
 
 	//Bind grass texture
 	BindTexture(0);
@@ -80,6 +83,6 @@ void Cube::Render(Camera& _myCamera, bool _fogRenderMode)
 	//disable writing to stencil mask
 	//glStencilMask(0x00);
 	glStencilMask(~0);
-	GLCall(glClear(GL_STENCIL_BUFFER_BIT));
+	//GLCall(glClear(GL_STENCIL_BUFFER_BIT));
 	glDisable(GL_STENCIL_TEST);
 }
