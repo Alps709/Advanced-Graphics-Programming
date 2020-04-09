@@ -70,7 +70,6 @@ int main(int argc, char ** argv)
 void Render()
 {
 	myGameManager->Render();
-	GLCall(glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_SCISSOR_BIT));
 }
 
 void Update()
@@ -83,10 +82,11 @@ void SetGlobalGLSettings()
 	///Set global settings
 
 	//Disable the cursor for the first person camera
-	glutWarpPointer(0, 0);
-	myInputManager.g_mousePosX = 0;
-	myInputManager.g_mousePosY = 0;
 	glutSetCursor(GLUT_CURSOR_NONE);
+
+	//enable stencil and set stencil operation
+	glEnable(GL_STENCIL_TEST);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE); //stPass, dpFail, bothPass 
 
 	//Use a scissor test to only draw the middle of the viewport
 	glScissor(0, (GLsizei)(inputManager.TRUE_SCREEN_HEIGHT * 0.1f), (GLsizei)inputManager.TRUE_SCREEN_WIDTH, (GLsizei)(inputManager.TRUE_SCREEN_HEIGHT * 0.8f));

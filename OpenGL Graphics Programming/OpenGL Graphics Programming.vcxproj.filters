@@ -104,6 +104,9 @@
     <ClCompile Include="WaterTerrain.cpp">
       <Filter>Source Files\Object stuff\Objects\Derived</Filter>
     </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Source Files\Object stuff\Objects\Derived</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VertexBufferInfo.h">
@@ -173,6 +176,9 @@
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
     <ClInclude Include="WaterTerrain.h">
+      <Filter>Source Files\Object stuff\Objects\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
       <Filter>Source Files\Object stuff\Objects\Derived</Filter>
     </ClInclude>
   </ItemGroup>

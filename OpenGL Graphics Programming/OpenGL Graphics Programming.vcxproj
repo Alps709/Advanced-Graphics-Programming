@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="clock.cpp" />
+    <ClCompile Include="Cube.cpp" />
     <ClCompile Include="CubeMap.cpp" />
     <ClCompile Include="FastNoise.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -171,6 +172,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="clock.h" />
+    <ClInclude Include="Cube.h" />
     <ClInclude Include="CubeMap.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="FastNoise.h" />

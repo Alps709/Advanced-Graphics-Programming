@@ -32,9 +32,7 @@ GameManager::GameManager()
 	m_grassTerrain = new Terrain(128, 128, glm::vec3(0.0f), m_grassTexture);
 	m_waterTerrain = new WaterTerrain(128, 128, glm::vec3(0.0f), m_grassTexture, m_noiseTexture);
 
-	//Set sphere mesh and texture
-	m_sphereMesh = new SphereMesh();
-	m_sphereTexture = new Texture("Resources/Textures/Grass.png", 0);
+	m_cube = new Cube(glm::vec3(70.0f, 5.0f, 70.0f), m_grassTexture);
 
 	//Create the text objects
 	m_fpsText = new TextLabel("FPS: ", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.HSCREEN_WIDTH + 20.0f, inputManager.HSCREEN_HEIGHT * 0.5f));
@@ -51,8 +49,6 @@ GameManager::~GameManager()
 	//Delete all the heap allocated objects and clean up others
 	m_yeatSound->release();
 	m_audioSystem->release();
-	delete m_sphereMesh;
-	delete m_sphereTexture;
 	delete m_sphereShader;
 	delete m_sphereRimLightShader;
 	delete m_sphereCubeMapReflectShader;
@@ -69,6 +65,7 @@ GameManager::~GameManager()
 	delete m_camera;
 	delete m_grassTerrain;
 	delete m_waterTerrain;
+	delete m_cube;
 }
 
 void GameManager::AudioInitialise()
@@ -199,7 +196,7 @@ void GameManager::Update()
 void GameManager::Render()
 {
 	//Clear the screen before every frame
-	GLCall(glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT| GL_COLOR_BUFFER_BIT));
+	GLCall(glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT| GL_COLOR_BUFFER_BIT | GL_SCISSOR_BUFFER_BIT));
 
 	//Draw CubeMap
 	m_CubeMap.Render(*m_camera, m_FogRenderMode);
@@ -214,7 +211,7 @@ void GameManager::Render()
 	//Render game play state non-transparent here
 	else if (m_gameState == GAME_PLAY)
 	{
-		
+		m_cube->Render(*m_camera, m_FogRenderMode);
 	}
 
 	///Render transparent objects last

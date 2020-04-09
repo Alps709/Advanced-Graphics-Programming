@@ -56,7 +56,7 @@ void CubeMap::Initialise()
 	//Generate vbo
 	GLCall(glGenBuffers(1, &m_vboID));
 	GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_vboID));
-	GLCall(glBufferData(GL_ARRAY_BUFFER, Objects::verticesCube.size() * sizeof(float), static_cast<const void*>(Objects::verticesCube.data()), GL_STATIC_DRAW));
+	GLCall(glBufferData(GL_ARRAY_BUFFER, Objects::verticesCubeMap.size() * sizeof(float), static_cast<const void*>(Objects::verticesCubeMap.data()), GL_STATIC_DRAW));
 
 	//Generate ibo
 	GLCall(glGenBuffers(1, &m_iboID));

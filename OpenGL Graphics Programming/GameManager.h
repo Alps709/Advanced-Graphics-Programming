@@ -7,6 +7,7 @@
 #include "Model.h"
 #include "Terrain.h"
 #include "WaterTerrain.h"
+#include "Cube.h"
 
 #include <fmod.hpp>
 #include "SphereMesh.h"
@@ -53,11 +54,9 @@ private:
 	Terrain* m_grassTerrain = nullptr;
 	WaterTerrain* m_waterTerrain = nullptr;
 
-	///Characters
-	//SphereMesh
-	Object m_sphereObject;
-	SphereMesh* m_sphereMesh = nullptr;
-	Texture* m_sphereTexture = nullptr;
+	///Objects
+	Cube* m_cube = nullptr;
+
 
 	//Game terrain textures
 	Texture* m_grassTexture = nullptr;

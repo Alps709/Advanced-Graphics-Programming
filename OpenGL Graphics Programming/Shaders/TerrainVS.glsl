@@ -6,7 +6,6 @@ layout (location = 2) in vec2 textureCoord;
 
 uniform mat4 u_PVM;
 uniform mat4 u_modelMat;
-uniform vec3 u_camPos;
 
 uniform sampler2D u_grassTex;
 
