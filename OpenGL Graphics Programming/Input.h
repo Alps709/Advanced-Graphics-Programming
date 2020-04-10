@@ -22,33 +22,32 @@ namespace
 
 	void MouseClick(int _button, int _state, int _x, int _y)
 	{
-		//Move co-ords from (0, 0) at top left, to (0, 0) at middle of screen
-		_x -= (int)(inputManager.HSCREEN_WIDTH);
-		_y -= (int)(inputManager.HSCREEN_HEIGHT);
-
-		//Invert y axis
-		_y *= -1;
-
-		//We are not using any buttons higher than 2, so don't bother doing anything
-		if (_button > 2)
-		{
-			return;
-		}
-
-		//Get the x and y difference since last frame
-		inputManager.g_mousePosDifX = _x - inputManager.g_mousePosX;
-		inputManager.g_mousePosDifY = _y - inputManager.g_mousePosY;
-
-
 		if (!inputManager.CAMERA_FREEEVIEW_MODE)
 		{
-			inputManager.g_mousePosX = _x;
+			//Convert current screen width and height mouse co-ords to 
+			//Move co-ords from (0, 0) at top left, to (0, 0) at middle of screen
+			//(remaps screen size mouse coords to opengl pixel coords)
+			_x = (int)(Math::remap(_x, -inputManager.TRUE_HSCREEN_WIDTH, inputManager.TRUE_HSCREEN_WIDTH, -inputManager.HSCREEN_WIDTH, inputManager.HSCREEN_WIDTH) - inputManager.HSCREEN_WIDTH);
+			_y = (int)(Math::remap(_y, -inputManager.TRUE_HSCREEN_HEIGHT, inputManager.TRUE_HSCREEN_HEIGHT, -inputManager.HSCREEN_HEIGHT, inputManager.HSCREEN_HEIGHT) - inputManager.HSCREEN_HEIGHT);
 
+			//Invert y axis
+			_y *= -1;
+
+			inputManager.g_mousePosX = _x;
 			inputManager.g_mousePosY = _y;
 		}
 		else
 		{
-			//Warp the mouse to the middle of the screen
+			//Move co-ords from (0, 0) at top left, to (0, 0) at middle of screen
+			_x -= (int)(inputManager.HSCREEN_WIDTH);
+			_y -= (int)(inputManager.HSCREEN_HEIGHT);
+
+			//Invert y axis
+			_y *= -1;
+
+			inputManager.g_mousePosDifX = _x - inputManager.g_mousePosX;
+			inputManager.g_mousePosDifY = _y - inputManager.g_mousePosY;
+
 			glutWarpPointer((int)inputManager.HSCREEN_WIDTH, (int)inputManager.HSCREEN_HEIGHT);
 			inputManager.g_mousePosX = 0;
 			inputManager.g_mousePosY = 0;
