@@ -18,16 +18,17 @@ public:
 
 	//Getters
 	glm::vec3 GetPosition() const { return m_position; }
+	glm::vec3 GetScale() const { return m_scale; }
+	Mesh* GetMesh() const { return m_mesh; }
+	glm::mat4 GetModelMat() const { return m_modelMat; }
+	virtual double GetRadius() const { return m_colliderRadius; };
 
 	//Setters
 	void SetPosition(glm::vec3 _pos);
 	void SetTexture0(Texture* _tex);
 	void SetTexture1(Texture* _tex);
 
-	//Getters
-	Mesh* GetMesh() const { return m_mesh; }
-	glm::mat4 GetModelMat() const { return m_modelMat; }
-	virtual double GetRadius() const { return m_colliderRadius; };
+	
 
 
 	//Change m_position, rotation and m_scale

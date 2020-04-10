@@ -32,6 +32,9 @@ public:
 	void Update();
 	void Render();
 
+	void FindCurrentIntersectedObject();
+
+
 	inline static GameState m_gameState = GAME_MENU;
 
 private:
@@ -55,6 +58,9 @@ private:
 	//Terrain
 	Terrain* m_grassTerrain = nullptr;
 	WaterTerrain* m_waterTerrain = nullptr;
+
+	//The current object in the world that's being intersected by the mouse
+	Object* m_currentIntersected = nullptr;
 
 	///Objects
 	Cube* m_cube = nullptr;

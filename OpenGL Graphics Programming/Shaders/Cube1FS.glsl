@@ -23,7 +23,7 @@ vec4 vFogColor = vec4(0.5f, 0.5f, 0.5f, 1.0f);
 void main(void)
 {
 	float d = distance(mWorldPos.xyz, u_camPos);
-	float lerp = (d - 5.0f)/100.0f;
+	float lerp = (d - 5.0f)/50.0f;
 	lerp = clamp(lerp, 0.0f, 1.0f);
 
 	vec4 finalColour;

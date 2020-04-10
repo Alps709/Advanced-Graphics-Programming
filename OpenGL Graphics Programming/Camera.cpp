@@ -7,7 +7,7 @@ Camera::Camera(bool isFreeView)
 	m_camPosition(glm::vec3{ 64.0f, 5.0f, 64.0f }),
 	m_camLookDir(glm::vec3{0.0f, 0.0f, -1.0f}),
 	m_worldUp(glm::vec3{ 0.0f, 1.0f, 0.0f }), 
-	m_camYaw(0.0f), m_camPitch(0), m_camRoll(0), m_camSpeed(0.01f), m_mouseSens(0.5f),
+	m_camYaw(0.0f), m_camPitch(0), m_camRoll(0), m_camSpeed(0.01f), m_mouseSens(0.2f),
 	m_viewMat(glm::lookAt(m_camPosition, m_camPosition + m_camLookDir, m_worldUp)),
 	m_perspectiveProjectionMat(glm::perspective(glm::radians(90.0f), 1280.0f/720.0f, 0.1f, 1000000.0f))
 {

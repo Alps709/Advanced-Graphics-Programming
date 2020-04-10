@@ -5,7 +5,10 @@
 
 #include <fmod.h>
 
-bool RaySphereIntersection(Object& _object, Camera& _camera, glm::vec3 _rayDir);
+glm::vec3 tempVec{};
+bool RaySphereIntersection(const Object& _object, const Camera& _camera, glm::vec3 _rayDir, glm::vec3& _intersectionPoint);
+bool RayAABBIntersection(const Object& _object, const Camera& _camera, glm::vec3 _rayDir, glm::vec3& _intersectionPoint);
+
 
 GameManager::GameManager()
 {
@@ -163,14 +166,14 @@ void GameManager::ProcessInput()
 	//Mouse Input
 	if (inputManager.MouseState[0] == INPUT_DOWN)
 	{	//Left click
-		if (RaySphereIntersection(*m_cube1, *m_camera, m_mousePicker.GetRay()))
-		{
-			m_cube->ChangePRS(-0.01f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-		}
 
-		if (RaySphereIntersection(*m_cube2, *m_camera, m_mousePicker.GetRay()))
+		if (m_currentIntersected == m_cube1)
 		{
 			m_cube->ChangePRS(0.01f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+		}
+		else if (m_currentIntersected == m_cube2)
+		{
+			m_cube->ChangePRS(-0.01f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
 		}
 	}
 }
@@ -192,14 +195,19 @@ void GameManager::Update()
 	m_camera->ProcessInput(deltaTime);
 
 	m_mousePicker.UpdateRay(*m_camera);
+	
+	FindCurrentIntersectedObject();
 
 	ProcessInput();
 
 	//Update game play state here
 	if (m_gameState == GAME_PLAY)
 	{
-		m_cube1->m_useStencil = RaySphereIntersection(*m_cube1, *m_camera, m_mousePicker.GetRay());
-		m_cube2->m_useStencil = RaySphereIntersection(*m_cube2, *m_camera, m_mousePicker.GetRay());
+		if (m_currentIntersected)
+		{
+			dynamic_cast<Cube*>(m_currentIntersected)->m_useStencil = true;
+		}
+
 	}
 
 	//Update sounds
@@ -235,6 +243,7 @@ void GameManager::Render()
 	else if (m_gameState == GAME_PLAY)
 	{
 		
+
 	}
 
 	///Render transparent objects last
@@ -253,11 +262,85 @@ void GameManager::Render()
 		m_fpsText->Render();
 	}
 
+	glBegin(GL_LINES);
+	glVertex2f(-0.05f, 0.0f);
+	glVertex2f( 0.05f, 0.0f);
+	glVertex2f( 0.0f, 0.08f);
+	glVertex2f( 0.0f,-0.08f);
+	glEnd();
+
 	glutSwapBuffers();
 	u_frameNum++;
 }
 
-bool RaySphereIntersection(Object& _object, Camera& _camera, glm::vec3 _rayDir)
+void GameManager::FindCurrentIntersectedObject()
+{
+	//Check what object we intersected with first
+	glm::vec3 intersectionPoint1;
+	glm::vec3 intersectionPoint2;
+
+	bool intersected1 = false;
+	bool intersected2 = false;
+
+	//Move the cube along the -x axis if we are clicking on cube1
+	intersected1 = RayAABBIntersection(*m_cube1, *m_camera, m_mousePicker.GetRay(), intersectionPoint1);
+
+	//Move the cube along the +x axis if we are clicking on cube2
+	intersected2 = RayAABBIntersection(*m_cube2, *m_camera, m_mousePicker.GetRay(), intersectionPoint2);
+
+	//Calculate which cube to move based on which intersection point is closest
+	if (intersected1 && intersected2)
+	{
+		float intersectionDistance1 = glm::length(intersectionPoint1 - m_camera->GetPosition());
+		float intersectionDistance2 = glm::length(intersectionPoint2 - m_camera->GetPosition());
+
+		if (intersectionDistance1 < intersectionDistance2)
+		{
+			if (m_currentIntersected)
+			{
+				dynamic_cast<Cube*>(m_currentIntersected)->m_useStencil = false;
+			}
+			m_currentIntersected = m_cube1;
+			return;
+		}
+		else
+		{
+			if (m_currentIntersected)
+			{
+				dynamic_cast<Cube*>(m_currentIntersected)->m_useStencil = false;
+			}
+			m_currentIntersected = m_cube2;
+			return;
+		}
+	}
+	else if (intersected1)
+	{
+		if (m_currentIntersected)
+		{
+			dynamic_cast<Cube*>(m_currentIntersected)->m_useStencil = false;
+		}
+		m_currentIntersected = m_cube1;
+		return;
+	}
+	else if (intersected2)
+	{
+		if (m_currentIntersected)
+		{
+			dynamic_cast<Cube*>(m_currentIntersected)->m_useStencil = false;
+		}
+		m_currentIntersected = m_cube2;
+		return;
+	}
+
+
+	if (m_currentIntersected)
+	{
+		dynamic_cast<Cube*>(m_currentIntersected)->m_useStencil = false;
+	}
+	m_currentIntersected = nullptr;
+}
+
+bool RaySphereIntersection(const Object& _object, const Camera& _camera, glm::vec3 _rayDir, glm::vec3& _intersectionPoint)
 {
 	float radius = (float)_object.GetRadius();
 	glm::vec3 rayOrigin = _camera.GetPosition();
@@ -274,16 +357,72 @@ bool RaySphereIntersection(Object& _object, Camera& _camera, glm::vec3 _rayDir)
 	if (y < radius)
 	{
 		//The y is less than the radius so we collided with the sphere!
-		return true;
-		
+
 		//This code finds the distance along the ray where the two intersections are
 		//t1 is the closest intersection, t2 is the furtherest intersection
-		//float x = sqrt(radius * radius - y * y);
+		float x = sqrt(radius * radius - y * y);
 
-		//float t1 = t - x;
-		//float t2 = t + x;
+		//If the distance to the first intersection is greater or equal to 0 then we hit this intersection first
+		if (t-x >= 0)
+		{
+			_intersectionPoint = rayOrigin + _rayDir * (t - x);
+			return true;
+		}
+		//If the distance to the second intersection point is greater or equal to 0 then we hit this intersection first
+		else if (t + x >= 0)
+		{
+			_intersectionPoint = rayOrigin + _rayDir * (t + x);
+		}
+		//If the distance to the second intersection point is less than 0 then the intersection is behind us and we did not intersect
 	}
 	//The distance to the closest point on the ray was larger than the sphere radius
 	//So there is no intersection
 	return false;
+}
+
+bool RayAABBIntersection(const Object& _object, const Camera& _camera, glm::vec3 _rayDir, glm::vec3& _intersectionPoint)
+{
+	glm::vec3 rayOrigin = _camera.GetPosition();
+	glm::vec3 objScale = _object.GetScale() / 2.0f;
+
+	//Left bottom point of the object AABB
+	glm::vec3 lb = glm::vec3(-objScale.x, -objScale.y, -objScale.z);
+	lb += _object.GetPosition();
+
+	//Right top point of the object AABB
+	glm::vec3 rt = glm::vec3(objScale.x, objScale.y, objScale.z);
+	rt += _object.GetPosition();
+
+	//Precalcualte for optimization
+	glm::vec3 dirfrac = 1.0f / _rayDir;
+
+	//t is the distance until intersection
+	float t;
+	float t1 = (lb.x - rayOrigin.x) * dirfrac.x;
+	float t2 = (rt.x - rayOrigin.x) * dirfrac.x;
+	float t3 = (lb.y - rayOrigin.y) * dirfrac.y;
+	float t4 = (rt.y - rayOrigin.y) * dirfrac.y;
+	float t5 = (lb.z - rayOrigin.z) * dirfrac.z;
+	float t6 = (rt.z - rayOrigin.z) * dirfrac.z;
+
+	float tmin = max(max(min(t1, t2), min(t3, t4)), min(t5, t6));
+	float tmax = min(min(max(t1, t2), max(t3, t4)), max(t5, t6));
+
+	// if tmax < 0, ray (line) is intersecting AABB, but the whole AABB is behind us
+	if (tmax < 0)
+	{
+		t = tmax;
+		return false;
+	}
+
+	// if tmin > tmax, ray doesn't intersect AABB
+	if (tmin > tmax)
+	{
+		t = tmax;
+		return false;
+	}
+
+	t = tmin;
+	_intersectionPoint = rayOrigin + _rayDir * t;
+	return true;
 }
