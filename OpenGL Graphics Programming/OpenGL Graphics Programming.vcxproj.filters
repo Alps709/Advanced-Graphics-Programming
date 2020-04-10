@@ -107,6 +107,9 @@
     <ClCompile Include="Cube.cpp">
       <Filter>Source Files\Object stuff\Objects\Derived</Filter>
     </ClCompile>
+    <ClCompile Include="MousePicker.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VertexBufferInfo.h">
@@ -180,6 +183,9 @@
     </ClInclude>
     <ClInclude Include="Cube.h">
       <Filter>Source Files\Object stuff\Objects\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="MousePicker.h">
+      <Filter>Source Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

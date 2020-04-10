@@ -1,5 +1,6 @@
 #pragma once
 #include "clock.h"
+#include "MousePicker.h"
 #include "TextLabel.h"
 #include "Texture.h"
 #include "Object.h"
@@ -7,11 +8,10 @@
 #include "Model.h"
 #include "Terrain.h"
 #include "WaterTerrain.h"
-#include "Cube.h"
 
 #include <fmod.hpp>
-#include "SphereMesh.h"
 
+class Cube;
 
 enum GameState
 {
@@ -42,7 +42,9 @@ private:
 	
 	//Clock
 	CClock m_clock;
-	double m_boidSpawnTimer = 0.0;
+
+	//Mouse picker
+	MousePicker m_mousePicker;
 
 	//Camera
 	Camera* m_camera = nullptr;
@@ -56,7 +58,8 @@ private:
 
 	///Objects
 	Cube* m_cube = nullptr;
-
+	Cube* m_cube1 = nullptr;
+	Cube* m_cube2 = nullptr;
 
 	//Game terrain textures
 	Texture* m_grassTexture = nullptr;

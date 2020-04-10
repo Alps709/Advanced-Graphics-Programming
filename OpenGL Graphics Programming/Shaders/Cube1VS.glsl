@@ -5,8 +5,6 @@ layout (location = 1) in vec4 colour;
 layout (location = 2) in vec2 textureCoord;
 
 uniform mat4 u_PVM;
-uniform mat4 u_projMat;
-uniform mat4 u_viewMat;
 uniform mat4 u_modelMat;
 
 uniform sampler2D u_grassTex;

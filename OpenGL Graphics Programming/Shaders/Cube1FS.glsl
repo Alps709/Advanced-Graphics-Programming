@@ -1,7 +1,6 @@
 #version 450 core
 
 //Vertex inputs
-in vec3 fragmentPos;
 in vec4 fragmentColour;
 in vec2 fragmentTextureCoord;
 in vec4 mWorldPos;
@@ -13,18 +12,19 @@ out vec4 colour;
 uniform sampler2D u_grassTex;
 
 uniform vec3 u_camPos;
+uniform vec3 u_cubeColour;
 uniform bool u_fogRenderMode;
 uniform bool u_stencilOutline;
 
-vec4 stencilOutlineColour = vec4(1.0f, 0.0f, 0.0f, 1.0f);
+vec4 stencilOutlineColour = vec4(1.0f, 1.0f, 0.0f, 1.0f);
 
 vec4 vFogColor = vec4(0.5f, 0.5f, 0.5f, 1.0f);
 
 void main(void)
 {
 	float d = distance(mWorldPos.xyz, u_camPos);
-	float lerp = (d - 5.0f)/100.f;
-	lerp = clamp(lerp, 0.0, 1.0);
+	float lerp = (d - 5.0f)/100.0f;
+	lerp = clamp(lerp, 0.0f, 1.0f);
 
 	vec4 finalColour;
 
@@ -34,7 +34,7 @@ void main(void)
 	}
 	else
 	{
-		finalColour = texture(u_grassTex, fragmentTextureCoord);
+		finalColour = vec4(u_cubeColour, 1.0f) + texture(u_grassTex, fragmentTextureCoord) * vec4(u_cubeColour, 1.0f);
 	}
 
 	if(u_fogRenderMode)

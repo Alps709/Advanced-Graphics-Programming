@@ -46,7 +46,7 @@ protected:
 	glm::vec3 m_position{0.0f, 0.0f, 0.0f};
 	float m_rotationZ = 0.0f;
 	glm::vec3 m_scale{ 1.0f, 1.0f, 1.0f };
-	double m_colliderRadius = 10.0f;
+	double m_colliderRadius = 1.0f;
 
 	glm::mat4 m_modelMat = glm::mat4(1.0f);
 

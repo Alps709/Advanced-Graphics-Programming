@@ -1,9 +1,11 @@
 #include "GameManager.h"
 #include "Obj.h"
-
-#include <fmod.h>
+#include "Cube.h"
 #include "Input.h"
 
+#include <fmod.h>
+
+bool RaySphereIntersection(Object& _object, Camera& _camera, glm::vec3 _rayDir);
 
 GameManager::GameManager()
 {
@@ -32,7 +34,9 @@ GameManager::GameManager()
 	m_grassTerrain = new Terrain(128, 128, glm::vec3(0.0f), m_grassTexture);
 	m_waterTerrain = new WaterTerrain(128, 128, glm::vec3(0.0f), m_grassTexture, m_noiseTexture);
 
-	m_cube = new Cube(glm::vec3(70.0f, 5.0f, 70.0f), m_grassTexture);
+	m_cube = new Cube(glm::vec3(70.0f, 5.0f, 64.0f), m_grassTexture, glm::vec4(0.1f, 0.1f, 0.7f, 1.0f), true);
+	m_cube1 = new Cube(glm::vec3(70.0f, 5.0f, 60.0f), m_grassTexture, glm::vec4(0.7f, 0.1f, 0.1f, 1.0f), false);
+	m_cube2 = new Cube(glm::vec3(70.0f, 5.0f, 68.0f), m_grassTexture, glm::vec4(0.1f, 0.4f, 0.1f, 1.0f), false);
 
 	//Create the text objects
 	m_fpsText = new TextLabel("FPS: ", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.HSCREEN_WIDTH + 20.0f, inputManager.HSCREEN_HEIGHT * 0.5f));
@@ -67,7 +71,9 @@ GameManager::~GameManager()
 	delete m_grassTerrain;
 	delete m_waterTerrain;
 	delete m_cube;
-}
+	delete m_cube1;
+	delete m_cube2;
+}		   
 
 void GameManager::AudioInitialise()
 {
@@ -155,9 +161,10 @@ void GameManager::ProcessInput()
 	}
 
 	//Mouse Input
-	if (inputManager.MouseState[0] == INPUT_DOWN_FIRST)
+	if (inputManager.MouseState[0] == INPUT_DOWN)
 	{	//Left click
 
+		
 	}
 }
 
@@ -176,12 +183,16 @@ void GameManager::Update()
 	m_fpsText->SetText(tempText);
 
 	m_camera->ProcessInput(deltaTime);
+
+	m_mousePicker.UpdateRay(*m_camera);
+
 	ProcessInput();
 
 	//Update game play state here
 	if (m_gameState == GAME_PLAY)
 	{
-
+		m_cube1->m_useStencil = RaySphereIntersection(*m_cube1, *m_camera, m_mousePicker.GetRay());
+		m_cube2->m_useStencil = RaySphereIntersection(*m_cube2, *m_camera, m_mousePicker.GetRay());
 	}
 
 	//Update sounds
@@ -204,6 +215,10 @@ void GameManager::Render()
 
 	m_grassTerrain->Render(*m_camera, m_clock.GetTimeElapsedMS(), m_FogRenderMode);
 
+	m_cube->Render(*m_camera, m_FogRenderMode);
+	m_cube1->Render(*m_camera, m_FogRenderMode);
+	m_cube2->Render(*m_camera, m_FogRenderMode);
+
 	//Render game menu non transparent here
 	if (m_gameState == GAME_MENU)
 	{
@@ -212,7 +227,7 @@ void GameManager::Render()
 	//Render game play state non-transparent here
 	else if (m_gameState == GAME_PLAY)
 	{
-		m_cube->Render(*m_camera, m_FogRenderMode);
+		
 	}
 
 	///Render transparent objects last
@@ -233,4 +248,30 @@ void GameManager::Render()
 
 	glutSwapBuffers();
 	u_frameNum++;
+}
+
+bool RaySphereIntersection(Object& _object, Camera& _camera, glm::vec3 _rayDir)
+{
+	float radius = 1.0f; // (float)_object.GetRadius();
+	glm::vec3 v = _object.GetPosition() - _camera.GetPosition();
+	float a = glm::dot(_rayDir, _rayDir);
+	float b = 2 * glm::dot(v, _rayDir);
+	float c = glm::dot(v, v) - radius * radius;
+	float d = b * b - 4 * a * c;
+
+	if (d > 0) 
+	{
+		float x1 = (-b - sqrt(d)) / 2;
+		float x2 = (-b + sqrt(d)) / 2;
+
+		if ((x1 >= 0 && x2 >= 0) || (x1 < 0 && x2 >= 0))
+		{
+			return true; // intersects
+		}
+	}
+	else if (d <= 0) 
+	{
+		return false;// no intersection
+	}
+	return false;
 }

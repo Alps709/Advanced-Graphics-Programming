@@ -1,13 +1,14 @@
 #include "Cube.h"
 #include "Obj.h"
 
-Cube::Cube(glm::vec3 _position, Texture* _texture)
+Cube::Cube(glm::vec3 _position, Texture* _texture, glm::vec4 _colour, bool _useStencil)
 {
 	m_mesh = new Mesh(Objects::verticesCube, Objects::indicesCube);
 	m_shader = new Shader("Shaders/Cube1VS.glsl", "Shaders/Cube1FS.glsl");
 	m_position = _position;
 	m_tex0 = _texture;
-
+	m_colour = _colour;
+	m_useStencil = _useStencil;
 
 	//Update the stored model matrix
 	UpdateModelMat();
@@ -31,22 +32,24 @@ void Cube::SetShaderUniforms(Camera& _myCamera, bool _fogRenderMode, bool _stenc
 	m_shader->SetUniformMat4f("u_PVM", pvmMat);
 	m_shader->SetUniformMat4f("u_modelMat", modelMat);
 	m_shader->SetUniform3f("u_camPos", camPos);
+	m_shader->SetUniform3f("u_cubeColour", glm::vec3(m_colour));
 	m_shader->SetUniform1i("u_fogRenderMode", _fogRenderMode);
 	m_shader->SetUniform1i("u_stencilOutline", _stencilOutline);
 }
 
 void Cube::Render(Camera& _myCamera, bool _fogRenderMode)
 {
-	glEnable(GL_STENCIL_TEST);
-	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE); //stPass, dpFail, bothPass 
+	if (m_useStencil)
+	{
+		glEnable(GL_STENCIL_TEST);
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE); //stPass, dpFail, bothPass 
+
+		glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		glStencilMask(0xFF); //enable writing to stencil buffer
+	}
+
 	
-	glStencilFunc(GL_ALWAYS, 1, 0xFF);
-	glStencilMask(0xFF); //enable writing to stencil buffer
-
 	///OBJECT DRAW
-	this->SetPRS(70, 5, 70, 0.0f, 1.0f, 1.0f, 1.0f);
-	this->UpdateModelMat();
-
 	//Bind the mesh that all the model will use
 	m_mesh->Bind();
 	m_shader->Bind();
@@ -63,32 +66,38 @@ void Cube::Render(Camera& _myCamera, bool _fogRenderMode)
 	Mesh::Unbind();
 	Shader::Unbind();
 
-	glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-	glStencilMask(~0); //disable writing to stencil buffer
-	
+	if (m_useStencil)
+	{
+		glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+		glStencilMask(~0); //disable writing to stencil buffer
 
-	///STENCIL OUTLINE DRAW
-	this->SetPRS(m_position.x, m_position.y, m_position.z, 0.0f, 1.2f, 1.2f, 1.2f);
-	this->UpdateModelMat();
 
-	//Bind the mesh that all the model will use
-	m_mesh->Bind();
-	m_shader->Bind();
+		///STENCIL OUTLINE DRAW
+		this->SetPRS(m_position.x, m_position.y, m_position.z, m_rotationZ, 1.2f, 1.2f, 1.2f);
+		this->UpdateModelMat();
 
-	//Prepare the object for drawing
-	SetShaderUniforms(_myCamera, _fogRenderMode, true);
+		//Bind the mesh that all the model will use
+		m_mesh->Bind();
+		m_shader->Bind();
 
-	//Bind grass texture
-	BindTexture(0);
+		//Prepare the object for drawing
+		SetShaderUniforms(_myCamera, _fogRenderMode, true);
 
-	//Draw the object
-	GLCall(glDrawElements(GL_TRIANGLES, m_mesh->GetindicesCount(), GL_UNSIGNED_INT, static_cast<void*>(0)));
+		//Bind grass texture
+		BindTexture(0);
 
-	Mesh::Unbind();
-	Shader::Unbind();
+		//Draw the object
+		GLCall(glDrawElements(GL_TRIANGLES, m_mesh->GetindicesCount(), GL_UNSIGNED_INT, static_cast<void*>(0)));
 
-	//disable writing to stencil mask
-	//glStencilMask(0x00);
-	glStencilMask(~0);
-	glDisable(GL_STENCIL_TEST);
+		Mesh::Unbind();
+		Shader::Unbind();
+
+		//disable writing to stencil mask
+		glStencilMask(~0);
+		glDisable(GL_STENCIL_TEST);
+
+		//Reset its size
+		this->SetPRS(m_position.x, m_position.y, m_position.z, m_rotationZ, 1.0f, 1.0f, 1.0f);
+		this->UpdateModelMat();
+	}
 }
