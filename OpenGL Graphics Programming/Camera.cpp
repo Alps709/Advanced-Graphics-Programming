@@ -29,7 +29,8 @@ void Camera::SetPosition(glm::vec3 _newPos)
 
 void Camera::SetLookDirection(glm::vec3 _newLookDirection)
 {
-	m_camLookDir = _newLookDirection;
+	m_camYaw = _newLookDirection.y;
+	m_camPitch = _newLookDirection.x;
 	UpdateVectors();
 	UpdateView();
 }
@@ -44,20 +45,11 @@ void Camera::SetFreeView(bool isFreeView)
 	{
 		//Turn off cursor
 		glutSetCursor(GLUT_CURSOR_NONE);
-		inputManager.g_mousePosX = 0;
-		inputManager.g_mousePosY = 0;
-		inputManager.g_mousePosDifX = 0;
-		inputManager.g_mousePosDifY = 0;
 	}
 	else
 	{
 		//Turn on cursor
 		glutSetCursor(GLUT_CURSOR_BOTTOM_SIDE);
-		inputManager.g_mousePosX = 0;
-		inputManager.g_mousePosY = 0;
-		inputManager.g_mousePosDifX = 0;
-		inputManager.g_mousePosDifY = 0;
-
 		ResetView();
 	}
 }
@@ -70,6 +62,15 @@ void Camera::ResetView()
 	m_camPitch = 0.0f;
 	m_camRoll = 0.0f;
 	m_camPosition = glm::vec3(64.0f, 5.0f, 64.0f);
+
+	inputManager.g_mousePosX = 0;
+	inputManager.g_mousePosY = 0;
+	inputManager.g_mousePosDifX = 0;
+	inputManager.g_mousePosDifY = 0;
+
+	//Update the vectors from the mouse input
+	UpdateVectors();
+	UpdateView();
 }
 
 void Camera::UpdateView()
@@ -97,12 +98,6 @@ void Camera::UpdateVectors()
 
 void Camera::ProcessInput(double _deltaTime)
 {
-	//Change the camera projection
-	if (!freeView && inputManager.KeyState[13] == inputManager.INPUT_DOWN_FIRST)
-	{
-		SetFreeView(!freeView);
-	}
-
 	if (freeView)
 	{
 		//Move the camera forward with the w button

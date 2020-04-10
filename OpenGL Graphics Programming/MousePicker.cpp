@@ -10,8 +10,8 @@ InputManager& inputManager = InputManager::getInstance();
 void MousePicker::UpdateRay(Camera& _camera)
 {
 	//Get normalised device co-ords
-	int ndcMouseX = (int)Math::remap(inputManager.g_mousePosX, -inputManager.HSCREEN_WIDTH, inputManager.HSCREEN_WIDTH, -1.0, 1.0);
-	int ndcMouseY = (int)Math::remap(inputManager.g_mousePosY, -inputManager.HSCREEN_HEIGHT, inputManager.HSCREEN_HEIGHT, -1.0, 1.0);
+	double ndcMouseX = Math::remap(inputManager.g_mousePosX, -inputManager.HSCREEN_WIDTH, inputManager.HSCREEN_WIDTH, -1.0, 1.0);
+	double ndcMouseY = Math::remap(inputManager.g_mousePosY, -inputManager.HSCREEN_HEIGHT, inputManager.HSCREEN_HEIGHT, -1.0, 1.0);
 
 	//screen pos
 	glm::vec2 normalizedScreenPos = glm::vec2(ndcMouseX, ndcMouseY);

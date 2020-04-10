@@ -26,7 +26,6 @@ public:
 	GameManager();
 	~GameManager();
 
-	void AudioInitialise();
 	void ProcessInput();
 
 	void Update();
@@ -34,6 +33,7 @@ public:
 
 	void FindCurrentIntersectedObject();
 
+	void Reset();
 
 	inline static GameState m_gameState = GAME_MENU;
 
@@ -73,24 +73,11 @@ private:
 
 	//Shaders
 	Shader* m_defaultShader = nullptr;
-	Shader* m_sphereShader = nullptr;
-	Shader* m_sphereRimLightShader = nullptr;
-	Shader* m_sphereCubeMapReflectShader = nullptr;
-	Shader* m_tankModelShader = nullptr;
 
 	//Text
 	TextLabel* m_menuTitleText = nullptr;
 	TextLabel* m_menuInstructText = nullptr;
-	TextLabel* m_overText = nullptr;
-	TextLabel* m_overScoreText = nullptr;
 	TextLabel* m_fpsText = nullptr;
-	TextLabel* m_timeText = nullptr;
-
-	//Audio
-	inline static FMOD::System* m_audioSystem = nullptr;
-	inline static FMOD::Sound* m_yeatSound = nullptr;
-	inline static FMOD::Sound* m_shoopSound = nullptr;
-	inline static FMOD::Sound* m_trackBackground = nullptr;
 
 	//Uniforms
 	GLfloat u_currentTime = 0;

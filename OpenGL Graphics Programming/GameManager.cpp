@@ -20,9 +20,6 @@ GameManager::GameManager()
 
 	//Create defaut shader
 	m_defaultShader = new Shader();
-	m_sphereShader = new Shader("Shaders/SphereVS.glsl", "Shaders/SphereFS.glsl");
-	m_sphereRimLightShader = new Shader("Shaders/SphereRimLightVS.glsl", "Shaders/SphereRimLightFS.glsl");
-	m_sphereCubeMapReflectShader = new Shader("Shaders/CubeMapReflectVS.glsl", "Shaders/CubeMapReflectFS.glsl");
 
 	//Create Cube map
 	m_CubeMap.Initialise();
@@ -43,8 +40,8 @@ GameManager::GameManager()
 
 	//Create the text objects
 	m_fpsText = new TextLabel("FPS: ", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.HSCREEN_WIDTH + 20.0f, inputManager.HSCREEN_HEIGHT * 0.5f));
-	m_menuTitleText = new TextLabel("Graphics showcase!", "Resources/Fonts/kirbyss.ttf", glm::vec2(-625, 160), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f);
-	m_menuInstructText = new TextLabel("Press enter to continue", "Resources/Fonts/kirbyss.ttf", glm::vec2(-600, -200), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f);
+	m_menuTitleText = new TextLabel("Graphics showcase!", "Resources/Fonts/arial.ttf", glm::vec2(-625, 160), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f);
+	m_menuInstructText = new TextLabel("Press enter to continue", "Resources/Fonts/arial.ttf", glm::vec2(-600, -200), glm::vec3(0.0f, 1.0f, 1.0f), 1.5f);
 
 	//Create the camera
 	//Set freeview to false at the start
@@ -55,18 +52,9 @@ GameManager::GameManager()
 GameManager::~GameManager()
 {
 	//Delete all the heap allocated objects and clean up others
-	m_yeatSound->release();
-	m_audioSystem->release();
-	delete m_sphereShader;
-	delete m_sphereRimLightShader;
-	delete m_sphereCubeMapReflectShader;
-	delete m_tankModelShader;
 	delete m_fpsText;
-	delete m_overText;
-	delete m_overScoreText;
 	delete m_menuTitleText;
 	delete m_menuInstructText;
-	delete m_timeText;
 	delete m_grassTexture;
 	delete m_noiseTexture;
 	delete m_defaultShader;
@@ -78,55 +66,6 @@ GameManager::~GameManager()
 	delete m_cube2;
 }		   
 
-void GameManager::AudioInitialise()
-{
-	FMOD_RESULT result;
-	//Initialise the m_audioSystem
-	result = FMOD::System_Create(&m_audioSystem);
-	if (result != FMOD_OK)
-	{
-		std::cout << "Audio system failed to initialise!";
-		return;
-	}
-
-	result = m_audioSystem->init(100, FMOD_INIT_NORMAL | FMOD_INIT_3D_RIGHTHANDED, 0);
-	if (result != FMOD_OK)
-	{
-		std::cout << "Audio system failed to initialise!";
-	}
-	else
-	{
-		result = m_audioSystem->createSound("Resources/Audio/yeat.wav", FMOD_DEFAULT, 0, &m_yeatSound);
-		if (result != FMOD_OK)
-		{
-			std::cout << "Failed to load sound: yeat.wav" << std::endl;
-		}
-
-		result = m_audioSystem->createSound("Resources/Audio/shoop.wav", FMOD_DEFAULT, 0, &m_shoopSound);
-		if (result != FMOD_OK)
-		{
-			std::cout << "Failed to load sound: shoop.wav" << std::endl;
-		}
-
-		//Create background music
-		result = m_audioSystem->createSound("Resources/Audio/Jet Set Run.mp3", FMOD_LOOP_NORMAL, 0, &m_trackBackground);
-		if (result != FMOD_OK)
-		{
-			std::cout << "Failed to load sound: Jet Set Run.mp3" << std::endl;
-		}
-		else
-		{
-			//Created sound
-			//Start playing background music
-			const FMOD_RESULT play = m_audioSystem->playSound(m_trackBackground, 0, false, 0);
-			if (play != FMOD_OK)
-			{
-				std::cout << "Failed to play background track: You Say Run.mp3" << std::endl;
-			}
-		}
-	}
-}
-
 void GameManager::ProcessInput()
 {
 	//Enter key is pressed
@@ -137,7 +76,16 @@ void GameManager::ProcessInput()
 		{
 			//Set game state to play
 			m_gameState = GAME_PLAY;
+
+			m_camera->SetFreeView(true);
 		}
+	}
+
+	//'R' key is pressed
+	if (inputManager.KeyState['r'] == INPUT_DOWN_FIRST || inputManager.KeyState['R'] == INPUT_DOWN_FIRST)
+	{
+		//Reset the things
+		Reset();
 	}
 
 	//'O' key is pressed
@@ -200,18 +148,17 @@ void GameManager::Update()
 
 	ProcessInput();
 
+	if (m_currentIntersected)
+	{
+		dynamic_cast<Cube*>(m_currentIntersected)->m_useStencil = true;
+	}
+
 	//Update game play state here
 	if (m_gameState == GAME_PLAY)
 	{
-		if (m_currentIntersected)
-		{
-			dynamic_cast<Cube*>(m_currentIntersected)->m_useStencil = true;
-		}
+		
 
 	}
-
-	//Update sounds
-	m_audioSystem->update();
 
 	//Update key states with new input
 	inputManager.Update();
@@ -338,6 +285,37 @@ void GameManager::FindCurrentIntersectedObject()
 		dynamic_cast<Cube*>(m_currentIntersected)->m_useStencil = false;
 	}
 	m_currentIntersected = nullptr;
+}
+
+void GameManager::Reset()
+{
+	//Reset camera
+	m_camera->ResetView();
+	m_camera->SetFreeView(false);
+	m_camera->SetPosition(glm::vec3( 64.0f, 5.0f, 64.0f ));
+	
+	//Reset the position of the cubes
+	m_cube->SetPosition(glm::vec3(70.0f, 5.0f, 64.0f));
+	m_cube1->SetPosition(glm::vec3(70.0f, 5.0f, 60.0f));
+	m_cube2->SetPosition(glm::vec3(70.0f, 5.0f, 68.0f));
+
+	//Set it to main menu mode
+	m_gameState = GameState::GAME_MENU;
+
+	//Turn fog on
+	m_FogRenderMode = true;
+
+	//Turn wirefram mode off
+	m_WireframeRenderMode = false;
+
+	if (m_WireframeRenderMode)
+	{
+		GLCall(glPolygonMode(GL_FRONT, GL_LINE));
+	}
+	else
+	{
+		GLCall(glPolygonMode(GL_FRONT, GL_FILL));
+	}
 }
 
 bool RaySphereIntersection(const Object& _object, const Camera& _camera, glm::vec3 _rayDir, glm::vec3& _intersectionPoint)

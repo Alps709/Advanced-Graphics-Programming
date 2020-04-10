@@ -25,7 +25,7 @@ int main(int argc, char ** argv)
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize((int)inputManager.SCREEN_WIDTH, (int)inputManager.SCREEN_HEIGHT);
-	glutCreateWindow("The Snek Game - By Anton Le Prevost-Smith");
+	glutCreateWindow("Advanced graphics showcase #1 - By Anton Le Prevost-Smith");
 
 	//Print openGL version
 	std::cout << "Currently using OpenGL version: " << glGetString(GL_VERSION) << std::endl;
