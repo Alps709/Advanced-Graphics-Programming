@@ -163,8 +163,15 @@ void GameManager::ProcessInput()
 	//Mouse Input
 	if (inputManager.MouseState[0] == INPUT_DOWN)
 	{	//Left click
+		if (RaySphereIntersection(*m_cube1, *m_camera, m_mousePicker.GetRay()))
+		{
+			m_cube->ChangePRS(-0.01f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+		}
 
-		
+		if (RaySphereIntersection(*m_cube2, *m_camera, m_mousePicker.GetRay()))
+		{
+			m_cube->ChangePRS(0.01f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+		}
 	}
 }
 
@@ -252,26 +259,31 @@ void GameManager::Render()
 
 bool RaySphereIntersection(Object& _object, Camera& _camera, glm::vec3 _rayDir)
 {
-	float radius = 1.0f; // (float)_object.GetRadius();
-	glm::vec3 v = _object.GetPosition() - _camera.GetPosition();
-	float a = glm::dot(_rayDir, _rayDir);
-	float b = 2 * glm::dot(v, _rayDir);
-	float c = glm::dot(v, v) - radius * radius;
-	float d = b * b - 4 * a * c;
+	float radius = (float)_object.GetRadius();
+	glm::vec3 rayOrigin = _camera.GetPosition();
+	glm::vec3 sphereCenter = _object.GetPosition();
+	glm::vec3 cameraToSphere = sphereCenter - _camera.GetPosition();
 
-	if (d > 0) 
-	{
-		float x1 = (-b - sqrt(d)) / 2;
-		float x2 = (-b + sqrt(d)) / 2;
+	//Distance along the ray that is the closest point to the sphere origin
+	float t = glm::dot(cameraToSphere, _rayDir);
+	//The point in space where the ray is closest to the sphere origin
+	glm::vec3 p = rayOrigin + _rayDir * t;
 
-		if ((x1 >= 0 && x2 >= 0) || (x1 < 0 && x2 >= 0))
-		{
-			return true; // intersects
-		}
-	}
-	else if (d <= 0) 
+	float y = glm::length(sphereCenter - p);
+
+	if (y < radius)
 	{
-		return false;// no intersection
+		//The y is less than the radius so we collided with the sphere!
+		return true;
+		
+		//This code finds the distance along the ray where the two intersections are
+		//t1 is the closest intersection, t2 is the furtherest intersection
+		//float x = sqrt(radius * radius - y * y);
+
+		//float t1 = t - x;
+		//float t2 = t + x;
 	}
+	//The distance to the closest point on the ray was larger than the sphere radius
+	//So there is no intersection
 	return false;
 }

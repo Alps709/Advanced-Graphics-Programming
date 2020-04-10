@@ -10,6 +10,8 @@ Cube::Cube(glm::vec3 _position, Texture* _texture, glm::vec4 _colour, bool _useS
 	m_colour = _colour;
 	m_useStencil = _useStencil;
 
+	m_colliderRadius = 0.65;
+
 	//Update the stored model matrix
 	UpdateModelMat();
 }
