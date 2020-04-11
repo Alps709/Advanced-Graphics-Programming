@@ -63,10 +63,10 @@ void Camera::ResetView()
 	m_camRoll = 0.0f;
 	m_camPosition = glm::vec3(64.0f, 5.0f, 64.0f);
 
-	inputManager.g_mousePosX = 0;
-	inputManager.g_mousePosY = 0;
-	inputManager.g_mousePosDifX = 0;
-	inputManager.g_mousePosDifY = 0;
+	inputManager.g_mousePosX = 0.0;
+	inputManager.g_mousePosY = 0.0;
+	inputManager.g_mousePosDifX = 0.0;
+	inputManager.g_mousePosDifY = 0.0;
 
 	//Update the vectors from the mouse input
 	UpdateVectors();
@@ -105,7 +105,7 @@ void Camera::ProcessInput(double _deltaTime)
 			inputManager.KeyState['W'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['W'] == inputManager.INPUT_DOWN)
 		{
 			//move camera forward
-			SetPosition(GetPosition() + GetLookDirection() * GetCamSpeed() * (float)_deltaTime);
+			SetPosition(GetPosition() + GetLookDirection() * (float)GetCamSpeed() * (float)_deltaTime);
 
 			//Print camera m_position for debugging
 			//std::cout << "Camera pos: x: " << m_camera->GetPosition().x << " y: " << m_camera->GetPosition().y << " z: " << m_camera->GetPosition().z  << std::endl;
@@ -115,40 +115,44 @@ void Camera::ProcessInput(double _deltaTime)
 			inputManager.KeyState['A'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['A'] == inputManager.INPUT_DOWN)
 		{
 			//move camera left
-			SetPosition(GetPosition() - GetCamRight() * GetCamSpeed() * (float)_deltaTime);
+			SetPosition(GetPosition() - GetCamRight() * (float)GetCamSpeed() * (float)_deltaTime);
 		}
 		//Move the camera backwards with the s button
 		if (inputManager.KeyState['s'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['s'] == inputManager.INPUT_DOWN ||
 			inputManager.KeyState['S'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['S'] == inputManager.INPUT_DOWN)
 		{
 			//move camera backward
-			SetPosition(GetPosition() - GetLookDirection() * GetCamSpeed() * (float)_deltaTime);
+			SetPosition(GetPosition() - GetLookDirection() * (float)GetCamSpeed() * (float)_deltaTime);
 		}
 		//Move the camera to the right witht the d button
 		if (inputManager.KeyState['d'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['d'] == inputManager.INPUT_DOWN ||
 			inputManager.KeyState['D'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['D'] == inputManager.INPUT_DOWN)
 		{
 			//move camera right
-			SetPosition(GetPosition() + GetCamRight() * GetCamSpeed() * (float)_deltaTime);
+			SetPosition(GetPosition() + GetCamRight() * (float)GetCamSpeed() * (float)_deltaTime);
 		}
 
 		//Move the camera up with the space button
 		if (inputManager.KeyState[32] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState[32] == inputManager.INPUT_DOWN)
 		{
 			glm::vec3 tempVec = GetPosition();
-			tempVec.y += GetCamSpeed() * (float)_deltaTime;
+			tempVec.y += GetCamSpeed() * _deltaTime;
 			SetPosition(glm::vec3(tempVec));
 		}
 		//Move the camera down with the left shift button
 		if (inputManager.SpecialKeyState[GLUT_KEY_SHIFT_L] == inputManager.INPUT_DOWN_FIRST || inputManager.SpecialKeyState[GLUT_KEY_SHIFT_L] == inputManager.INPUT_DOWN)
 		{
 			glm::vec3 tempVec = GetPosition();
-			tempVec.y -= GetCamSpeed() * (float)_deltaTime;
+			tempVec.y -= GetCamSpeed() * _deltaTime;
 			SetPosition(glm::vec3(tempVec));
 		}
 
-		float deltaYaw = (float)inputManager.g_mousePosDifX * m_mouseSens;
-		float deltaPitch = (float)inputManager.g_mousePosDifY * m_mouseSens;
+		double deltaYaw = inputManager.g_mousePosDifX * m_mouseSens;
+		double deltaPitch = inputManager.g_mousePosDifY * m_mouseSens; 
+
+		std::cout << "Change in yaw: " << deltaYaw << std::endl;
+		std::cout << "Change in pitch: " << deltaPitch << std::endl;
+		std::cout << "Mouse change in - x: " << inputManager.g_mousePosDifX << " | y: " << inputManager.g_mousePosDifY << std::endl;
 
 		m_camYaw += deltaYaw;
 
@@ -156,13 +160,13 @@ void Camera::ProcessInput(double _deltaTime)
 		if (m_limitPitch)
 		{
 			m_camPitch += deltaPitch;
-			if (m_camPitch > 89)
+			if (m_camPitch > 89.99)
 			{
-				m_camPitch = 89;
+				m_camPitch = 89.99;
 			}
-			else if (m_camPitch < -89)
+			else if (m_camPitch < -89.99)
 			{
-				m_camPitch = -89;
+				m_camPitch = -89.99;
 			}
 		}
 	}

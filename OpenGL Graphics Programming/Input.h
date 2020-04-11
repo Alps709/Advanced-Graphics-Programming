@@ -22,110 +22,89 @@ namespace
 
 	void MouseClick(int _button, int _state, int _x, int _y)
 	{
+		//Convert current screen width and height mouse co-ords to 
+		//move the co-ords from (0, 0) at top left, to (0, 0) at middle of screen
+		//(remaps screen size mouse coords to opengl pixel coords)
+		double x = Math::remap(_x, 0, inputManager.WINDOW_SCREEN_WIDTH, -inputManager.GL_HSCREEN_WIDTH, inputManager.GL_HSCREEN_WIDTH);
+		double y = Math::remap(_y, 0, inputManager.WINDOW_SCREEN_HEIGHT, -inputManager.GL_HSCREEN_HEIGHT, inputManager.GL_HSCREEN_HEIGHT);
+
+		//Invert y axis
+		y *= -1.0;
+
+		inputManager.g_mousePosDifX = (int)(x - inputManager.g_mousePosX);
+		inputManager.g_mousePosDifY = (int)(y - inputManager.g_mousePosY);
+
 		if (!inputManager.CAMERA_FREEEVIEW_MODE)
 		{
-			//Convert current screen width and height mouse co-ords to 
-			//Move co-ords from (0, 0) at top left, to (0, 0) at middle of screen
-			//(remaps screen size mouse coords to opengl pixel coords)
-			_x = (int)(Math::remap(_x, -inputManager.TRUE_HSCREEN_WIDTH, inputManager.TRUE_HSCREEN_WIDTH, -inputManager.HSCREEN_WIDTH, inputManager.HSCREEN_WIDTH) - inputManager.HSCREEN_WIDTH);
-			_y = (int)(Math::remap(_y, -inputManager.TRUE_HSCREEN_HEIGHT, inputManager.TRUE_HSCREEN_HEIGHT, -inputManager.HSCREEN_HEIGHT, inputManager.HSCREEN_HEIGHT) - inputManager.HSCREEN_HEIGHT);
-
-			//Invert y axis
-			_y *= -1;
-
-			inputManager.g_mousePosX = _x;
-			inputManager.g_mousePosY = _y;
+			inputManager.g_mousePosX = x;
+			inputManager.g_mousePosY = y;
 		}
 		else
 		{
-			//Move co-ords from (0, 0) at top left, to (0, 0) at middle of screen
-			_x -= (int)(inputManager.HSCREEN_WIDTH);
-			_y -= (int)(inputManager.HSCREEN_HEIGHT);
-
-			//Invert y axis
-			_y *= -1;
-
-			inputManager.g_mousePosDifX = _x - inputManager.g_mousePosX;
-			inputManager.g_mousePosDifY = _y - inputManager.g_mousePosY;
-
-			glutWarpPointer((int)inputManager.HSCREEN_WIDTH, (int)inputManager.HSCREEN_HEIGHT);
-			inputManager.g_mousePosX = 0;
-			inputManager.g_mousePosY = 0;
+			glutWarpPointer((int)inputManager.WINDOW_HSCREEN_WIDTH, (int)inputManager.WINDOW_HSCREEN_HEIGHT);
+			inputManager.g_mousePosX = 0.0;
+			inputManager.g_mousePosY = 0.0;
 		}
 
 		inputManager.MouseState[_button] = (GLUT_DOWN == _state) ? inputManager.INPUT_DOWN_FIRST : inputManager.INPUT_UP_FIRST;
 		//Debug logging
-		//std::cout << "Mouse clicked on - x: " << _x << " | y: " << _y << std::endl;
+		//std::cout << "Mouse clicked on - x: " << x << " | y: " << y << std::endl;
 	}
 
 	void MousePassiveMove(int _x, int _y)
 	{
+		//Convert current screen width and height mouse co-ords to 
+		//move the co-ords from (0, 0) at top left, to (0, 0) at middle of screen
+		//(remaps screen size mouse coords to opengl pixel coords)
+		double x = Math::remap(_x, 0, inputManager.WINDOW_SCREEN_WIDTH, -inputManager.GL_HSCREEN_WIDTH, inputManager.GL_HSCREEN_WIDTH);
+		double y = Math::remap(_y, 0, inputManager.WINDOW_SCREEN_HEIGHT, -inputManager.GL_HSCREEN_HEIGHT, inputManager.GL_HSCREEN_HEIGHT);
+
+		//Invert y axis
+		y *= -1.0;
+
+		inputManager.g_mousePosDifX = (int)(x - inputManager.g_mousePosX);
+		inputManager.g_mousePosDifY = (int)(y - inputManager.g_mousePosY);
+
 		if (!inputManager.CAMERA_FREEEVIEW_MODE)
 		{
-			//Convert current screen width and height mouse co-ords to 
-			//Move co-ords from (0, 0) at top left, to (0, 0) at middle of screen
-			//(remaps screen size mouse coords to opengl pixel coords)
-			_x = (int)(Math::remap(_x, -inputManager.TRUE_HSCREEN_WIDTH, inputManager.TRUE_HSCREEN_WIDTH, -inputManager.HSCREEN_WIDTH, inputManager.HSCREEN_WIDTH) - inputManager.HSCREEN_WIDTH);
-			_y = (int)(Math::remap(_y, -inputManager.TRUE_HSCREEN_HEIGHT, inputManager.TRUE_HSCREEN_HEIGHT, -inputManager.HSCREEN_HEIGHT, inputManager.HSCREEN_HEIGHT) - inputManager.HSCREEN_HEIGHT);
-
-			//Invert y axis
-			_y *= -1;
-
-			inputManager.g_mousePosX = _x;
-			inputManager.g_mousePosY = _y;
+			inputManager.g_mousePosX = x;
+			inputManager.g_mousePosY = y;
 		}
 		else
 		{
-			//Move co-ords from (0, 0) at top left, to (0, 0) at middle of screen
-			_x -= (int)(inputManager.HSCREEN_WIDTH);
-			_y -= (int)(inputManager.HSCREEN_HEIGHT);
-
-			//Invert y axis
-			_y *= -1;
-
-			inputManager.g_mousePosDifX = _x - inputManager.g_mousePosX;
-			inputManager.g_mousePosDifY = _y - inputManager.g_mousePosY;
-
-			glutWarpPointer((int)inputManager.HSCREEN_WIDTH, (int)inputManager.HSCREEN_HEIGHT);
-			inputManager.g_mousePosX = 0;
-			inputManager.g_mousePosY = 0;
+			glutWarpPointer((int)inputManager.WINDOW_HSCREEN_WIDTH, (int)inputManager.WINDOW_HSCREEN_HEIGHT);
+			inputManager.g_mousePosX = 0.0;
+			inputManager.g_mousePosY = 0.0;
 		}
 		////Debug logging
-		//std::cout << "Mouse moved to - x: " << _x << " | y: " << _y << std::endl;
+		//std::cout << "Mouse moved to - x: " << x << " | y: " << y << std::endl;
 		//std::cout << "Mouse change in - x: " << inputManager.g_mousePosDifX << " | y: " << inputManager.g_mousePosDifY << std::endl;
 	}
 
 	void MouseMove(int _x, int _y)
 	{
+		//Convert current screen width and height mouse co-ords to 
+		//move the co-ords from (0, 0) at top left, to (0, 0) at middle of screen
+		//(remaps screen size mouse coords to opengl pixel coords)
+		double x = Math::remap(_x, 0, inputManager.WINDOW_SCREEN_WIDTH, -inputManager.GL_HSCREEN_WIDTH, inputManager.GL_HSCREEN_WIDTH);
+		double y = Math::remap(_y, 0, inputManager.WINDOW_SCREEN_HEIGHT, -inputManager.GL_HSCREEN_HEIGHT, inputManager.GL_HSCREEN_HEIGHT);
+
+		//Invert y axis
+		y *= -1.0;
+
+		inputManager.g_mousePosDifX = (int)(x - inputManager.g_mousePosX);
+		inputManager.g_mousePosDifY = (int)(y - inputManager.g_mousePosY);
+
 		if (!inputManager.CAMERA_FREEEVIEW_MODE)
 		{
-			//Convert current screen width and height mouse co-ords to 
-			//Move co-ords from (0, 0) at top left, to (0, 0) at middle of screen
-			//(remaps screen size mouse coords to opengl pixel coords)
-			_x = (int)(Math::remap(_x, -inputManager.TRUE_HSCREEN_WIDTH, inputManager.TRUE_HSCREEN_WIDTH, -inputManager.HSCREEN_WIDTH, inputManager.HSCREEN_WIDTH) - inputManager.HSCREEN_WIDTH);
-			_y = (int)(Math::remap(_y, -inputManager.TRUE_HSCREEN_HEIGHT, inputManager.TRUE_HSCREEN_HEIGHT, -inputManager.HSCREEN_HEIGHT, inputManager.HSCREEN_HEIGHT) - inputManager.HSCREEN_HEIGHT);
-
-			//Invert y axis
-			_y *= -1;
-
-			inputManager.g_mousePosX = _x;
-			inputManager.g_mousePosY = _y;
+			inputManager.g_mousePosX = x;
+			inputManager.g_mousePosY = y;
 		}
 		else
 		{
-			//Move co-ords from (0, 0) at top left, to (0, 0) at middle of screen
-			_x -= (int)(inputManager.HSCREEN_WIDTH);
-			_y -= (int)(inputManager.HSCREEN_HEIGHT);
-
-			//Invert y axis
-			_y *= -1;
-
-			inputManager.g_mousePosDifX = _x - inputManager.g_mousePosX;
-			inputManager.g_mousePosDifY = _y - inputManager.g_mousePosY;
-
-			glutWarpPointer((int)inputManager.HSCREEN_WIDTH, (int)inputManager.HSCREEN_HEIGHT);
-			inputManager.g_mousePosX = 0;
-			inputManager.g_mousePosY = 0;
+			glutWarpPointer((int)inputManager.WINDOW_HSCREEN_WIDTH, (int)inputManager.WINDOW_HSCREEN_HEIGHT);
+			inputManager.g_mousePosX = 0.0;
+			inputManager.g_mousePosY = 0.0;
 		}
 		//Debug logging
 		//std::cout << "Mouse clicked on - x: " << _x << " | y: " << _y << std::endl;
@@ -202,12 +181,12 @@ namespace
 
 	void WindowResize(int _x, int _y)
 	{
-		inputManager.TRUE_SCREEN_WIDTH = (float)_x;
-		inputManager.TRUE_SCREEN_HEIGHT = (float)_y;
-		inputManager.TRUE_HSCREEN_HEIGHT = inputManager.TRUE_SCREEN_HEIGHT / 2;
-		inputManager.TRUE_HSCREEN_WIDTH = inputManager.TRUE_SCREEN_WIDTH / 2;
+		inputManager.WINDOW_SCREEN_WIDTH = (float)_x;
+		inputManager.WINDOW_SCREEN_HEIGHT = (float)_y;
+		inputManager.WINDOW_HSCREEN_HEIGHT = inputManager.WINDOW_SCREEN_HEIGHT / 2;
+		inputManager.WINDOW_HSCREEN_WIDTH = inputManager.WINDOW_SCREEN_WIDTH / 2;
 
-		glViewport((GLsizei)0, (GLsizei)0, (GLsizei)inputManager.TRUE_SCREEN_WIDTH, (GLsizei)inputManager.TRUE_SCREEN_HEIGHT);
-		glScissor(0, (GLsizei)(inputManager.TRUE_SCREEN_HEIGHT * 0.1f), (GLsizei)inputManager.TRUE_SCREEN_WIDTH, (GLsizei)(inputManager.TRUE_SCREEN_HEIGHT * 0.8f));
+		glViewport((GLsizei)0, (GLsizei)0, (GLsizei)inputManager.WINDOW_SCREEN_WIDTH, (GLsizei)inputManager.WINDOW_SCREEN_HEIGHT);
+		glScissor(0, (GLsizei)(inputManager.WINDOW_SCREEN_HEIGHT * 0.1f), (GLsizei)inputManager.WINDOW_SCREEN_WIDTH, (GLsizei)(inputManager.WINDOW_SCREEN_HEIGHT * 0.8f));
 	}
 }

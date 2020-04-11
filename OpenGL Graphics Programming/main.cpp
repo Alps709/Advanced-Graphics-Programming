@@ -24,7 +24,7 @@ int main(int argc, char ** argv)
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
 	glutInitWindowPosition(100, 100);
-	glutInitWindowSize((int)inputManager.SCREEN_WIDTH, (int)inputManager.SCREEN_HEIGHT);
+	glutInitWindowSize((int)inputManager.GL_SCREEN_WIDTH, (int)inputManager.GL_SCREEN_HEIGHT);
 	glutCreateWindow("Advanced graphics showcase #1 - By Anton Le Prevost-Smith");
 
 	//Print openGL version
@@ -85,7 +85,7 @@ void SetGlobalGLSettings()
 	glutSetCursor(GLUT_CURSOR_NONE);
 
 	//Use a scissor test to only draw the middle of the viewport
-	glScissor(0, (GLsizei)(inputManager.TRUE_SCREEN_HEIGHT * 0.1f), (GLsizei)inputManager.TRUE_SCREEN_WIDTH, (GLsizei)(inputManager.TRUE_SCREEN_HEIGHT * 0.8f));
+	glScissor(0, (GLsizei)(inputManager.WINDOW_SCREEN_HEIGHT * 0.1f), (GLsizei)inputManager.WINDOW_SCREEN_WIDTH, (GLsizei)(inputManager.WINDOW_SCREEN_HEIGHT * 0.8f));
 	glEnable(GL_SCISSOR_TEST);
 
 	//Cull the back faces of objects (only do so for 3D)

@@ -15,7 +15,7 @@ public:
 	glm::vec3 GetPosition() const { return m_camPosition; }
 	glm::vec3 GetLookDirection() const { return m_camLookDir; }
 	glm::vec3 GetCamRight() const { return m_camRight; }
-	float GetCamSpeed() const { return m_camSpeed; }
+	double GetCamSpeed() const { return m_camSpeed; }
 
 	void SetPosition(glm::vec3 _newPos);
 	void SetLookDirection(glm::vec3 _newLookDirection);
@@ -31,7 +31,6 @@ private:
 	InputManager& inputManager = InputManager::getInstance();
 	
 	//Camera vectors
-	bool freeView = false;
 	glm::vec3 m_camPosition;
 	glm::vec3 m_camLookDir;
 	glm::vec3 m_camUp;
@@ -39,14 +38,17 @@ private:
 	glm::vec3 m_worldUp;
 
 	//Camera controls (rotation values in degrees)
-	float m_camYaw;
-	float m_camPitch;
-	float m_camRoll;
+	double m_camYaw;
+	double m_camPitch;
+	double m_camRoll;
 
 	bool m_limitPitch = true;
 	
-	float m_camSpeed;
-	float m_mouseSens;
+	double m_camSpeed;
+	double m_mouseSens;
+
+	//Determines whether the camera can look around and move using kb/m input
+	bool freeView = false;
 
 	//Camera matrices
 	glm::mat4 m_viewMat{};

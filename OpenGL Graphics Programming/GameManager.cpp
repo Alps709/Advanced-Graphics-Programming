@@ -39,7 +39,7 @@ GameManager::GameManager()
 	m_cube2 = new Cube(glm::vec3(70.0f, 5.0f, 68.0f), m_grassTexture, glm::vec4(0.1f, 0.4f, 0.1f, 1.0f), false);
 
 	//Create the text objects
-	m_fpsText = new TextLabel("FPS: ", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.HSCREEN_WIDTH + 20.0f, inputManager.HSCREEN_HEIGHT * 0.5f));
+	m_fpsText = new TextLabel("FPS: ", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.5f));
 	m_menuTitleText = new TextLabel("Graphics showcase!", "Resources/Fonts/arial.ttf", glm::vec2(-625, 160), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f);
 	m_menuInstructText = new TextLabel("Press enter to continue", "Resources/Fonts/arial.ttf", glm::vec2(-600, -200), glm::vec3(0.0f, 1.0f, 1.0f), 1.5f);
 
