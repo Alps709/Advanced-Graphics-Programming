@@ -163,6 +163,9 @@ void GameManager::Update()
 	//Update key states with new input
 	inputManager.Update();
 
+	inputManager.g_mousePosDifX = 0.0;
+	inputManager.g_mousePosDifY = 0.0;
+
 	//Tell glut to call the render function again
 	glutPostRedisplay();
 }
@@ -209,9 +212,10 @@ void GameManager::Render()
 		m_fpsText->Render();
 	}
 
+	//Draw crosshair
 	glBegin(GL_LINES);
-	glVertex2f(-0.05f, 0.0f);
-	glVertex2f( 0.05f, 0.0f);
+	glVertex2f(-0.045f, 0.0f);
+	glVertex2f( 0.045f, 0.0f);
 	glVertex2f( 0.0f, 0.08f);
 	glVertex2f( 0.0f,-0.08f);
 	glEnd();
@@ -307,15 +311,7 @@ void GameManager::Reset()
 
 	//Turn wirefram mode off
 	m_WireframeRenderMode = false;
-
-	if (m_WireframeRenderMode)
-	{
-		GLCall(glPolygonMode(GL_FRONT, GL_LINE));
-	}
-	else
-	{
-		GLCall(glPolygonMode(GL_FRONT, GL_FILL));
-	}
+	GLCall(glPolygonMode(GL_FRONT, GL_FILL));
 }
 
 bool RaySphereIntersection(const Object& _object, const Camera& _camera, glm::vec3 _rayDir, glm::vec3& _intersectionPoint)
@@ -350,6 +346,7 @@ bool RaySphereIntersection(const Object& _object, const Camera& _camera, glm::ve
 		else if (t + x >= 0)
 		{
 			_intersectionPoint = rayOrigin + _rayDir * (t + x);
+			return true;
 		}
 		//If the distance to the second intersection point is less than 0 then the intersection is behind us and we did not intersect
 	}

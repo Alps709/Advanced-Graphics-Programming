@@ -21,24 +21,28 @@ public:
 		INPUT_DOWN_FIRST = 4,
 	};
 
-	double g_mousePosX = 0;
-	double g_mousePosY = 0;
-	double g_mousePosDifX = 0;
-	double g_mousePosDifY = 0;
+	double g_mousePosX = 0.0;
+	double g_mousePosY = 0.0;
+	double g_mousePosDifX = 0.0;
+	double g_mousePosDifY = 0.0;
+
+	//Used to keep track of the exact middle position of the screen when the screen is resized
+	double defaultMousePosX = 0.0;
+	double defaultMousePosY = 0.0;
 
 	bool CAMERA_FREEEVIEW_MODE = false;
 
 	//Game window size
-	double GL_SCREEN_WIDTH = 1280.0f;
-	double GL_SCREEN_HEIGHT = 720.0f;
-	double GL_HSCREEN_WIDTH = GL_SCREEN_WIDTH / 2.0f;
-	double GL_HSCREEN_HEIGHT = GL_SCREEN_HEIGHT / 2.0f;
+	double GL_SCREEN_WIDTH = 1280.0;
+	double GL_SCREEN_HEIGHT = 720.0;
+	double GL_HSCREEN_WIDTH = GL_SCREEN_WIDTH / 2.0;
+	double GL_HSCREEN_HEIGHT = GL_SCREEN_HEIGHT / 2.0;
 
 	//True window size (set in the windowResize function callback)
-	double WINDOW_SCREEN_WIDTH = GL_SCREEN_WIDTH;
-	double WINDOW_SCREEN_HEIGHT = GL_SCREEN_HEIGHT;
-	double WINDOW_HSCREEN_WIDTH = GL_HSCREEN_WIDTH;
-	double WINDOW_HSCREEN_HEIGHT = GL_HSCREEN_HEIGHT;
+	int WINDOW_SCREEN_WIDTH = (int)GL_SCREEN_WIDTH;
+	int WINDOW_SCREEN_HEIGHT = (int)GL_SCREEN_HEIGHT;
+	int WINDOW_HSCREEN_WIDTH = (int)GL_HSCREEN_WIDTH;
+	int WINDOW_HSCREEN_HEIGHT = (int)GL_HSCREEN_HEIGHT;
 
 	//Mouse Input
 	InputState MouseState[3];

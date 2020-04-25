@@ -7,7 +7,7 @@ Camera::Camera(bool isFreeView)
 	m_camPosition(glm::vec3{ 64.0f, 5.0f, 64.0f }),
 	m_camLookDir(glm::vec3{0.0f, 0.0f, -1.0f}),
 	m_worldUp(glm::vec3{ 0.0f, 1.0f, 0.0f }), 
-	m_camYaw(0.0f), m_camPitch(0), m_camRoll(0), m_camSpeed(0.01f), m_mouseSens(0.2f),
+	m_camYaw(0.0), m_camPitch(0.0), m_camRoll(0.0), m_camSpeed(0.01), m_mouseSens(0.2),
 	m_viewMat(glm::lookAt(m_camPosition, m_camPosition + m_camLookDir, m_worldUp)),
 	m_perspectiveProjectionMat(glm::perspective(glm::radians(90.0f), 1280.0f/720.0f, 0.1f, 1000000.0f))
 {
@@ -136,14 +136,14 @@ void Camera::ProcessInput(double _deltaTime)
 		if (inputManager.KeyState[32] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState[32] == inputManager.INPUT_DOWN)
 		{
 			glm::vec3 tempVec = GetPosition();
-			tempVec.y += GetCamSpeed() * _deltaTime;
+			tempVec.y += (float)(GetCamSpeed() * _deltaTime);
 			SetPosition(glm::vec3(tempVec));
 		}
 		//Move the camera down with the left shift button
 		if (inputManager.SpecialKeyState[GLUT_KEY_SHIFT_L] == inputManager.INPUT_DOWN_FIRST || inputManager.SpecialKeyState[GLUT_KEY_SHIFT_L] == inputManager.INPUT_DOWN)
 		{
 			glm::vec3 tempVec = GetPosition();
-			tempVec.y -= GetCamSpeed() * _deltaTime;
+			tempVec.y -= (float)(GetCamSpeed() * _deltaTime);
 			SetPosition(glm::vec3(tempVec));
 		}
 
@@ -152,6 +152,8 @@ void Camera::ProcessInput(double _deltaTime)
 
 		std::cout << "Change in yaw: " << deltaYaw << std::endl;
 		std::cout << "Change in pitch: " << deltaPitch << std::endl;
+		std::cout << "Mouse pos - x: " << inputManager.g_mousePosX << " | y: " << inputManager.g_mousePosY << std::endl;
+		std::cout << "Default Mouse pos - x: " << inputManager.defaultMousePosX << " | y: " << inputManager.defaultMousePosY << std::endl;
 		std::cout << "Mouse change in - x: " << inputManager.g_mousePosDifX << " | y: " << inputManager.g_mousePosDifY << std::endl;
 
 		m_camYaw += deltaYaw;
