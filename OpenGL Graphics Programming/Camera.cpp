@@ -4,7 +4,7 @@
 
 Camera::Camera(bool isFreeView)
    :freeView(isFreeView),
-	m_camPosition(glm::vec3{ 64.0f, 5.0f, 64.0f }),
+	m_camPosition(glm::vec3{ 64.0f, 10.0f, 64.0f }),
 	m_camLookDir(glm::vec3{0.0f, 0.0f, -1.0f}),
 	m_worldUp(glm::vec3{ 0.0f, 1.0f, 0.0f }), 
 	m_camYaw(0.0), m_camPitch(0.0), m_camRoll(0.0), m_camSpeed(0.01), m_mouseSens(0.2),
@@ -61,7 +61,7 @@ void Camera::ResetView()
 	m_camYaw = 0.0f;
 	m_camPitch = 0.0f;
 	m_camRoll = 0.0f;
-	m_camPosition = glm::vec3(64.0f, 5.0f, 64.0f);
+	m_camPosition = glm::vec3(64.0f, 10.0f, 64.0f);
 
 	inputManager.g_mousePosX = 0;
 	inputManager.g_mousePosY = 0;

@@ -29,6 +29,7 @@ private:
 	unsigned int m_xSize{};
 	unsigned int m_zSize{};
 
+	std::vector<float> m_heightMap{};
 	std::vector<float> m_vertices{};
 	std::vector<unsigned int> m_indices{};
 

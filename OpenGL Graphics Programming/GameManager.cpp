@@ -296,12 +296,12 @@ void GameManager::Reset()
 	//Reset camera
 	m_camera->ResetView();
 	m_camera->SetFreeView(false);
-	m_camera->SetPosition(glm::vec3( 64.0f, 5.0f, 64.0f ));
+	m_camera->SetPosition(glm::vec3( 64.0f, 10.0f, 64.0f ));
 	
 	//Reset the position of the cubes
-	m_cube->SetPosition(glm::vec3(70.0f, 5.0f, 64.0f));
-	m_cube1->SetPosition(glm::vec3(70.0f, 5.0f, 60.0f));
-	m_cube2->SetPosition(glm::vec3(70.0f, 5.0f, 68.0f));
+	m_cube->SetPosition (glm::vec3(70.0f, 10.0f, 64.0f));
+	m_cube1->SetPosition(glm::vec3(70.0f, 10.0f, 60.0f));
+	m_cube2->SetPosition(glm::vec3(70.0f, 10.0f, 68.0f));
 
 	//Set it to main menu mode
 	m_gameState = GameState::GAME_MENU;

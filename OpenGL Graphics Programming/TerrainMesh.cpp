@@ -88,25 +88,61 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 
 	int vertexPointer = 0;
 
-	int tempX = 0;
-	int tempZ = 0;
 	for (unsigned int z = 0; z < _zSize; z++)
 	{
 		for (unsigned int x = 0; x < _xSize; x++)
 		{
+			float height = noiseGenerator.GetNoise((float)x, (float)z) * noiseHeightMod * -1;
+			m_heightMap.push_back(height);
+
 			//Positions
 			vertices[vertexPointer]     = (float)(x * SIZE);
-			vertices[vertexPointer + 1] = noiseGenerator.GetNoise((float)x, (float)z) * noiseHeightMod * -1;
+			vertices[vertexPointer + 1] = height;
 			vertices[vertexPointer + 2] = (float)(z * SIZE);
 
+			//Calculate the normals afterwards
 			//Normals				
-			vertices[vertexPointer + 3] = 0;
-			vertices[vertexPointer + 4] = 1;
-			vertices[vertexPointer + 5] = 0;
+			//vertices[vertexPointer + 3] = 0;
+			//vertices[vertexPointer + 4] = 1;
+			//vertices[vertexPointer + 5] = 0;
 
 			//Texture co-ords		
 			vertices[vertexPointer + 6] = (float)x / (_xSize - 1) * 5; //We times by 5 here cause we want the texture to repeat 5 times 
 			vertices[vertexPointer + 7] = (float)z / (_zSize - 1) * 5; //across the x and y of the mesh
+			vertexPointer += 8;
+		}
+	}
+
+
+	//Calculate normals
+	float invTwoDX = 1.0f / (2.0f * SIZE);
+	float invTwoDZ = 1.0f / (2.0f * SIZE);
+
+	vertexPointer = 0;
+	for (unsigned int z = 1; z < _zSize - 1; z++)
+	{
+		for (unsigned int x = 1; x < _xSize - 1; x++)
+		{
+
+			float top    = m_heightMap[(z - 1) * _zSize + x];
+			float bottom = m_heightMap[(z + 1) * _zSize + x];
+			float left   = m_heightMap[z * _zSize + x - 1];
+			float right  = m_heightMap[z * _zSize + x + 1];
+			
+			//Calculate the tangentials
+			glm::vec3 tanZ = glm::vec3(0.0f, (top - bottom) * invTwoDZ, 1.0f);
+			glm::vec3 tanX = glm::vec3(0.0f, (right - left) * invTwoDX, 0.0f);
+			
+			//Calculate normal by finding the cross product
+			glm::vec3 crossProduct = glm::cross(tanZ, tanX);
+			crossProduct = glm::normalize(crossProduct);
+
+			//Normals				
+			vertices[vertexPointer + 3] = crossProduct.x;
+			vertices[vertexPointer + 4] = crossProduct.y;
+			vertices[vertexPointer + 5] = crossProduct.z;
+
+			//Move to next vertex
 			vertexPointer += 8;
 		}
 	}
