@@ -24,6 +24,7 @@ public:
 	void SetTexture1(Texture* _tex);
 
 	//Getters
+	float GetTerrainHeight(float _worldX, float _worldZ);
 	TerrainMesh* GetMesh() const { return m_mesh; }
 	glm::mat4 GetModelMat() const { return m_modelMat; }
 	virtual double GetRadius() const { return m_colliderRadius; };
@@ -42,6 +43,8 @@ public:
 	void BindTexture(unsigned int _texNum) const;
 
 protected:
+	unsigned int m_xSize;
+	unsigned int m_zSize;
 	glm::vec3 m_position{ 0.0f, 0.0f, 0.0f };
 	float m_rotationZ = 0.0f;
 	glm::vec3 m_scale{ 1.0f, 1.0f, 1.0f };

@@ -7,6 +7,9 @@
 
 Terrain::Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, Texture* _terrainTexture)
 {
+	m_xSize = _xSize;
+	m_zSize = _zSize;
+
 	m_mesh = new TerrainMesh(_xSize, _zSize);
 	m_shader = Shader("Shaders/TerrainVS.glsl", "Shaders/TerrainFS.glsl");
 	m_position = _position;
@@ -44,6 +47,51 @@ void Terrain::SetTexture0(Texture* _tex)
 void Terrain::SetTexture1(Texture* _tex)
 {
 	m_tex1 = _tex;
+}
+
+float Terrain::GetTerrainHeight(float _worldX, float _worldZ)
+{
+	auto heights = m_mesh->GetTerrainHeights();
+
+	float localX = _worldX - m_position.x;
+	float localZ = _worldZ - m_position.z;
+
+	//Size of 1 square (1) divided by the number of squares int the terrain along one side
+	float gridSquaresSize = 1;
+
+	int gridX = (int)floorf(localX / gridSquaresSize);
+	int gridZ = (int)floorf(localZ / gridSquaresSize);
+
+	if (gridX >= (int)(heights.size() - 1) || gridZ >= (int)(heights.size() - 1) || gridX <= 0 || gridZ <= 0)
+	{
+		//Not on the terrain
+		return 0;
+	}
+	 
+	//Find the coordinates within the grid square (0 - 1)
+	float xCoord = fmod(localX, gridSquaresSize) / gridSquaresSize;
+	float zCoord = fmod(localZ, gridSquaresSize) / gridSquaresSize;
+
+	float answer = 0;
+	
+	if (zCoord <= 1 - xCoord)
+	{
+		//In first triangle of the grid square
+		answer = Math::BarryCentricInterp(glm::vec3(0, heights[gridZ * m_zSize + gridX], 0), 
+			glm::vec3(1, heights[gridZ * m_zSize + gridX + 1], 0),
+			glm::vec3(0, heights[(gridZ + 1) * m_zSize + gridX], 1),
+			glm::vec2(xCoord, zCoord));
+	}
+	else
+	{
+		//In second triangle of the grid square
+		answer = Math::BarryCentricInterp(glm::vec3(1, heights[gridZ * m_zSize + gridX + 1],       0),
+										  glm::vec3(1, heights[(gridZ + 1) * m_zSize + gridX + 1], 1),
+										  glm::vec3(0, heights[(gridZ + 1) * m_zSize + gridX],     1),
+										  glm::vec2(xCoord, zCoord));
+	}
+
+	return answer;
 }
 
 void Terrain::ChangePRS(float _translateX, float _translateY, float _translateZ, float _rotationAngle, float _scaleX, float _scaleY, float _scaleZ)

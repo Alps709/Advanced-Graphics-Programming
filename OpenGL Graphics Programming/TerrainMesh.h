@@ -14,6 +14,7 @@ public:
 	void AddVAOBuffer(const VertexBufferInfo _info);
 	void SetVertexAttributes();
 
+	std::vector<float> GetTerrainHeights();
 	unsigned int GetindicesCount() const { return m_indicesCount; }
 
 	void Bind() const;

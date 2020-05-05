@@ -53,6 +53,11 @@ void TerrainMesh::SetVertexAttributes()
 	AddVAOBuffer(vbInfo);
 }
 
+std::vector<float> TerrainMesh::GetTerrainHeights()
+{
+	return m_heightMap;
+}
+
 void TerrainMesh::Bind() const
 {
 	//Bind vao
@@ -103,9 +108,9 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 
 			//Calculate the normals afterwards
 			//Normals				
-			//vertices[vertexPointer + 3] = 0;
-			//vertices[vertexPointer + 4] = 1;
-			//vertices[vertexPointer + 5] = 0;
+			//vertices[vertexIndex + 3] = 0;
+			//vertices[vertexIndex + 4] = 1;
+			//vertices[vertexIndex + 5] = 0;
 
 			//Texture co-ords		
 			vertices[vertexIndex + 6] = (float)x / (_xSize - 1) * 5; //We times by 5 here cause we want the texture to repeat 5 times 
@@ -116,9 +121,6 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 
 
 	//Calculate normals
-	float invTwoDX = 1.0f / (2.0f * SIZE);
-	float invTwoDZ = 1.0f / (2.0f * SIZE);
-
 	vertexIndex = 0;
 	for (unsigned int z = 1; z < _zSize - 1; z++)
 	{
@@ -129,19 +131,14 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 			float bottom = m_heightMap[(z + 1) * _zSize + x];
 			float left   = m_heightMap[z * _zSize + x - 1];
 			float right  = m_heightMap[z * _zSize + x + 1];
-			
-			//Calculate the tangentials
-			glm::vec3 tanZ = glm::vec3(0.0f, (top - bottom) * invTwoDZ, 1.0f);
-			glm::vec3 tanX = glm::vec3(1.0f, (right - left) * invTwoDX, 0.0f);
-			
-			//Calculate normal by finding the cross product
-			glm::vec3 crossProduct = glm::cross(tanZ, tanX);
-			crossProduct = glm::normalize(crossProduct);
+
+			glm::vec3 normal = glm::vec3(left - right, 2.0f, bottom - top);
+			glm::normalize(normal);
 
 			//Normal			
-			vertices[vertexIndex + 3] = crossProduct.x;
-			vertices[vertexIndex + 4] = crossProduct.y;
-			vertices[vertexIndex + 5] = crossProduct.z;
+			vertices[vertexIndex + 3] = normal.x;
+			vertices[vertexIndex + 4] = normal.y;
+			vertices[vertexIndex + 5] = normal.z;
 
 			//Move to next vertex
 			vertexIndex += 8;

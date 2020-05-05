@@ -20,7 +20,7 @@ vec4 vFogColor = vec4(0.5f, 0.5f, 0.5f, 1.0f);
 uniform float u_ambientStr    = 0.25f;
 uniform vec3  u_ambientColour = vec3(1.0f, 1.0f, 1.0f);
 uniform vec3  u_lightColour   = vec3(1.0f, 1.0f, 1.0f);
-uniform vec3  u_lightPos      = vec3(1000.0f, 100.0f, 0.0f);
+uniform vec3  u_lightPos      = vec3(0.0f, 100.0f, 1000.0f);
 
 //Blinn - Phong lighting
 uniform float u_lightSpecStr  = 1.0f;
@@ -33,17 +33,17 @@ void main(void)
 
 	//Light Direction
 	vec3 norm = normalize(fragmentNormal);
-	vec3 lightDir = normalize(fragmentPos - u_lightPos);
+	vec3 lightDir = normalize(u_lightPos - fragmentPos);
 
 	//Diffuse colouring
-	float diffuseStr = max(dot(norm, -lightDir), 0.0f);
+	float diffuseStr = max(dot(norm, lightDir), 0.0f);
 	vec3 diffuse = diffuseStr * u_lightColour;
 
 	//Specular highlight
 	vec3 negViewDir = normalize(u_camPos - fragmentPos);
 
 	//Phong lighting uses the light reflection direction
-	//vec3 reflectDir = reflect(lightDir, norm);
+	//vec3 reflectDir = reflect(-lightDir, norm);
 
 	//Use Blinn - Phong lighting by using halfway vec, instead of reflection direction
 	vec3 halfwayVec = normalize(-lightDir + negViewDir);
