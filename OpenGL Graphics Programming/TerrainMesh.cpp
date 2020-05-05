@@ -87,7 +87,7 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 
 	std::vector<unsigned int> indices((_xSize - 1) * (_zSize - 1) * 6);
 
-	int vertexPointer = 0;
+	int vertexIndex = 0;
 
 	for (unsigned int z = 0; z < _zSize; z++)
 	{
@@ -97,9 +97,9 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 			m_heightMap[z * _zSize + x] = height;
 
 			//Positions
-			vertices[vertexPointer]     = (float)(x * SIZE);
-			vertices[vertexPointer + 1] = height;
-			vertices[vertexPointer + 2] = (float)(z * SIZE);
+			vertices[vertexIndex]     = (float)(x * SIZE);
+			vertices[vertexIndex + 1] = height;
+			vertices[vertexIndex + 2] = (float)(z * SIZE);
 
 			//Calculate the normals afterwards
 			//Normals				
@@ -108,9 +108,9 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 			//vertices[vertexPointer + 5] = 0;
 
 			//Texture co-ords		
-			vertices[vertexPointer + 6] = (float)x / (_xSize - 1) * 5; //We times by 5 here cause we want the texture to repeat 5 times 
-			vertices[vertexPointer + 7] = (float)z / (_zSize - 1) * 5; //across the x and y of the mesh
-			vertexPointer += 8;
+			vertices[vertexIndex + 6] = (float)x / (_xSize - 1) * 5; //We times by 5 here cause we want the texture to repeat 5 times 
+			vertices[vertexIndex + 7] = (float)z / (_zSize - 1) * 5; //across the x and y of the mesh
+			vertexIndex += 8;
 		}
 	}
 
@@ -119,7 +119,7 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 	float invTwoDX = 1.0f / (2.0f * SIZE);
 	float invTwoDZ = 1.0f / (2.0f * SIZE);
 
-	vertexPointer = 0;
+	vertexIndex = 0;
 	for (unsigned int z = 1; z < _zSize - 1; z++)
 	{
 		for (unsigned int x = 1; x < _xSize - 1; x++)
@@ -139,30 +139,30 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 			crossProduct = glm::normalize(crossProduct);
 
 			//Normal			
-			vertices[vertexPointer + 3] = crossProduct.x;
-			vertices[vertexPointer + 4] = crossProduct.y;
-			vertices[vertexPointer + 5] = crossProduct.z;
+			vertices[vertexIndex + 3] = crossProduct.x;
+			vertices[vertexIndex + 4] = crossProduct.y;
+			vertices[vertexIndex + 5] = crossProduct.z;
 
 			//Move to next vertex
-			vertexPointer += 8;
+			vertexIndex += 8;
 		}
 	}
 
 	int countIndices = 0;
-	int pointer = 0;
+	int index = 0;
 	for (unsigned int gz = 0; gz < _zSize - 1; gz++) 
 	{
 		for (unsigned int gx = 0; gx < _xSize - 1; gx++) 
 		{
-			indices[pointer]     = countIndices;
-			indices[pointer + 1] = countIndices + _xSize;
-			indices[pointer + 2] = countIndices + _xSize + 1;
+			indices[index]     = countIndices;
+			indices[index + 1] = countIndices + _xSize;
+			indices[index + 2] = countIndices + _xSize + 1;
 
-			indices[pointer + 3] = countIndices + _xSize + 1;
-			indices[pointer + 4] = countIndices + 1;
-			indices[pointer + 5] = countIndices;
+			indices[index + 3] = countIndices + _xSize + 1;
+			indices[index + 4] = countIndices + 1;
+			indices[index + 5] = countIndices;
 
-			pointer += 6;
+			index += 6;
 			countIndices++;
 		}
 		countIndices++;
