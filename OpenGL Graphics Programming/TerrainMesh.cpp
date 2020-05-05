@@ -73,10 +73,10 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 	FastNoise noiseGenerator;
 	noiseGenerator.SetNoiseType(FastNoise::NoiseType::PerlinFractal);
 	noiseGenerator.SetFractalOctaves(4);
-	noiseGenerator.SetFractalLacunarity(2.0f);
+	noiseGenerator.SetFractalLacunarity(2.2f);
 
 	const int SIZE = 1;
-	const int noiseHeightMod = SIZE * 25;
+	const int noiseHeightMod = SIZE * 30;
 	const int count = _xSize * _zSize;
 
 	const float topLeftX = (_xSize - 1) / -2.0f;
@@ -96,7 +96,7 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 		{
 			//Positions
 			vertices[vertexPointer]     = (float)(x * SIZE);
-			vertices[vertexPointer + 1] = noiseGenerator.GetNoise((float)x, (float)z) * noiseHeightMod;
+			vertices[vertexPointer + 1] = noiseGenerator.GetNoise((float)x, (float)z) * noiseHeightMod * -1;
 			vertices[vertexPointer + 2] = (float)(z * SIZE);
 
 			//Normals				

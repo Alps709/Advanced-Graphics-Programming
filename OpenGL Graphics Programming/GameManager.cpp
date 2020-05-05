@@ -34,9 +34,9 @@ GameManager::GameManager()
 	m_grassTerrain = new Terrain(128, 128, glm::vec3(0.0f), m_grassTexture);
 	m_waterTerrain = new WaterTerrain(128, 128, glm::vec3(0.0f), m_grassTexture, m_noiseTexture);
 
-	m_cube = new Cube(glm::vec3(70.0f, 5.0f, 64.0f), m_grassTexture, glm::vec4(0.1f, 0.1f, 0.7f, 1.0f), true);
-	m_cube1 = new Cube(glm::vec3(70.0f, 5.0f, 60.0f), m_grassTexture, glm::vec4(0.7f, 0.1f, 0.1f, 1.0f), false);
-	m_cube2 = new Cube(glm::vec3(70.0f, 5.0f, 68.0f), m_grassTexture, glm::vec4(0.1f, 0.4f, 0.1f, 1.0f), false);
+	m_cube  = new Cube(glm::vec3(70.0f, 10.0f, 64.0f), m_grassTexture, glm::vec4(0.1f, 0.1f, 0.7f, 1.0f), true);
+	m_cube1 = new Cube(glm::vec3(70.0f, 10.0f, 60.0f), m_grassTexture, glm::vec4(0.7f, 0.1f, 0.1f, 1.0f), false);
+	m_cube2 = new Cube(glm::vec3(70.0f, 10.0f, 68.0f), m_grassTexture, glm::vec4(0.1f, 0.4f, 0.1f, 1.0f), false);
 
 	//Create the text objects
 	m_fpsText = new TextLabel("FPS: ", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.5f));
