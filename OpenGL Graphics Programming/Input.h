@@ -27,14 +27,14 @@ namespace
 		//Convert current screen width and height mouse co-ords to 
 		//move the co-ords from (0, 0) at top left, to (0, 0) at middle of screen
 		//(remaps screen size mouse coords to opengl pixel coords)
-		double x = Math::remap(_x, 0.0, inputManager.WINDOW_SCREEN_WIDTH, -inputManager.GL_HSCREEN_WIDTH, inputManager.GL_HSCREEN_WIDTH);
-		double y = Math::remap(_y, 0.0, inputManager.WINDOW_SCREEN_HEIGHT, -inputManager.GL_HSCREEN_HEIGHT, inputManager.GL_HSCREEN_HEIGHT);
+		int x = (int)Math::remap(_x, 0, inputManager.WINDOW_SCREEN_WIDTH, -inputManager.GL_HSCREEN_WIDTH, inputManager.GL_HSCREEN_WIDTH);
+		int y = (int)Math::remap(_y, 0, inputManager.WINDOW_SCREEN_HEIGHT, -inputManager.GL_HSCREEN_HEIGHT, inputManager.GL_HSCREEN_HEIGHT);
 
 		//Invert y axis
-		y *= -1.0;
+		y *= -1;
 
-		inputManager.g_mousePosDifX = (double)((double)x - inputManager.g_mousePosX);
-		inputManager.g_mousePosDifY = (double)((double)y - inputManager.g_mousePosY);
+		inputManager.g_mousePosDifX = x - inputManager.g_mousePosX;
+		inputManager.g_mousePosDifY = y - inputManager.g_mousePosY;
 
 		if (!inputManager.CAMERA_FREEEVIEW_MODE)
 		{
@@ -44,8 +44,8 @@ namespace
 		else
 		{
 			glutWarpPointer((int)inputManager.WINDOW_HSCREEN_WIDTH, (int)inputManager.WINDOW_HSCREEN_HEIGHT);
-			inputManager.g_mousePosX = inputManager.defaultMousePosX;
-			inputManager.g_mousePosY = inputManager.defaultMousePosY;
+			inputManager.g_mousePosX = 0;
+			inputManager.g_mousePosY = 0;
 		}
 
 		inputManager.MouseState[_button] = (GLUT_DOWN == _state) ? inputManager.INPUT_DOWN_FIRST : inputManager.INPUT_UP_FIRST;
@@ -58,11 +58,11 @@ namespace
 		//Convert current screen width and height mouse co-ords to 
 		//move the co-ords from (0, 0) at top left, to (0, 0) at middle of screen
 		//(remaps screen size mouse coords to opengl pixel coords)
-		double x = Math::remap(_x, 0.0, inputManager.WINDOW_SCREEN_WIDTH, -inputManager.GL_HSCREEN_WIDTH, inputManager.GL_HSCREEN_WIDTH);
-		double y = Math::remap(_y, 0.0, inputManager.WINDOW_SCREEN_HEIGHT, -inputManager.GL_HSCREEN_HEIGHT, inputManager.GL_HSCREEN_HEIGHT);
+		int x = (int)Math::remap(_x, 0, inputManager.WINDOW_SCREEN_WIDTH, -inputManager.GL_HSCREEN_WIDTH, inputManager.GL_HSCREEN_WIDTH);
+		int y = (int)Math::remap(_y, 0, inputManager.WINDOW_SCREEN_HEIGHT, -inputManager.GL_HSCREEN_HEIGHT, inputManager.GL_HSCREEN_HEIGHT);
 
 		//Invert y axis
-		y *= -1.0;
+		y *= -1;
 
 		std::cout << "_x = " << _x << std::endl;
 		std::cout << "_y = " << _y << std::endl;
@@ -70,8 +70,8 @@ namespace
 		std::cout << "x = " << x << std::endl;
 		std::cout << "y = " << y << std::endl;
 
-		inputManager.g_mousePosDifX = (double)((double)x - inputManager.g_mousePosX);
-		inputManager.g_mousePosDifY = (double)((double)y - inputManager.g_mousePosY);
+		inputManager.g_mousePosDifX = x - inputManager.g_mousePosX;
+		inputManager.g_mousePosDifY = y - inputManager.g_mousePosY;
 
 		if (!inputManager.CAMERA_FREEEVIEW_MODE)
 		{
@@ -81,8 +81,8 @@ namespace
 		else
 		{
 			glutWarpPointer((int)inputManager.WINDOW_HSCREEN_WIDTH, (int)inputManager.WINDOW_HSCREEN_HEIGHT);
-			inputManager.g_mousePosX = inputManager.defaultMousePosX;
-			inputManager.g_mousePosY = inputManager.defaultMousePosY;
+			inputManager.g_mousePosX = 0;
+			inputManager.g_mousePosY = 0;
 		}
 		////Debug logging
 		//std::cout << "Mouse moved to - x: " << x << " | y: " << y << std::endl;
@@ -94,14 +94,20 @@ namespace
 		//Convert current screen width and height mouse co-ords to 
 		//move the co-ords from (0, 0) at top left, to (0, 0) at middle of screen
 		//(remaps screen size mouse coords to opengl pixel coords)
-		double x = Math::remap(_x, 0.0, inputManager.WINDOW_SCREEN_WIDTH, -inputManager.GL_HSCREEN_WIDTH, inputManager.GL_HSCREEN_WIDTH);
-		double y = Math::remap(_y, 0.0, inputManager.WINDOW_SCREEN_HEIGHT, -inputManager.GL_HSCREEN_HEIGHT, inputManager.GL_HSCREEN_HEIGHT);
+		int x = (int)Math::remap(_x, 0, inputManager.WINDOW_SCREEN_WIDTH, -inputManager.GL_HSCREEN_WIDTH, inputManager.GL_HSCREEN_WIDTH);
+		int y = (int)Math::remap(_y, 0, inputManager.WINDOW_SCREEN_HEIGHT, -inputManager.GL_HSCREEN_HEIGHT, inputManager.GL_HSCREEN_HEIGHT);
 
 		//Invert y axis
-		y *= -1.0;
+		y *= -1;
 
-		inputManager.g_mousePosDifX = (double)((double)x - inputManager.g_mousePosX);
-		inputManager.g_mousePosDifY = (double)((double)y - inputManager.g_mousePosY);
+		std::cout << "_x = " << _x << std::endl;
+		std::cout << "_y = " << _y << std::endl;
+
+		std::cout << "x = " << x << std::endl;
+		std::cout << "y = " << y << std::endl;
+
+		inputManager.g_mousePosDifX = x - inputManager.g_mousePosX;
+		inputManager.g_mousePosDifY = y - inputManager.g_mousePosY;
 
 		if (!inputManager.CAMERA_FREEEVIEW_MODE)
 		{
@@ -111,8 +117,8 @@ namespace
 		else
 		{
 			glutWarpPointer((int)inputManager.WINDOW_HSCREEN_WIDTH, (int)inputManager.WINDOW_HSCREEN_HEIGHT);
-			inputManager.g_mousePosX = inputManager.defaultMousePosX;
-			inputManager.g_mousePosY = inputManager.defaultMousePosY;
+			inputManager.g_mousePosX = 0;
+			inputManager.g_mousePosY = 0;
 		}
 		//Debug logging
 		//std::cout << "Mouse clicked on - x: " << _x << " | y: " << _y << std::endl;
@@ -193,10 +199,6 @@ namespace
 		inputManager.WINDOW_SCREEN_HEIGHT = _y;
 		inputManager.WINDOW_HSCREEN_HEIGHT = inputManager.WINDOW_SCREEN_HEIGHT / 2;
 		inputManager.WINDOW_HSCREEN_WIDTH = inputManager.WINDOW_SCREEN_WIDTH / 2;
-
-		inputManager.defaultMousePosX = Math::remap((double)inputManager.WINDOW_HSCREEN_WIDTH, 0.0, (double)inputManager.WINDOW_SCREEN_WIDTH, -(double)inputManager.GL_HSCREEN_WIDTH, (double)inputManager.GL_HSCREEN_WIDTH);
-		inputManager.defaultMousePosY = Math::remap((double)inputManager.WINDOW_HSCREEN_HEIGHT, 0.0, (double)inputManager.WINDOW_SCREEN_HEIGHT, -(double)inputManager.GL_HSCREEN_HEIGHT, (double)inputManager.GL_HSCREEN_HEIGHT);
-
 
 		glViewport((GLsizei)0, (GLsizei)0, (GLsizei)inputManager.WINDOW_SCREEN_WIDTH, (GLsizei)inputManager.WINDOW_SCREEN_HEIGHT);
 		glScissor(0, (GLsizei)(inputManager.WINDOW_SCREEN_HEIGHT * 0.1f), (GLsizei)inputManager.WINDOW_SCREEN_WIDTH, (GLsizei)(inputManager.WINDOW_SCREEN_HEIGHT * 0.8f));

@@ -21,14 +21,10 @@ public:
 		INPUT_DOWN_FIRST = 4,
 	};
 
-	double g_mousePosX = 0.0;
-	double g_mousePosY = 0.0;
-	double g_mousePosDifX = 0.0;
-	double g_mousePosDifY = 0.0;
-
-	//Used to keep track of the exact middle position of the screen when the screen is resized
-	double defaultMousePosX = 0.0;
-	double defaultMousePosY = 0.0;
+	int g_mousePosX = 0;
+	int g_mousePosY = 0;
+	int g_mousePosDifX = 0;
+	int g_mousePosDifY = 0;
 
 	bool CAMERA_FREEEVIEW_MODE = false;
 

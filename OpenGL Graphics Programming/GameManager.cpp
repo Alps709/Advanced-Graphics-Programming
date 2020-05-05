@@ -135,7 +135,7 @@ void GameManager::Update()
 	//Calculate the current FPS based on the delta time
 	std::string tempText = "FPS: ";
 
-	int fps = int(1000.0 / deltaTime);
+	double fps = 1000.0 / deltaTime;
 	tempText = tempText + std::to_string(fps);
 	
 	m_fpsText->SetText(tempText);
@@ -163,8 +163,8 @@ void GameManager::Update()
 	//Update key states with new input
 	inputManager.Update();
 
-	inputManager.g_mousePosDifX = 0.0;
-	inputManager.g_mousePosDifY = 0.0;
+	inputManager.g_mousePosDifX = 0;
+	inputManager.g_mousePosDifY = 0;
 
 	//Tell glut to call the render function again
 	glutPostRedisplay();

@@ -63,10 +63,10 @@ void Camera::ResetView()
 	m_camRoll = 0.0f;
 	m_camPosition = glm::vec3(64.0f, 5.0f, 64.0f);
 
-	inputManager.g_mousePosX = 0.0;
-	inputManager.g_mousePosY = 0.0;
-	inputManager.g_mousePosDifX = 0.0;
-	inputManager.g_mousePosDifY = 0.0;
+	inputManager.g_mousePosX = 0;
+	inputManager.g_mousePosY = 0;
+	inputManager.g_mousePosDifX = 0;
+	inputManager.g_mousePosDifY = 0;
 
 	//Update the vectors from the mouse input
 	UpdateVectors();
@@ -147,14 +147,12 @@ void Camera::ProcessInput(double _deltaTime)
 			SetPosition(glm::vec3(tempVec));
 		}
 
-		double deltaYaw = inputManager.g_mousePosDifX * m_mouseSens;
-		double deltaPitch = inputManager.g_mousePosDifY * m_mouseSens; 
+		double deltaYaw = (double)inputManager.g_mousePosDifX * m_mouseSens;
+		double deltaPitch = (double)inputManager.g_mousePosDifY * m_mouseSens; 
 
 		std::cout << "Change in yaw: " << deltaYaw << std::endl;
 		std::cout << "Change in pitch: " << deltaPitch << std::endl;
 		std::cout << "Mouse pos - x: " << inputManager.g_mousePosX << " | y: " << inputManager.g_mousePosY << std::endl;
-		std::cout << "Default Mouse pos - x: " << inputManager.defaultMousePosX << " | y: " << inputManager.defaultMousePosY << std::endl;
-		std::cout << "Mouse change in - x: " << inputManager.g_mousePosDifX << " | y: " << inputManager.g_mousePosDifY << std::endl;
 
 		m_camYaw += deltaYaw;
 
