@@ -83,6 +83,7 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 	const float topLeftZ = (_zSize - 1) / 2.0f;
 
 	std::vector<float> vertices(count * 8);
+	m_heightMap = std::vector<float>(count);
 
 	std::vector<unsigned int> indices((_xSize - 1) * (_zSize - 1) * 6);
 
@@ -93,7 +94,7 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 		for (unsigned int x = 0; x < _xSize; x++)
 		{
 			float height = noiseGenerator.GetNoise((float)x, (float)z) * noiseHeightMod * -1;
-			m_heightMap.push_back(height);
+			m_heightMap[z * _zSize + x] = height;
 
 			//Positions
 			vertices[vertexPointer]     = (float)(x * SIZE);
@@ -131,13 +132,13 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 			
 			//Calculate the tangentials
 			glm::vec3 tanZ = glm::vec3(0.0f, (top - bottom) * invTwoDZ, 1.0f);
-			glm::vec3 tanX = glm::vec3(0.0f, (right - left) * invTwoDX, 0.0f);
+			glm::vec3 tanX = glm::vec3(1.0f, (right - left) * invTwoDX, 0.0f);
 			
 			//Calculate normal by finding the cross product
 			glm::vec3 crossProduct = glm::cross(tanZ, tanX);
 			crossProduct = glm::normalize(crossProduct);
 
-			//Normals				
+			//Normal			
 			vertices[vertexPointer + 3] = crossProduct.x;
 			vertices[vertexPointer + 4] = crossProduct.y;
 			vertices[vertexPointer + 5] = crossProduct.z;

@@ -12,6 +12,7 @@ uniform sampler2D u_grassTex;
 //Need the world pos for the fog
 out vec4 mWorldPos;
 
+out vec3 fragmentPos;
 out vec3 fragmentNormal;
 out vec2 fragmentTextureCoord;
 
@@ -21,6 +22,7 @@ void main(void)
 	
 	mWorldPos = u_modelMat * vec4(position, 1.0f);
 
+	fragmentPos = vec3(u_modelMat * vec4(position, 1.0f));
 	fragmentNormal = normal;
 	fragmentTextureCoord = textureCoord; 
 }
