@@ -53,10 +53,12 @@ float Terrain::GetTerrainHeight(float _worldX, float _worldZ)
 {
 	auto heights = m_mesh->GetTerrainHeights();
 
+	//Get the x and y relative to the terrain
 	float localX = _worldX - m_position.x;
 	float localZ = _worldZ - m_position.z;
 
-	//Size of 1 square (1) divided by the number of squares int the terrain along one side
+	//Size of 1 square in world space (1) divided by the number of vertices in the terrain along one side minus 1
+	//This gives the number of grid squares along the X side
 	float gridSquaresSize = 1;
 
 	int gridX = (int)floorf(localX / gridSquaresSize);
