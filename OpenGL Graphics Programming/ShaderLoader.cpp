@@ -3,12 +3,12 @@
 #include <vector>
 
 
-GLuint ShaderLoader::CreateProgram(const char* vertexShaderFilename, const char* fragmentShaderFilename)
+GLuint ShaderLoader::CreateProgram(const char* _vertexShaderFilename, const char* _fragmentShaderFilename)
 {
 	GLuint program = GLCall(glCreateProgram());
 
-	const GLuint vertexID = CreateShader(GL_VERTEX_SHADER, vertexShaderFilename);
-	const GLuint fragmentID = CreateShader(GL_FRAGMENT_SHADER, fragmentShaderFilename);
+	const GLuint vertexID = CreateShader(GL_VERTEX_SHADER, _vertexShaderFilename);
+	const GLuint fragmentID = CreateShader(GL_FRAGMENT_SHADER, _fragmentShaderFilename);
 
 	std::string ID = std::to_string(vertexID) + std::to_string(fragmentID);
 	
@@ -30,7 +30,46 @@ GLuint ShaderLoader::CreateProgram(const char* vertexShaderFilename, const char*
 	GLCall(glGetProgramiv(program, GL_LINK_STATUS, &link_result));
 	if (link_result == GL_FALSE)
 	{
-		std::string programName = vertexShaderFilename + *fragmentShaderFilename;
+		std::string programName = _vertexShaderFilename + *_fragmentShaderFilename;
+		PrintErrorDetails(false, program, programName.c_str());
+		return 0;
+	}
+	m_shaderMap->insert(std::pair<GLuint, std::string>(program, ID));
+	return program;
+}
+
+GLuint ShaderLoader::CreateProgram(const char* _vertexShaderFilename, const char* _geometryShaderFilename, const char* _fragmentShaderFilename)
+{
+	GLuint program = GLCall(glCreateProgram());
+
+	const GLuint vertexID = CreateShader(GL_VERTEX_SHADER, _vertexShaderFilename);
+	const GLuint geometryID = CreateShader(GL_GEOMETRY_SHADER, _geometryShaderFilename);
+	const GLuint fragmentID = CreateShader(GL_FRAGMENT_SHADER, _fragmentShaderFilename);
+	
+
+	std::string ID = std::to_string(vertexID) + std::to_string(geometryID) + std::to_string(fragmentID));
+
+	GLCall(glAttachShader(program, vertexID));
+	GLCall(glAttachShader(program, geometryID));
+	GLCall(glAttachShader(program, fragmentID));
+	
+
+	glLinkProgram(program);
+
+	const auto shader = m_shaderMap->find(program);
+
+	if (shader != m_shaderMap->end() && shader->second == ID)
+	{
+		std::cout << "Shader has already been compiled before!" << std::endl;
+		return shader->first;
+	}
+
+	// Check for link errors
+	int link_result = 0;
+	GLCall(glGetProgramiv(program, GL_LINK_STATUS, &link_result));
+	if (link_result == GL_FALSE)
+	{
+		std::string programName = _vertexShaderFilename + *_fragmentShaderFilename + *_geometryShaderFilename;
 		PrintErrorDetails(false, program, programName.c_str());
 		return 0;
 	}
@@ -56,6 +95,7 @@ GLuint ShaderLoader::CreateShader(GLenum shaderType, const char* shaderName)
 	if (compile_result == GL_FALSE)
 	{
 		PrintErrorDetails(true, shaderID, shaderName);
+		system("pause");
 		return 0;
 	}
 	return shaderID;
