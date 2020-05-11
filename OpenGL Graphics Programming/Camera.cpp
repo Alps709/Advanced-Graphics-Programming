@@ -150,9 +150,9 @@ void Camera::ProcessInput(double _deltaTime)
 		double deltaYaw = (double)inputManager.g_mousePosDifX * m_mouseSens;
 		double deltaPitch = (double)inputManager.g_mousePosDifY * m_mouseSens; 
 
-		std::cout << "Change in yaw: " << deltaYaw << std::endl;
-		std::cout << "Change in pitch: " << deltaPitch << std::endl;
-		std::cout << "Mouse pos - x: " << inputManager.g_mousePosX << " | y: " << inputManager.g_mousePosY << std::endl;
+		//std::cout << "Change in yaw: " << deltaYaw << std::endl;
+		//std::cout << "Change in pitch: " << deltaPitch << std::endl;
+		//std::cout << "Mouse pos - x: " << inputManager.g_mousePosX << " | y: " << inputManager.g_mousePosY << std::endl;
 
 		m_camYaw += deltaYaw;
 

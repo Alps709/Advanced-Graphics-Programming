@@ -80,9 +80,6 @@
     <ClCompile Include="SphereMesh.cpp">
       <Filter>Source Files\Object stuff\Meshes\Derived</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>Source Files\Object stuff\Objects\Base</Filter>
-    </ClCompile>
     <ClCompile Include="CubeMap.cpp">
       <Filter>Source Files\Object stuff\Objects</Filter>
     </ClCompile>
@@ -109,6 +106,12 @@
     </ClCompile>
     <ClCompile Include="MousePicker.cpp">
       <Filter>Source Files\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\Object stuff\Objects\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryObject.cpp">
+      <Filter>Source Files\Object stuff\Objects\Derived</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -157,9 +160,6 @@
     <ClInclude Include="SphereMesh.h">
       <Filter>Source Files\Object stuff\Meshes\Derived</Filter>
     </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Source Files\Object stuff\Objects\Base</Filter>
-    </ClInclude>
     <ClInclude Include="CubeMap.h">
       <Filter>Source Files\Object stuff\Objects</Filter>
     </ClInclude>
@@ -186,6 +186,12 @@
     </ClInclude>
     <ClInclude Include="MousePicker.h">
       <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Source Files\Object stuff\Objects\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometryObject.h">
+      <Filter>Source Files\Object stuff\Objects\Derived</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

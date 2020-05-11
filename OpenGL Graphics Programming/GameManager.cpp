@@ -6,8 +6,8 @@
 #include <fmod.h>
 
 glm::vec3 tempVec{};
-bool RaySphereIntersection(const Object& _object, const Camera& _camera, glm::vec3 _rayDir, glm::vec3& _intersectionPoint);
-bool RayAABBIntersection(const Object& _object, const Camera& _camera, glm::vec3 _rayDir, glm::vec3& _intersectionPoint);
+bool RaySphereIntersection(const GameObject& _object, const Camera& _camera, glm::vec3 _rayDir, glm::vec3& _intersectionPoint);
+bool RayAABBIntersection(const GameObject& _object, const Camera& _camera, glm::vec3 _rayDir, glm::vec3& _intersectionPoint);
 
 
 GameManager::GameManager()
@@ -33,6 +33,8 @@ GameManager::GameManager()
 	//Terrain
 	m_grassTerrain = new Terrain(128, 128, glm::vec3(0.0f), m_grassTexture);
 	m_waterTerrain = new WaterTerrain(128, 128, glm::vec3(0.0f), m_grassTexture, m_noiseTexture);
+
+	m_geometryObject = new GeometryObject(glm::vec3(70.0f, 10.0f, 64.0f), glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
 
 	m_cube  = new Cube(glm::vec3(70.0f, m_grassTerrain->GetTerrainHeight(70.0f, 64.0f) + 0.5f, 64.0f), m_grassTexture, glm::vec4(0.1f, 0.1f, 0.7f, 1.0f), true);
 	m_cube1 = new Cube(glm::vec3(70.0f, 10.0f, 60.0f), m_grassTexture, glm::vec4(0.7f, 0.1f, 0.1f, 1.0f), false);
@@ -96,11 +98,11 @@ void GameManager::ProcessInput()
 
 		if (m_WireframeRenderMode)
 		{
-			GLCall(glPolygonMode(GL_FRONT, GL_LINE));
+			GLCall(glPolygonMode(GL_FRONT_AND_BACK, GL_LINE));
 		}
 		else
 		{
-			GLCall(glPolygonMode(GL_FRONT, GL_FILL));
+			GLCall(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL));
 		}
 	}
 
@@ -189,6 +191,8 @@ void GameManager::Render()
 	m_cube->Render(*m_camera, m_FogRenderMode);
 	m_cube1->Render(*m_camera, m_FogRenderMode);
 	m_cube2->Render(*m_camera, m_FogRenderMode);
+
+	m_geometryObject->Render(*m_camera);
 
 	//Render game menu non transparent here
 	if (m_gameState == GAME_MENU)
@@ -315,12 +319,12 @@ void GameManager::Reset()
 	//Turn fog on
 	m_FogRenderMode = true;
 
-	//Turn wirefram mode off
+	//Turn wireframe mode off
 	m_WireframeRenderMode = false;
-	GLCall(glPolygonMode(GL_FRONT, GL_FILL));
+	GLCall(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL));
 }
 
-bool RaySphereIntersection(const Object& _object, const Camera& _camera, glm::vec3 _rayDir, glm::vec3& _intersectionPoint)
+bool RaySphereIntersection(const GameObject& _object, const Camera& _camera, glm::vec3 _rayDir, glm::vec3& _intersectionPoint)
 {
 	float radius = (float)_object.GetRadius();
 	glm::vec3 rayOrigin = _camera.GetPosition();
@@ -361,7 +365,7 @@ bool RaySphereIntersection(const Object& _object, const Camera& _camera, glm::ve
 	return false;
 }
 
-bool RayAABBIntersection(const Object& _object, const Camera& _camera, glm::vec3 _rayDir, glm::vec3& _intersectionPoint)
+bool RayAABBIntersection(const GameObject& _object, const Camera& _camera, glm::vec3 _rayDir, glm::vec3& _intersectionPoint)
 {
 	glm::vec3 rayOrigin = _camera.GetPosition();
 	glm::vec3 objScale = _object.GetScale() / 2.0f;

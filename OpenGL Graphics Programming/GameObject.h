@@ -9,14 +9,14 @@
 
 
 
-class Object
+class GameObject
 {
 public:
-	Object() = default;
-	Object(Mesh* _mesh, Shader* _shader, glm::vec3 _position);
-	virtual ~Object() = default;
+	GameObject() = default;
+	GameObject(Mesh* _mesh, Shader* _shader, glm::vec3 _position);
+	virtual ~GameObject() = default;
 
-	//Getters
+	//Getter
 	glm::vec3 GetPosition() const { return m_position; }
 	glm::vec3 GetScale() const { return m_scale; }
 	Mesh* GetMesh() const { return m_mesh; }

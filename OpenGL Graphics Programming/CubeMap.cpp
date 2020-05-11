@@ -44,7 +44,7 @@ void CubeMap::Initialise()
 {
 	if (m_shader == nullptr)
 	{
-		m_shader = new Shader("Shaders/CubeMapVS.glsl", "Shaders/CubeMapFS.glsl");
+		m_shader = new Shader("Shaders/CubeMap_0_VS.glsl", "Shaders/CubeMap_1_FS.glsl");
 	}
 	m_position = glm::vec3(0.0f, 0.0f, 0.0f);
 

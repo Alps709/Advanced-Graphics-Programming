@@ -24,6 +24,22 @@ Mesh::Mesh(std::vector<float> _vertices, std::vector<unsigned int> _indices)
 	SetVertexAttributes();
 }
 
+Mesh::Mesh(std::vector<float> _vertices)
+{
+	m_vertices = _vertices;
+
+	//Generate vao
+	GLCall(glGenVertexArrays(1, &m_vaoID));
+	GLCall(glBindVertexArray(m_vaoID));
+
+	//Generate vbo
+	GLCall(glGenBuffers(1, &m_vboID));
+	GLCall(glBindBuffer(GL_ARRAY_BUFFER, m_vboID));
+	GLCall(glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(float), static_cast<const void*>(_vertices.data()), GL_STATIC_DRAW));
+
+	SetVertexSingleAttribute();
+}
+
 void Mesh::AddVAOBuffer(const VertexBufferInfo _info)
 {
 	const auto& indices = _info.Getindices();
@@ -50,6 +66,17 @@ void Mesh::SetVertexAttributes()
 
 	//2 texture co-ord floats
 	vbInfo.Push<float>(2);
+
+	AddVAOBuffer(vbInfo);
+}
+
+void Mesh::SetVertexSingleAttribute()
+{
+	//Create layout and populate it with the vertex attribute information
+	VertexBufferInfo vbInfo;
+
+	//3 m_position floats
+	vbInfo.Push<float>(3);
 
 	AddVAOBuffer(vbInfo);
 }

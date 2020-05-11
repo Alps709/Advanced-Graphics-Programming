@@ -3,13 +3,15 @@
 #include "MousePicker.h"
 #include "TextLabel.h"
 #include "Texture.h"
-#include "Object.h"
+#include "GameObject.h"
 #include "CubeMap.h"
 #include "Model.h"
 #include "Terrain.h"
 #include "WaterTerrain.h"
 
 #include <fmod.hpp>
+
+#include "GeometryObject.h"
 
 class Cube;
 
@@ -52,6 +54,9 @@ private:
 	//Camera
 	Camera* m_camera = nullptr;
 
+
+	///Objects
+
 	//Cube map
 	CubeMap& m_CubeMap = CubeMap::getInstance();
 
@@ -59,13 +64,17 @@ private:
 	Terrain* m_grassTerrain = nullptr;
 	WaterTerrain* m_waterTerrain = nullptr;
 
-	//The current object in the world that's being intersected by the mouse
-	Object* m_currentIntersected = nullptr;
-
-	///Objects
+	//Cubes with stencils
 	Cube* m_cube = nullptr;
 	Cube* m_cube1 = nullptr;
 	Cube* m_cube2 = nullptr;
+
+	//Geometry shader model
+	GeometryObject* m_geometryObject = nullptr;
+
+	//The current object in the world that's being intersected by the mouse
+	GameObject* m_currentIntersected = nullptr;
+	
 
 	//Game terrain textures
 	Texture* m_grassTexture = nullptr;
@@ -73,6 +82,7 @@ private:
 
 	//Shaders
 	Shader* m_defaultShader = nullptr;
+	Shader* m_geometryModelShader = nullptr;
 
 	//Text
 	TextLabel* m_menuTitleText = nullptr;

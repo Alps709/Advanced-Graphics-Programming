@@ -1,7 +1,7 @@
 #pragma once
-#include "Object.h"
+#include "GameObject.h"
 
-class Cube : public Object
+class Cube : public GameObject
 {
 public:
 	Cube() = default;

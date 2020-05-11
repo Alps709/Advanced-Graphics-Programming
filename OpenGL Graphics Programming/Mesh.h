@@ -7,6 +7,7 @@ class Mesh
 public:
 	Mesh() = default;
 	Mesh(std::vector<float> _vertices, std::vector<unsigned int> _indices);
+	explicit Mesh(std::vector<float> _vertices);
 	~Mesh();
 
 	//A comparsion is required for the hashing function below
@@ -19,6 +20,7 @@ public:
 
 	void AddVAOBuffer(const VertexBufferInfo _info);
 	void SetVertexAttributes();
+	void SetVertexSingleAttribute();
 
 	std::vector<float> m_vertices;
 	unsigned int GetindicesCount() const { return m_indicesCount; }

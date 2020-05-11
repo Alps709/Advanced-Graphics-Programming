@@ -47,7 +47,7 @@ GLuint ShaderLoader::CreateProgram(const char* _vertexShaderFilename, const char
 	const GLuint fragmentID = CreateShader(GL_FRAGMENT_SHADER, _fragmentShaderFilename);
 	
 
-	std::string ID = std::to_string(vertexID) + std::to_string(geometryID) + std::to_string(fragmentID));
+	std::string ID = std::to_string(vertexID) + std::to_string(geometryID) + std::to_string(fragmentID);
 
 	GLCall(glAttachShader(program, vertexID));
 	GLCall(glAttachShader(program, geometryID));

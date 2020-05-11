@@ -20,7 +20,6 @@ bool inline GLCheckError()
 {
 	while (GLenum error = glGetError())
 	{
-
 		std::cout << "[OpenGL Error] ";
 		switch (error) {
 		case GL_INVALID_ENUM:

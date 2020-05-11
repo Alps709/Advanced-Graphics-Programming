@@ -116,6 +116,13 @@ namespace Objects
 		20, 22, 23,
 	};
 
+	//Cube Map vertices
+	static std::vector<float> vertexPoint =
+	{
+		//Position		
+		0.0f, 0.0f, 0.0f
+	};
+	
 	//Cube map indices (just a copy of the cube indices but with the opposite winding order so the normals calculate inwards)
 	static std::vector<GLuint>indicesCubeMap =
 	{

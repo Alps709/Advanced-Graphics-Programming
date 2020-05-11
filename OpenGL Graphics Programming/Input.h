@@ -64,12 +64,6 @@ namespace
 		//Invert y axis
 		y *= -1;
 
-		std::cout << "_x = " << _x << std::endl;
-		std::cout << "_y = " << _y << std::endl;
-
-		std::cout << "x = " << x << std::endl;
-		std::cout << "y = " << y << std::endl;
-
 		inputManager.g_mousePosDifX = x - inputManager.g_mousePosX;
 		inputManager.g_mousePosDifY = y - inputManager.g_mousePosY;
 
@@ -99,12 +93,6 @@ namespace
 
 		//Invert y axis
 		y *= -1;
-
-		std::cout << "_x = " << _x << std::endl;
-		std::cout << "_y = " << _y << std::endl;
-
-		std::cout << "x = " << x << std::endl;
-		std::cout << "y = " << y << std::endl;
 
 		inputManager.g_mousePosDifX = x - inputManager.g_mousePosX;
 		inputManager.g_mousePosDifY = y - inputManager.g_mousePosY;

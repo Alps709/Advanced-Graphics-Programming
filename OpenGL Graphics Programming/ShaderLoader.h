@@ -23,7 +23,7 @@ public:
 	}
 
 	static GLuint CreateProgram(const char* _vertexShaderFilename, const char* _fragmentShaderFilename);
-	static GLuint CreateProgram(const char* _vertexShaderFilename, const char* _fragmentShaderFilename, const char* _geometryShaderFilename);
+	static GLuint CreateProgram(const char* _vertexShaderFilename, const char* _geometryShaderFilename, const char* _fragmentShaderFilename);
 
 private:
 	ShaderLoader() = default;

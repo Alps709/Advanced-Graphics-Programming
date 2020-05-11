@@ -4,13 +4,11 @@
 Cube::Cube(glm::vec3 _position, Texture* _texture, glm::vec4 _colour, bool _useStencil)
 {
 	m_mesh = new Mesh(Objects::verticesCube, Objects::indicesCube);
-	m_shader = new Shader("Shaders/Cube1VS.glsl", "Shaders/Cube1FS.glsl");
+	m_shader = new Shader("Shaders/Cube_0_VS.glsl", "Shaders/Cube_1_FS.glsl");
 	m_position = _position;
 	m_tex0 = _texture;
 	m_colour = _colour;
 	m_useStencil = _useStencil;
-
-	m_colliderRadius = 0.65;
 
 	//Update the stored model matrix
 	UpdateModelMat();

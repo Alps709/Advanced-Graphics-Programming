@@ -12,7 +12,7 @@ TextLabel::TextLabel(const std::string& _text, const std::string& _font, glm::ve
 
 	m_projMat = glm::ortho(-halfWidth, halfWidth, -halfHeight, halfHeight);
 
-	m_shader = Shader("Shaders/TextVertexShader.glsl", "Shaders/TextFragmentShader.glsl");
+	m_shader = Shader("Shaders/Text_0_VS.glsl", "Shaders/Text_1_FS.glsl");
 
 	FT_Library library;
 	FT_Face fontFace;

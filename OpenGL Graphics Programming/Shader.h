@@ -7,7 +7,8 @@ class Shader
 {
 public:
 	Shader();
-	Shader(const char* vertexSrc, const char* fragmentSrc);
+	Shader(const char* _vertexSrc, const char* _fragmentSrc);
+	Shader(const char* _vertexSrc, const char* _geometrySrc, const char* _fragmentSrc);
 	~Shader() = default;
 
 	void Bind() const;
@@ -18,6 +19,7 @@ public:
 	void SetUniform1f(const std::string& _name, float _v1) const;
 	void SetUniform3f(const std::string& _name, float _v1, float _v2, float _v3) const;
 	void SetUniform3f(const std::string& _name, glm::vec3 _vec3f) const;
+	void SetUniform4f(const std::string& _name, glm::vec4 _vec4f) const;
 
 	void SetUniform1i(const std::string& _name, int _v1) const;
 
@@ -29,7 +31,7 @@ private:
 	unsigned int m_programID{};
 
 	std::string m_VSFile;
+	std::string m_GSFile;
 	std::string m_FSFile;
-
 };
 

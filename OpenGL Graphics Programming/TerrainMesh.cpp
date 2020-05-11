@@ -92,7 +92,7 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 
 	std::vector<unsigned int> indices((_xSize - 1) * (_zSize - 1) * 6);
 
-	int vertexIndex = 0;
+	unsigned int vertexIndex = 0;
 
 	for (unsigned int z = 0; z < _zSize; z++)
 	{
@@ -146,7 +146,7 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 	}
 
 	int countIndices = 0;
-	int index = 0;
+	unsigned int index = 0;
 	for (unsigned int gz = 0; gz < _zSize - 1; gz++) 
 	{
 		for (unsigned int gx = 0; gx < _xSize - 1; gx++) 

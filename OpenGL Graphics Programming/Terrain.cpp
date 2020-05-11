@@ -2,7 +2,7 @@
 
 #include "Math.h"
 
-#include "Object.h"
+#include "GameObject.h"
 #include "Camera.h"
 
 Terrain::Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, Texture* _terrainTexture)
@@ -11,7 +11,7 @@ Terrain::Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, 
 	m_zSize = _zSize;
 
 	m_mesh = new TerrainMesh(_xSize, _zSize);
-	m_shader = Shader("Shaders/TerrainVS.glsl", "Shaders/TerrainFS.glsl");
+	m_shader = Shader("Shaders/Terrain_0_VS.glsl", "Shaders/Terrain_1_FS.glsl");
 	m_position = _position;
 	m_tex0 = _terrainTexture;
 
