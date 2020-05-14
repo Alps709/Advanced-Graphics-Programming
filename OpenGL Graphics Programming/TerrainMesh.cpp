@@ -84,8 +84,8 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 	const int noiseHeightMod = SIZE * 30;
 	const int count = _xSize * _zSize;
 
-	const float topLeftX = (_xSize - 1) / -2.0f;
-	const float topLeftZ = (_zSize - 1) / 2.0f;
+	//const float topLeftX = (_xSize - 1) / -2.0f;
+	//const float topLeftZ = (_zSize - 1) / 2.0f;
 
 	std::vector<float> vertices(count * 8);
 	m_heightMap = std::vector<float>(count);

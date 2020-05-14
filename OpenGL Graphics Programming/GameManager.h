@@ -12,7 +12,7 @@
 #include <fmod.hpp>
 
 #include "GeometryObject.h"
-#include "TesselationObject.h"
+#include "TessellationObject.h"
 
 class Cube;
 
@@ -74,7 +74,7 @@ private:
 	GeometryObject* m_geometryObject = nullptr;
 
 	//Tesselation shader model
-	TesselationObject* m_tesselationObject = nullptr;
+	TessellationObject* m_tesselationObject = nullptr;
 
 	//The current object in the world that's being intersected by the mouse
 	GameObject* m_currentIntersected = nullptr;

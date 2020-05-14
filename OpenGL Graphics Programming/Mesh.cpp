@@ -27,6 +27,9 @@ Mesh::Mesh(std::vector<float> _vertices)
 	m_vertices = _vertices;
 	m_indicesCount = _vertices.size() / 3;
 
+	//Tells opengl that if this is going to be using a tessellation shader, then it will tessellate quads
+	glPatchParameteri(GL_PATCH_VERTICES, 4);
+	
 	//Generate vao
 	GLCall(glGenVertexArrays(1, &m_vaoID));
 	GLCall(glBindVertexArray(m_vaoID));

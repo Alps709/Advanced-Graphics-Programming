@@ -1,12 +1,12 @@
 #pragma once
 #include "GameObject.h"
 
-class TesselationObject : public GameObject
+class TessellationObject : public GameObject
 {
 public:
-	TesselationObject() = default;
-	TesselationObject(glm::vec3 _position, glm::vec4 _colour);
-	~TesselationObject();
+	TessellationObject() = default;
+	TessellationObject(glm::vec3 _position, glm::vec4 _colour);
+	~TessellationObject();
 
 	void SetShaderUniforms(Camera & _myCamera) const override;
 	void Render(Camera & _myCamera) override;

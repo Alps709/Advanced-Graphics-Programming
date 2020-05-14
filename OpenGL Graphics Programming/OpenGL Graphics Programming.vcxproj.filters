@@ -113,7 +113,7 @@
     <ClCompile Include="GeometryObject.cpp">
       <Filter>Source Files\Object stuff\Objects\Derived</Filter>
     </ClCompile>
-    <ClCompile Include="TesselationObject.cpp">
+    <ClCompile Include="TessellationObject.cpp">
       <Filter>Source Files\Object stuff\Objects\Derived</Filter>
     </ClCompile>
   </ItemGroup>
@@ -196,7 +196,7 @@
     <ClInclude Include="GeometryObject.h">
       <Filter>Source Files\Object stuff\Objects\Derived</Filter>
     </ClInclude>
-    <ClInclude Include="TesselationObject.h">
+    <ClInclude Include="TessellationObject.h">
       <Filter>Source Files\Object stuff\Objects\Derived</Filter>
     </ClInclude>
   </ItemGroup>
