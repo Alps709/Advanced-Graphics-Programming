@@ -1,11 +1,9 @@
 #include "Mesh.h"
 
-
-
 Mesh::Mesh(std::vector<float> _vertices, std::vector<unsigned int> _indices)
 {
-	m_indicesCount = _indices.size();
 	m_vertices = _vertices;
+	m_indicesCount = _indices.size();
 
 	//Generate vao
 	GLCall(glGenVertexArrays(1, &m_vaoID));
@@ -27,6 +25,7 @@ Mesh::Mesh(std::vector<float> _vertices, std::vector<unsigned int> _indices)
 Mesh::Mesh(std::vector<float> _vertices)
 {
 	m_vertices = _vertices;
+	m_indicesCount = _vertices.size() / 3;
 
 	//Generate vao
 	GLCall(glGenVertexArrays(1, &m_vaoID));

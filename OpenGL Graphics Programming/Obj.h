@@ -116,11 +116,19 @@ namespace Objects
 		20, 22, 23,
 	};
 
-	//Cube Map vertices
+	//Single vertex
 	static std::vector<float> vertexPoint =
 	{
 		//Position		
 		0.0f, 0.0f, 0.0f
+	};
+
+	static std::vector<float> quadPositions = 
+	{
+		0.0f, -0.5f, -0.5f,
+		0.0f, -0.5f,  0.5f,
+		0.0f,  0.5f,  0.5f,
+		0.0f,  0.5f, -0.5f
 	};
 	
 	//Cube map indices (just a copy of the cube indices but with the opposite winding order so the normals calculate inwards)

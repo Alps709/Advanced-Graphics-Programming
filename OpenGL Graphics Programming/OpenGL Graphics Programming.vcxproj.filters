@@ -113,6 +113,9 @@
     <ClCompile Include="GeometryObject.cpp">
       <Filter>Source Files\Object stuff\Objects\Derived</Filter>
     </ClCompile>
+    <ClCompile Include="TesselationObject.cpp">
+      <Filter>Source Files\Object stuff\Objects\Derived</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VertexBufferInfo.h">
@@ -191,6 +194,9 @@
       <Filter>Source Files\Object stuff\Objects\Base</Filter>
     </ClInclude>
     <ClInclude Include="GeometryObject.h">
+      <Filter>Source Files\Object stuff\Objects\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="TesselationObject.h">
       <Filter>Source Files\Object stuff\Objects\Derived</Filter>
     </ClInclude>
   </ItemGroup>

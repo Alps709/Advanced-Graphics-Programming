@@ -166,6 +166,7 @@
     <ClCompile Include="SphereMesh.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="TerrainMesh.cpp" />
+    <ClCompile Include="TesselationObject.cpp" />
     <ClCompile Include="TextLabel.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VertexBufferInfo.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="SphereMesh.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="TerrainMesh.h" />
+    <ClInclude Include="TesselationObject.h" />
     <ClInclude Include="TextLabel.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VertexBufferInfo.h" />

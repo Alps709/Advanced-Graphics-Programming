@@ -35,6 +35,7 @@ GameManager::GameManager()
 	m_waterTerrain = new WaterTerrain(128, 128, glm::vec3(0.0f), m_grassTexture, m_noiseTexture);
 
 	m_geometryObject = new GeometryObject(glm::vec3(70.0f, 10.0f, 64.0f), glm::vec4(1.0f, 0.0f, 1.0f, 1.0f));
+	m_tesselationObject = new TesselationObject(glm::vec3(70.0f, 12.0f, 64.0f), glm::vec4(0.7f, 0.0f, 0.7f, 1.0f));
 
 	m_cube  = new Cube(glm::vec3(70.0f, m_grassTerrain->GetTerrainHeight(70.0f, 64.0f) + 0.5f, 64.0f), m_grassTexture, glm::vec4(0.1f, 0.1f, 0.7f, 1.0f), true);
 	m_cube1 = new Cube(glm::vec3(70.0f, 10.0f, 60.0f), m_grassTexture, glm::vec4(0.7f, 0.1f, 0.1f, 1.0f), false);
@@ -193,6 +194,7 @@ void GameManager::Render()
 	m_cube2->Render(*m_camera, m_FogRenderMode);
 
 	m_geometryObject->Render(*m_camera);
+	m_tesselationObject->Render(*m_camera);
 
 	//Render game menu non transparent here
 	if (m_gameState == GAME_MENU)
