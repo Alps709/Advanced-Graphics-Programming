@@ -10,7 +10,7 @@ GLuint ShaderLoader::CreateProgram(const char* _vertexShaderFilename, const char
 	const GLuint vertexID = CreateShader(GL_VERTEX_SHADER, _vertexShaderFilename);
 	const GLuint fragmentID = CreateShader(GL_FRAGMENT_SHADER, _fragmentShaderFilename);
 
-	std::string ID = std::to_string(vertexID) + std::to_string(fragmentID);
+	std::string ID = std::to_string(vertexID) + "_" + std::to_string(fragmentID);
 	
 	GLCall(glAttachShader(program, vertexID));
 	GLCall(glAttachShader(program, fragmentID));
@@ -47,7 +47,7 @@ GLuint ShaderLoader::CreateProgram(const char* _vertexShaderFilename, const char
 	const GLuint fragmentID = CreateShader(GL_FRAGMENT_SHADER, _fragmentShaderFilename);
 	
 
-	std::string ID = std::to_string(vertexID) + std::to_string(geometryID) + std::to_string(fragmentID);
+	std::string ID = std::to_string(vertexID) + "_" + std::to_string(geometryID) + "_" + std::to_string(fragmentID);
 
 	GLCall(glAttachShader(program, vertexID));
 	GLCall(glAttachShader(program, geometryID));
@@ -69,7 +69,52 @@ GLuint ShaderLoader::CreateProgram(const char* _vertexShaderFilename, const char
 	GLCall(glGetProgramiv(program, GL_LINK_STATUS, &link_result));
 	if (link_result == GL_FALSE)
 	{
-		std::string programName = _vertexShaderFilename + *_fragmentShaderFilename + *_geometryShaderFilename;
+		std::string programName = _vertexShaderFilename  + *_geometryShaderFilename + *_fragmentShaderFilename;
+		PrintErrorDetails(false, program, programName.c_str());
+		return 0;
+	}
+	m_shaderMap->insert(std::pair<GLuint, std::string>(program, ID));
+	return program;
+}
+
+GLuint ShaderLoader::CreateProgram(const char* _vertexShaderFilename, const char* _tesselationControlShaderFilename,
+	                               const char* _tesselationEvaluationShaderFilename, const char* _fragmentShaderFilename)
+{
+	GLuint program = GLCall(glCreateProgram());
+
+	const GLuint vertexID = CreateShader(GL_VERTEX_SHADER, _vertexShaderFilename);
+	const GLuint tesselationControlID = CreateShader(GL_TESS_CONTROL_SHADER, _tesselationControlShaderFilename);
+	const GLuint tesselationEvaluationID = CreateShader(GL_TESS_EVALUATION_SHADER, _tesselationEvaluationShaderFilename);
+	const GLuint fragmentID = CreateShader(GL_FRAGMENT_SHADER, _fragmentShaderFilename);
+
+
+	std::string ID = std::to_string(vertexID) + "_" + std::to_string(tesselationControlID) + "_" + std::to_string(tesselationEvaluationID) + "_" + std::to_string(fragmentID);
+
+	GLCall(glAttachShader(program, vertexID));
+	GLCall(glAttachShader(program, tesselationControlID));
+	GLCall(glAttachShader(program, tesselationEvaluationID));
+	GLCall(glAttachShader(program, fragmentID));
+
+
+	glLinkProgram(program);
+
+	const auto shader = m_shaderMap->find(program);
+
+	if (shader != m_shaderMap->end() && shader->second == ID)
+	{
+		std::cout << "Shader has already been compiled before!" << std::endl;
+		return shader->first;
+	}
+
+	// Check for link errors
+	int link_result = 0;
+	GLCall(glGetProgramiv(program, GL_LINK_STATUS, &link_result));
+	if (link_result == GL_FALSE)
+	{
+		std::string programName = _vertexShaderFilename
+		                          + *_tesselationControlShaderFilename
+		                          + *_tesselationEvaluationShaderFilename
+		                          + *_fragmentShaderFilename;
 		PrintErrorDetails(false, program, programName.c_str());
 		return 0;
 	}

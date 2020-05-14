@@ -139,12 +139,12 @@ void GameManager::Update()
 {
 	//Update clock
 	m_clock.Process();
-	double deltaTime = m_clock.GetDeltaTick();
+	const double deltaTime = m_clock.GetDeltaTick();
 
 	//Calculate the current FPS based on the delta time
 	std::string tempText = "FPS: ";
 
-	double fps = 1000.0 / deltaTime;
+	const int fps = static_cast<double>(1000.0 / deltaTime);
 	tempText = tempText + std::to_string(fps);
 	
 	m_fpsText->SetText(tempText);
@@ -169,7 +169,7 @@ void GameManager::Update()
 
 	}
 
-	//Update key states with new input
+	//Update key states with new input for the frame after this one
 	inputManager.Update();
 
 	inputManager.g_mousePosDifX = 0;

@@ -26,6 +26,15 @@ Shader::Shader(const char* _vertexSrc, const char* _geometrySrc, const char* _fr
 	m_programID = ShaderLoader::CreateProgram(_vertexSrc, _geometrySrc, _fragmentSrc);
 }
 
+Shader::Shader(const char* _vertexSrc, const char* _tesselationControlSrc, const char* _tesselationEvaluationSrc, const char* _fragmentSrc)
+{
+	m_VSFile = _vertexSrc;
+	m_TCSFile = _tesselationControlSrc;
+	m_TESFile = _tesselationEvaluationSrc;
+	m_FSFile = _fragmentSrc;
+	m_programID = ShaderLoader::CreateProgram(_vertexSrc, _tesselationControlSrc, _tesselationEvaluationSrc, _fragmentSrc);
+}
+
 void Shader::Bind() const
 {
 	GLCall(glUseProgram(m_programID));

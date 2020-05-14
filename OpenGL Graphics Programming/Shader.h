@@ -9,6 +9,7 @@ public:
 	Shader();
 	Shader(const char* _vertexSrc, const char* _fragmentSrc);
 	Shader(const char* _vertexSrc, const char* _geometrySrc, const char* _fragmentSrc);
+	Shader(const char* _vertexSrc, const char* _tesselationControlSrc, const char* _tesselationEvaluationSrc, const char* _fragmentSrc);
 	~Shader() = default;
 
 	void Bind() const;
@@ -31,6 +32,8 @@ private:
 	unsigned int m_programID{};
 
 	std::string m_VSFile;
+	std::string m_TCSFile;
+	std::string m_TESFile;
 	std::string m_GSFile;
 	std::string m_FSFile;
 };
