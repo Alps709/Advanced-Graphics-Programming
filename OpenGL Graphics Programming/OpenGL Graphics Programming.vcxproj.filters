@@ -119,6 +119,9 @@
     <ClCompile Include="FrameBuffer.cpp">
       <Filter>Source Files\RenderStuff</Filter>
     </ClCompile>
+    <ClCompile Include="TexQuadMesh.cpp">
+      <Filter>Source Files\Object stuff\Meshes\Derived</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VertexBufferInfo.h">
@@ -204,6 +207,9 @@
     </ClInclude>
     <ClInclude Include="FrameBuffer.h">
       <Filter>Source Files\RenderStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="TexQuadMesh.h">
+      <Filter>Source Files\Object stuff\Meshes\Derived</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

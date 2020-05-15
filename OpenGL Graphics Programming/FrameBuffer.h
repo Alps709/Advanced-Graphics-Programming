@@ -1,6 +1,6 @@
 #pragma once
 
-class Mesh;
+class TexQuadMesh;
 class Shader;
 
 class FrameBuffer
@@ -10,8 +10,8 @@ public:
     ~FrameBuffer();
 
     void Prepare();
-    void SetShaderUniforms(double _currentTime);
-    void Render(double _currentTime);
+    void SetShaderUniforms();
+    void Render();
 
 private:
     unsigned int m_renderTexture;
@@ -19,6 +19,6 @@ private:
     unsigned int m_RBO;
 
     Shader* m_shader;
-    Mesh* m_mesh;
+    TexQuadMesh* m_mesh;
 };
 

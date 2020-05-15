@@ -169,6 +169,7 @@
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="TerrainMesh.cpp" />
     <ClCompile Include="TessellationObject.cpp" />
+    <ClCompile Include="TexQuadMesh.cpp" />
     <ClCompile Include="TextLabel.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VertexBufferInfo.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="TerrainMesh.h" />
     <ClInclude Include="TessellationObject.h" />
+    <ClInclude Include="TexQuadMesh.h" />
     <ClInclude Include="TextLabel.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VertexBufferInfo.h" />

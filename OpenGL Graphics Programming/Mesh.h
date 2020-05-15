@@ -19,7 +19,7 @@ public:
 	}
 
 	void AddVAOBuffer(const VertexBufferInfo _info);
-	void SetVertexAttributes();
+	virtual void SetVertexAttributes();
 	void SetVertexSingleAttribute();
 
 	std::vector<float> m_vertices;

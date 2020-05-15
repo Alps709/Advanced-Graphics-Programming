@@ -2,14 +2,14 @@
 
 #include "Debug.h"
 #include "Shader.h"
-#include "Mesh.h"
+#include "TexQuadMesh.h"
 #include "Obj.h"
 #include <iostream>
 
 FrameBuffer::FrameBuffer(unsigned _xSize, unsigned _ySize)
 {
 	m_shader = new Shader("Shaders/DefaultFrameBuffer_0_VS.glsl", "Shaders/DefaultFrameBuffer_1_FS.glsl");
-	m_mesh = new Mesh(Objects::screenQuadPositions, Objects::indicesQuad);
+	m_mesh = new TexQuadMesh(Objects::screenQuadPositions, Objects::indicesQuad);
 
 	//Create frame buffer
 	GLCall(glGenFramebuffers(1, &m_frameBuffer));
@@ -73,19 +73,19 @@ void FrameBuffer::Prepare()
 	glEnable(GL_DEPTH_TEST);
 }
 
-void FrameBuffer::SetShaderUniforms(double _currentTime)
+void FrameBuffer::SetShaderUniforms()
 {
 	//Set object specific uniforms
 	m_shader->SetUniform1i("u_renderTex", 0);
 	
 }
 
-void FrameBuffer::Render(double _currentTime)
+void FrameBuffer::Render()
 {
 	m_mesh->Bind();
 	m_shader->Bind();
 
-	SetShaderUniforms(_currentTime);
+	SetShaderUniforms();
 
 	// Bind Default framebuffer 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);

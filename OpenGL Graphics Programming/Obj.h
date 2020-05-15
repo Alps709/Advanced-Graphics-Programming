@@ -16,16 +16,16 @@ namespace Objects
 
 	static std::vector<float> screenQuadPositions =
 	{						   		//Texture co-ords
-		-1.0f, -1.0f, 0.0f,     	0.0f, 1.0f,      //Texture co-ords
-		-1.0f,  1.0f, 0.0f, 	   	0.0f, 0.0f,      //Texture co-ord
-		 1.0f,  1.0f, 0.0f, 	  	1.0f, 0.0f,      //Texture co-ords
-		 1.0f, -1.0f, 0.0f, 	  	1.0f, 1.0f,     //Texture co-ords
+		-1.0f,  1.0f, 0.0f,     	0.0f, 0.0f,      //Top left
+		-1.0f, -1.0f, 0.0f,	   		0.0f, 1.0f,      //Bottom Left
+		 1.0f,  1.0f, 0.0f, 	  	1.0f, 0.0f,      //Top right
+		 1.0f, -1.0f, 0.0f, 	  	1.0f, 1.0f,      //Bottom Right
 	};
 
 	static std::vector<unsigned int> indicesQuad =
 	{
 		//Quad	indices						
-		0, 2, 1,
+		0, 1, 3,
 		0, 3, 2,
 	};
 

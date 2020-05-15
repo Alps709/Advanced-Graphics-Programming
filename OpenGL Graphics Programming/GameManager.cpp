@@ -190,6 +190,8 @@ void GameManager::Render()
 	//Clear the screen before every frame
 	GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT));
 
+	m_frameBuffer->Prepare();
+	
 	//Draw CubeMap
 	m_CubeMap.Render(*m_camera, m_FogRenderMode);
 
@@ -219,6 +221,8 @@ void GameManager::Render()
 	//Transparent water terrain
 	m_waterTerrain->Render(*m_camera, m_clock.GetTimeElapsedMS(), m_FogRenderMode);
 
+	m_frameBuffer->Render();
+	
 	//transparent text
 	if (m_gameState == GAME_MENU)
 	{
