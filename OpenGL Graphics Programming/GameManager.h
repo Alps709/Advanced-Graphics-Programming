@@ -6,15 +6,17 @@
 #include "GameObject.h"
 #include "CubeMap.h"
 #include "Model.h"
-#include "Terrain.h"
-#include "WaterTerrain.h"
 
 #include <fmod.hpp>
 
-#include "GeometryObject.h"
-#include "TessellationObject.h"
+
 
 class Cube;
+class GeometryObject;
+class TessellationObject;
+class Terrain;
+class WaterTerrain;
+class FrameBuffer;
 
 enum GameState
 {
@@ -75,6 +77,9 @@ private:
 
 	//Tesselation shader model
 	TessellationObject* m_tesselationObject = nullptr;
+
+	//Frame buffer
+	FrameBuffer* m_frameBuffer;
 
 	//The current object in the world that's being intersected by the mouse
 	GameObject* m_currentIntersected = nullptr;

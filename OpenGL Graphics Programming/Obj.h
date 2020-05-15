@@ -1,11 +1,9 @@
 #pragma once
 #include <vector>
-#include "Input.h"
 
 //Hold the vertices and indices for basic shapes
 namespace Objects
 {
-	//Scrolling texture
 	static std::vector<float> verticesBoid =
 	{
 		///Quad
@@ -16,7 +14,15 @@ namespace Objects
 		 5.0f, -5.0f, 0.0f,	 1.0f, 0.0f, 0.0f, 1.0f,   1.0f, 1.0f,    //Bottom right
 	};
 
-	static std::vector<unsigned int> indicesBoid =
+	static std::vector<float> screenQuadPositions =
+	{						   		//Texture co-ords
+		-1.0f, -1.0f, 0.0f,     	0.0f, 1.0f,      //Texture co-ords
+		-1.0f,  1.0f, 0.0f, 	   	0.0f, 0.0f,      //Texture co-ord
+		 1.0f,  1.0f, 0.0f, 	  	1.0f, 0.0f,      //Texture co-ords
+		 1.0f, -1.0f, 0.0f, 	  	1.0f, 1.0f,     //Texture co-ords
+	};
+
+	static std::vector<unsigned int> indicesQuad =
 	{
 		//Quad	indices						
 		0, 2, 1,

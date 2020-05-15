@@ -2,7 +2,11 @@
 #include "Obj.h"
 #include "Cube.h"
 #include "Input.h"
-
+#include "Terrain.h"
+#include "WaterTerrain.h"
+#include "GeometryObject.h"
+#include "TessellationObject.h"
+#include "FrameBuffer.h"
 #include <fmod.h>
 
 glm::vec3 tempVec{};
@@ -37,6 +41,8 @@ GameManager::GameManager()
 	m_geometryObject = new GeometryObject(glm::vec3(70.0f, 10.0f, 64.0f), glm::vec4(0.5f, 0.0f, 0.7f, 1.0f));
 	m_tesselationObject = new TessellationObject(glm::vec3(70.0f, 12.0f, 64.0f), glm::vec4(0.5f, 0.0f, 0.7f, 1.0f));
 
+	m_frameBuffer = new FrameBuffer(static_cast<int>(inputManager.GL_SCREEN_WIDTH), static_cast<int>(inputManager.GL_SCREEN_HEIGHT));
+	
 	m_cube  = new Cube(glm::vec3(70.0f, m_grassTerrain->GetTerrainHeight(70.0f, 64.0f) + 0.5f, 64.0f), m_grassTexture, glm::vec4(0.1f, 0.1f, 0.7f, 1.0f), true);
 	m_cube1 = new Cube(glm::vec3(70.0f, 10.0f, 60.0f), m_grassTexture, glm::vec4(0.7f, 0.1f, 0.1f, 1.0f), false);
 	m_cube2 = new Cube(glm::vec3(70.0f, 10.0f, 68.0f), m_grassTexture, glm::vec4(0.1f, 0.4f, 0.1f, 1.0f), false);

@@ -116,6 +116,9 @@
     <ClCompile Include="TessellationObject.cpp">
       <Filter>Source Files\Object stuff\Objects\Derived</Filter>
     </ClCompile>
+    <ClCompile Include="FrameBuffer.cpp">
+      <Filter>Source Files\RenderStuff</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VertexBufferInfo.h">
@@ -198,6 +201,9 @@
     </ClInclude>
     <ClInclude Include="TessellationObject.h">
       <Filter>Source Files\Object stuff\Objects\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameBuffer.h">
+      <Filter>Source Files\RenderStuff</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

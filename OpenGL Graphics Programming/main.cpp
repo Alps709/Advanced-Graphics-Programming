@@ -85,8 +85,8 @@ void SetGlobalGLSettings()
 	glutSetCursor(GLUT_CURSOR_NONE);
 
 	//Use a scissor test to only draw the middle of the viewport
-	glScissor(0, (GLsizei)(inputManager.WINDOW_SCREEN_HEIGHT * 0.1f), (GLsizei)inputManager.WINDOW_SCREEN_WIDTH, (GLsizei)(inputManager.WINDOW_SCREEN_HEIGHT * 0.8f));
-	glEnable(GL_SCISSOR_TEST);
+	//glScissor(0, (GLsizei)(inputManager.WINDOW_SCREEN_HEIGHT * 0.1f), (GLsizei)inputManager.WINDOW_SCREEN_WIDTH, (GLsizei)(inputManager.WINDOW_SCREEN_HEIGHT * 0.8f));
+	//glEnable(GL_SCISSOR_TEST);
 
 	//Cull the back faces of objects (only do so for 3D)
 	GLCall(glCullFace(GL_BACK));

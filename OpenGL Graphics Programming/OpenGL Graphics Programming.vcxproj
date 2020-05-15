@@ -153,6 +153,7 @@
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="CubeMap.cpp" />
     <ClCompile Include="FastNoise.cpp" />
+    <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GeometryObject.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="CubeMap.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="FastNoise.h" />
+    <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GeometryObject.h" />
     <ClInclude Include="Input.h" />
