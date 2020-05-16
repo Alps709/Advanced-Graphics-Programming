@@ -4,76 +4,20 @@
 
 void InputManager::Update()
 {
-
-	if (KeyState['p'] == INPUT_DOWN_FIRST ||
-		KeyState['P'] == INPUT_DOWN_FIRST)
+	//Set pressed down first keys to the next state
+	for (auto& key : KeyState)
 	{
-		//The key is has now been processed for a frame, so set it to the appropriate state
-		KeyState['p'] = INPUT_DOWN;
-		KeyState['P'] = INPUT_DOWN;
+		if(key == INPUT_DOWN_FIRST)
+		{
+			key = INPUT_DOWN;
+			continue;
+		}
+		if (key == INPUT_UP_FIRST)
+		{
+			key = INPUT_UP;
+		}
 	}
-
-	if (KeyState['o'] == INPUT_DOWN_FIRST ||
-		KeyState['O'] == INPUT_DOWN_FIRST)
-	{
-		//The key is has now been processed for a frame, so set it to the appropriate state
-		KeyState['o'] = INPUT_DOWN;
-		KeyState['O'] = INPUT_DOWN;
-	}
-
-	if (KeyState['i'] == INPUT_DOWN_FIRST ||
-		KeyState['I'] == INPUT_DOWN_FIRST)
-	{
-		//The key is has now been processed for a frame, so set it to the appropriate state
-		KeyState['i'] = INPUT_DOWN;
-		KeyState['I'] = INPUT_DOWN;
-	}
-
-	if (KeyState['w'] ==  INPUT_DOWN_FIRST ||
-		KeyState['W'] ==  INPUT_DOWN_FIRST)
-	{
-		//The key is has now been processed for a frame, so set it to the appropriate state
-		 KeyState['w'] =  INPUT_DOWN;
-		 KeyState['W'] =  INPUT_DOWN;
-	}
-
-	if (KeyState['a'] ==  INPUT_DOWN_FIRST ||
-		KeyState['A'] ==  INPUT_DOWN_FIRST)
-	{
-		//The key is has now been processed for a frame, so set it to the appropriate state
-		 KeyState['a'] =  INPUT_DOWN;
-		 KeyState['A'] =  INPUT_DOWN;
-	}
-
-	if (KeyState['s'] ==  INPUT_DOWN_FIRST ||
-		KeyState['S'] ==  INPUT_DOWN_FIRST)
-	{
-		//The key is has now been processed for a frame, so set it to the appropriate state
-		 KeyState['s'] =  INPUT_DOWN;
-		 KeyState['S'] =  INPUT_DOWN;
-	}
-
-	if (KeyState['d'] ==  INPUT_DOWN_FIRST ||
-		KeyState['D'] ==  INPUT_DOWN_FIRST)
-	{
-		//The key is has now been processed for a frame, so set it to the appropriate state
-		 KeyState['d'] =  INPUT_DOWN;
-		 KeyState['D'] =  INPUT_DOWN;
-	}
-
-	//Enter key
-	if (KeyState[13] == INPUT_DOWN_FIRST)
-	{
-		//The key is has now been processed for a frame, so set it to the appropriate state
-		 KeyState[13] =  INPUT_DOWN;
-	}
-
-	//Space key
-	if (KeyState[32] == INPUT_DOWN_FIRST)
-	{
-		//The key is has now been processed for a frame, so set it to the appropriate state
-		 KeyState[32] =  INPUT_DOWN;
-	}
+	
 	//Left shift key
 	if (SpecialKeyState[GLUT_KEY_SHIFT_L] ==  INPUT_DOWN_FIRST)
 	{

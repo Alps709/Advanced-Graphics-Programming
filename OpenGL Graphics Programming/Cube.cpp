@@ -74,7 +74,7 @@ void Cube::Render(Camera& _myCamera, bool _fogRenderMode)
 
 		///STENCIL OUTLINE DRAW
 		//Scale the object up to use as an outline
-		this->SetPRS(m_position.x, m_position.y, m_position.z, m_rotationZ, 1.2f, 1.2f, 1.2f);
+		this->SetPRS(m_position.x, m_position.y, m_position.z, m_rotationY, 1.2f, 1.2f, 1.2f);
 
 		//Bind the mesh that all the model will use
 		m_mesh->Bind();
@@ -97,6 +97,6 @@ void Cube::Render(Camera& _myCamera, bool _fogRenderMode)
 		glDisable(GL_STENCIL_TEST);
 
 		//Scale it back down for the next render call its size
-		this->SetPRS(m_position.x, m_position.y, m_position.z, m_rotationZ, 1.0f, 1.0f, 1.0f);
+		this->SetPRS(m_position.x, m_position.y, m_position.z, m_rotationY, 1.0f, 1.0f, 1.0f);
 	}
 }

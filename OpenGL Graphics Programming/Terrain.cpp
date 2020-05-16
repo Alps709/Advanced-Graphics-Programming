@@ -11,7 +11,8 @@ Terrain::Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, 
 	m_zSize = _zSize;
 
 	m_mesh = new TerrainMesh(_xSize, _zSize);
-	m_shader = Shader("Shaders/Terrain_0_VS.glsl", "Shaders/Terrain_1_TCS.glsl", "Shaders/Terrain_2_TES.glsl", "Shaders/Terrain_3_GS.glsl", "Shaders/Terrain_4_FS.glsl");
+	m_grassShader = Shader("Shaders/TerrainG_0_VS.glsl", "Shaders/TerrainG_1_TCS.glsl", "Shaders/TerrainG_2_TES.glsl", "Shaders/TerrainG_3_GS.glsl", "Shaders/TerrainG_4_FS.glsl");
+	m_baseShader = Shader("Shaders/Terrain_0_VS.glsl", "Shaders/Terrain_1_TCS.glsl", "Shaders/Terrain_2_TES.glsl", "Shaders/Terrain_3_FS.glsl");
 	m_position = _position;
 	m_tex0 = _terrainTexture;
 
@@ -64,7 +65,7 @@ float Terrain::GetTerrainHeight(float _worldX, float _worldZ)
 	int gridX = (int)floorf(localX / gridSquaresSize);
 	int gridZ = (int)floorf(localZ / gridSquaresSize);
 
-	if (gridX >= (int)(heights.size() - 1) || gridZ >= (int)(heights.size() - 1) || gridX <= 0 || gridZ <= 0)
+	if (gridX >= (int)(sqrtf(float(heights.size())) - 1) || gridZ >= (int)(sqrtf(float(heights.size())) - 1) || gridX <= 0 || gridZ <= 0)
 	{
 		//Not on the terrain
 		return 0;
@@ -132,29 +133,58 @@ void Terrain::UpdateModelMat()
 
 void Terrain::SetShaderUniforms(Camera& _myCamera, double _time, bool _fogRenderMode) const
 {
+}
+
+void Terrain::Render(Camera& _myCamera, double _time, bool _fogRenderMode)
+{
+}
+
+void Terrain::SetShaderUniforms(Camera& _myCamera, double _time, bool _fogRenderMode, bool _grassRenderMode) const
+{
 	//Prepare renderer (eg. create PVM matrix etc.)
 	glm::mat4 pvMat = _myCamera.GetProjView();
 	glm::mat4 pvmMat = _myCamera.GetProjView() * m_modelMat;
 	glm::mat4 modelMat = m_modelMat;
 	glm::vec3 camPos = _myCamera.GetPosition();
 
-	//Set object specific uniforms
-	m_shader.SetUniform1i("u_grassTex", 0);
-	m_shader.SetUniformMat4f("u_PV", pvMat);
-	m_shader.SetUniformMat4f("u_PVM", pvmMat);
-	m_shader.SetUniformMat4f("u_modelMat", modelMat);
-	m_shader.SetUniform3f("u_cameraPos", camPos);
-	m_shader.SetUniform1i("u_fogRenderMode", _fogRenderMode);
+	if(_grassRenderMode)
+	{
+		//Set object specific uniforms
+		m_grassShader.SetUniform1i("u_grassTex", 0);
+		m_grassShader.SetUniformMat4f("u_PV", pvMat);
+		m_grassShader.SetUniformMat4f("u_PVM", pvmMat);
+		m_grassShader.SetUniformMat4f("u_modelMat", modelMat);
+		m_grassShader.SetUniform3f("u_cameraPos", camPos);
+		m_grassShader.SetUniform1i("u_fogRenderMode", _fogRenderMode);
+	}
+	else
+	{
+		//Set object specific uniforms
+		m_baseShader.SetUniform1i("u_grassTex", 0);
+		m_grassShader.SetUniformMat4f("u_PV", pvMat);
+		m_baseShader.SetUniformMat4f("u_modelMat", modelMat);
+		m_baseShader.SetUniform3f("u_cameraPos", camPos);
+		m_baseShader.SetUniform1i("u_fogRenderMode", _fogRenderMode);
+	}
 }
 
-void Terrain::Render(Camera& _myCamera, double _time, bool _fogRenderMode)
+void Terrain::Render(Camera& _myCamera, double _time, bool _fogRenderMode, bool _grassRenderMode)
 {
 	//Bind the mesh that all the model will use
 	m_mesh->Bind();
-	m_shader.Bind();
+
+	if(_grassRenderMode)
+	{
+		m_grassShader.Bind();
+	}
+	else
+	{
+		m_baseShader.Bind();
+	}
+	
 
 	//Prepare the object for drawing
-	SetShaderUniforms(_myCamera, _time, _fogRenderMode);
+	SetShaderUniforms(_myCamera, _time, _fogRenderMode, _grassRenderMode);
 
 	//Bind grass texture
 	BindTexture(0);

@@ -36,8 +36,8 @@ void GameObject::ChangePRS(float _translateX, float _translateY, float _translat
 	m_position += glm::vec3(_translateX, _translateY, _translateZ);
 
 	//Add new rotation and cap it to 360
-	m_rotationZ += _rotationAngle;
-	m_rotationZ = fmod(m_rotationZ, 360.0f);
+	m_rotationY += _rotationAngle;
+	m_rotationY = fmod(m_rotationY, 360.0f);
 
 	m_scale += glm::vec3(_scaleX, _scaleY, _scaleZ);
 
@@ -50,8 +50,8 @@ void GameObject::SetPRS(float _translateX, float _translateY, float _translateZ,
 	m_position = glm::vec3(_translateX, _translateY, _translateZ);
 
 	//Add new rotation and cap it to 360
-	m_rotationZ = _rotationAngle;
-	m_rotationZ = fmod(m_rotationZ, 360.0f);
+	m_rotationY = _rotationAngle;
+	m_rotationY = fmod(m_rotationY, 360.0f);
 
 	m_scale = glm::vec3(_scaleX, _scaleY, _scaleZ);
 
@@ -62,7 +62,7 @@ void GameObject::SetPRS(float _translateX, float _translateY, float _translateZ,
 void GameObject::UpdateModelMat()
 {
 	//Update the stored model matrix
-	m_modelMat = Math::Create2DModelMatrix(m_position.x, m_position.y, m_position.z, m_rotationZ, m_scale.x, m_scale.y, m_scale.z);
+	m_modelMat = Math::Create2DModelMatrix(m_position.x, m_position.y, m_position.z, m_rotationY, m_scale.x, m_scale.y, m_scale.z);
 }
 
 void GameObject::SetShaderUniforms(Camera& _myCamera) const

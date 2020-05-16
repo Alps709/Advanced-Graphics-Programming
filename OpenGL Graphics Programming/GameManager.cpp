@@ -55,6 +55,7 @@ GameManager::GameManager()
 	//Create the camera
 	//Set freeview to false at the start
 	m_camera = new Camera(false);
+	m_camera->SetThirdPersonGameObject(m_cube);
 }
 
 
@@ -77,6 +78,8 @@ GameManager::~GameManager()
 
 void GameManager::ProcessInput()
 {
+	float deltaTime = static_cast<float>(m_clock.GetDeltaTick());
+	
 	//Enter key is pressed
 	if (inputManager.KeyState[13] == INPUT_DOWN || inputManager.KeyState[13] == INPUT_DOWN_FIRST)
 	{
@@ -90,6 +93,54 @@ void GameManager::ProcessInput()
 		}
 	}
 
+	if (m_camera->GetThirdPersonMode())
+	{
+		//Move the camera forward with the w button
+		if (inputManager.KeyState['w'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['w'] == inputManager.INPUT_DOWN ||
+			inputManager.KeyState['W'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['W'] == inputManager.INPUT_DOWN)
+		{
+			//move along the x axis
+			auto tempPos = m_cube->GetPosition();
+			auto deltaX = 0.01f;
+			auto terrainHeight = m_grassTerrain->GetTerrainHeight(tempPos.x + deltaX, tempPos.z);
+			float deltaYPos = terrainHeight + (m_cube->GetScale().y / 2.0f) - tempPos.y;
+			m_cube->ChangePRS(deltaX * deltaTime, deltaYPos, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+		}
+		//Move the camera to the left with the a button
+		if (inputManager.KeyState['a'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['a'] == inputManager.INPUT_DOWN ||
+			inputManager.KeyState['A'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['A'] == inputManager.INPUT_DOWN)
+		{
+			//move along z axis
+			auto tempPos = m_cube->GetPosition();
+			auto deltaZ = -0.01f;
+			auto terrainHeight = m_grassTerrain->GetTerrainHeight(tempPos.x, tempPos.z + deltaZ);
+			float deltaYPos = terrainHeight + (m_cube->GetScale().y / 2.0f) - tempPos.y;
+			m_cube->ChangePRS(0.0f, deltaYPos, deltaZ * deltaTime, 0.0f, 0.0f, 0.0f, 0.0f);
+		}
+		//Move the camera backwards with the s button
+		if (inputManager.KeyState['s'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['s'] == inputManager.INPUT_DOWN ||
+			inputManager.KeyState['S'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['S'] == inputManager.INPUT_DOWN)
+		{
+			//move along the x axis
+			auto tempPos = m_cube->GetPosition();
+			auto deltaX = -0.01f;
+			auto terrainHeight = m_grassTerrain->GetTerrainHeight(tempPos.x + deltaX, tempPos.z);
+			float deltaYPos = terrainHeight + (m_cube->GetScale().y / 2.0f) - tempPos.y;
+			m_cube->ChangePRS(deltaX * deltaTime, deltaYPos, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+		}
+		//Move the camera to the right witht the d button
+		if (inputManager.KeyState['d'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['d'] == inputManager.INPUT_DOWN ||
+			inputManager.KeyState['D'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['D'] == inputManager.INPUT_DOWN)
+		{
+			///move along z axis
+			auto tempPos = m_cube->GetPosition();
+			auto deltaZ = 0.01f;
+			auto terrainHeight = m_grassTerrain->GetTerrainHeight(tempPos.x, tempPos.z + deltaZ);
+			float deltaYPos = terrainHeight + (m_cube->GetScale().y / 2.0f) - tempPos.y;
+			m_cube->ChangePRS(0.0f, deltaYPos, deltaZ * deltaTime, 0.0f, 0.0f, 0.0f, 0.0f);
+		}
+	}
+
 	//'R' key is pressed
 	if (inputManager.KeyState['r'] == INPUT_DOWN_FIRST || inputManager.KeyState['R'] == INPUT_DOWN_FIRST)
 	{
@@ -98,7 +149,13 @@ void GameManager::ProcessInput()
 	}
 
 	//'p' key is pressed
-	if (inputManager.KeyState['p'] == INPUT_DOWN_FIRST || inputManager.KeyState['p'] == INPUT_DOWN_FIRST)
+	if (inputManager.KeyState['u'] == INPUT_DOWN_FIRST || inputManager.KeyState['U'] == INPUT_DOWN_FIRST)
+	{
+		m_terrainGrassShaderMode = !m_terrainGrassShaderMode;
+	}
+
+	//'p' key is pressed
+	if (inputManager.KeyState['p'] == INPUT_DOWN_FIRST || inputManager.KeyState['P'] == INPUT_DOWN_FIRST)
 	{
 		m_postProcessingMode = !m_postProcessingMode;
 	}
@@ -135,14 +192,14 @@ void GameManager::ProcessInput()
 			auto tempPos = m_cube->GetPosition();
 			auto terrainHeight = m_grassTerrain->GetTerrainHeight(tempPos.x, tempPos.z);
 			float deltaYPos = terrainHeight + (m_cube->GetScale().y/2.0f) - tempPos.y;
-			m_cube->ChangePRS(0.01f, deltaYPos, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+			m_cube->ChangePRS(0.01f * deltaTime, deltaYPos, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
 		}
 		else if (m_currentIntersected == m_cube2)
 		{
 			auto tempPos = m_cube->GetPosition();
 			auto terrainHeight = m_grassTerrain->GetTerrainHeight(tempPos.x, tempPos.z);
 			float deltaYPos = terrainHeight + (m_cube->GetScale().y / 2.0f) - tempPos.y;
-			m_cube->ChangePRS(-0.01f, deltaYPos, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+			m_cube->ChangePRS(-0.01f * deltaTime, deltaYPos, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
 		}
 	}
 }
@@ -204,7 +261,7 @@ void GameManager::Render()
 	//Draw CubeMap
 	m_CubeMap.Render(*m_camera, m_FogRenderMode);
 
-	m_grassTerrain->Render(*m_camera, m_clock.GetTimeElapsedMS(), m_FogRenderMode);
+	m_grassTerrain->Render(*m_camera, m_clock.GetTimeElapsedMS(), m_FogRenderMode, m_terrainGrassShaderMode);
 
 	m_cube->Render(*m_camera, m_FogRenderMode);
 	m_cube1->Render(*m_camera, m_FogRenderMode);
@@ -232,7 +289,7 @@ void GameManager::Render()
 
 	if(m_postProcessingMode)
 	{
-		m_frameBuffer->Render();
+		m_frameBuffer->Render(static_cast<float>(m_clock.GetTimeElapsedS()));
 	}
 	
 	

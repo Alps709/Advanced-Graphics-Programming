@@ -10,8 +10,8 @@ public:
     ~FrameBuffer();
 
     void Prepare();
-    void SetShaderUniforms();
-    void Render();
+    void SetShaderUniforms(float _currentTime);
+    void Render(float _currentTime);
 
 private:
     unsigned int m_renderTexture;

@@ -2,6 +2,8 @@
 #include "gtc/matrix_transform.hpp"
 #include "InputManager.h"
 
+class GameObject;
+
 class Camera
 {
 public:
@@ -16,16 +18,19 @@ public:
 	glm::vec3 GetLookDirection() const { return m_camLookDir; }
 	glm::vec3 GetCamRight() const { return m_camRight; }
 	double GetCamSpeed() const { return m_camSpeed; }
+	bool GetThirdPersonMode() const { return m_thirdPersonMode; }
 
 	void SetPosition(glm::vec3 _newPos);
 	void SetLookDirection(glm::vec3 _newLookDirection);
 	void SetFreeView(bool _isOrtho);
+	void SetThirdPersonGameObject(GameObject* _gameObject);
+	
 	void ResetView();
-
 	void UpdateView();
 	void UpdateVectors();
 	void ProcessInput(double _deltaTime);
 
+	
 
 private:
 	InputManager& inputManager = InputManager::getInstance();
@@ -46,6 +51,14 @@ private:
 	
 	double m_camSpeed;
 	double m_mouseSens;
+
+	//Controls for whether the camera is focussed on an object
+	bool m_thirdPersonMode = false;
+
+	GameObject* m_thirdPersonObject = nullptr;
+
+	float m_thirdPersonDistance = 5.0f;
+	float m_thirdPersonAngleAroundObject = 0.0f;
 
 	//Determines whether the camera can look around and move using kb/m input
 	bool freeView = false;

@@ -59,6 +59,7 @@ FrameBuffer::~FrameBuffer()
 {
 	glDeleteFramebuffers(1, &m_frameBuffer);
 	delete m_mesh;
+	delete m_shader;
 }
 
 void FrameBuffer::Prepare()
@@ -73,19 +74,19 @@ void FrameBuffer::Prepare()
 	glEnable(GL_DEPTH_TEST);
 }
 
-void FrameBuffer::SetShaderUniforms()
+void FrameBuffer::SetShaderUniforms(float _currentTime)
 {
 	//Set object specific uniforms
 	m_shader->SetUniform1i("u_renderTex", 0);
-	
+	m_shader->SetUniform1f("u_currentTime", _currentTime);
 }
 
-void FrameBuffer::Render()
+void FrameBuffer::Render(float _currentTime)
 {
 	m_mesh->Bind();
 	m_shader->Bind();
 
-	SetShaderUniforms();
+	SetShaderUniforms(_currentTime);
 
 	// Bind Default framebuffer 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);

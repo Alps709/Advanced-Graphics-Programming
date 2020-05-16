@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "Math.h"
+#include "GameObject.h"
 #include <freeglut.h>
 
 Camera::Camera(bool isFreeView)
@@ -38,6 +39,7 @@ void Camera::SetLookDirection(glm::vec3 _newLookDirection)
 void Camera::SetFreeView(bool isFreeView)
 {
 	freeView = isFreeView;
+	m_thirdPersonMode = false;
 	inputManager.CAMERA_FREEEVIEW_MODE = isFreeView;
 
 	//Reset the camera view back to default for an orthographic view
@@ -98,7 +100,12 @@ void Camera::UpdateVectors()
 
 void Camera::ProcessInput(double _deltaTime)
 {
-	if (freeView)
+	if (inputManager.KeyState['m'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['M'] == inputManager.INPUT_DOWN_FIRST)
+	{
+		m_thirdPersonMode = !m_thirdPersonMode;
+	}
+	
+	if (freeView && !m_thirdPersonMode)
 	{
 		//Move the camera forward with the w button
 		if (inputManager.KeyState['w'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['w'] == inputManager.INPUT_DOWN ||
@@ -147,8 +154,8 @@ void Camera::ProcessInput(double _deltaTime)
 			SetPosition(glm::vec3(tempVec));
 		}
 
-		double deltaYaw = (double)inputManager.g_mousePosDifX * m_mouseSens;
-		double deltaPitch = (double)inputManager.g_mousePosDifY * m_mouseSens; 
+		const double deltaYaw = static_cast<double>(inputManager.g_mousePosDifX) * m_mouseSens;
+		const double deltaPitch = static_cast<double>(inputManager.g_mousePosDifY) * m_mouseSens; 
 
 		//std::cout << "Change in yaw: " << deltaYaw << std::endl;
 		//std::cout << "Change in pitch: " << deltaPitch << std::endl;
@@ -171,7 +178,54 @@ void Camera::ProcessInput(double _deltaTime)
 		}
 	}
 
+	if(m_thirdPersonMode && freeView)
+	{
+		const double deltaYaw = static_cast<double>(inputManager.g_mousePosDifX) * m_mouseSens;
+		const double deltaPitch = static_cast<double>(inputManager.g_mousePosDifY) * m_mouseSens;
+
+		//std::cout << "Change in yaw: " << deltaYaw << std::endl;
+		//std::cout << "Change in pitch: " << deltaPitch << std::endl;
+		//std::cout << "Mouse pos - x: " << inputManager.g_mousePosX << " | y: " << inputManager.g_mousePosY << std::endl;
+
+		m_thirdPersonAngleAroundObject -= static_cast<float>(deltaYaw) * 0.3f;
+
+		//Limit the pitch between 90 and -90 degrees, so the camera can't get flipped
+		if (m_limitPitch)
+		{
+			m_camPitch += deltaPitch * 0.3;
+			if (m_camPitch > 89.99)
+			{
+				m_camPitch = 89.99;
+			}
+			else if (m_camPitch < -89.99)
+			{
+				m_camPitch = -89.99;
+			}
+		}
+
+		//Calculate distance from third person target
+		float horizontalDistance = m_thirdPersonDistance * cosf(static_cast<float>(glm::radians(-m_camPitch)));
+		float verticalDistance   = m_thirdPersonDistance * sinf(static_cast<float>(glm::radians(-m_camPitch)));
+		float theta = static_cast<float>(m_thirdPersonAngleAroundObject) + m_thirdPersonObject->GetRotationAngle();
+
+		float offsetX = horizontalDistance * sinf(glm::radians(theta));
+		float offsetZ = horizontalDistance * cosf(glm::radians(theta));
+
+		auto tempPos = m_thirdPersonObject->GetPosition();
+		
+		m_camPosition.x = tempPos.x - offsetX;
+		m_camPosition.y = tempPos.y + verticalDistance;
+		m_camPosition.z = tempPos.z - offsetZ;
+
+		m_camYaw = static_cast<double>(90.0f - theta);
+	}
+
 	//Update the vectors from the mouse input
 	UpdateVectors();
 	UpdateView();
+}
+
+void Camera::SetThirdPersonGameObject(GameObject* _gameObject)
+{
+	m_thirdPersonObject = _gameObject;
 }

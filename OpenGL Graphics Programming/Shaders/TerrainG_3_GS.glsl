@@ -31,7 +31,7 @@ void main()
 	gl_Position = u_PV * vertex_info_GS_in[2].WorldPos; EmitVertex();
 	EndPrimitive();
 
-	//If the position of the vertex is greater than 1, generate the 'grass' triangle
+	//Only generate grass if it's above a world height of 1, so it doesn't generate underwater
 	if(vertex_info_GS_in[0].WorldPos.y > 1.0f)
 	{
 		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.0f,  0.0f, -0.25f, 0.0f); EmitVertex();

@@ -39,6 +39,9 @@ public:
 	//Render is overidden by all derived classes, but can still be used for a base object
 	virtual void SetShaderUniforms(Camera& _myCamera, double _time, bool _fogRenderMode) const;
 	virtual void Render(Camera& _myCamera, double _time, bool _fogRenderMode);
+	
+	void SetShaderUniforms(Camera& _myCamera, double _time, bool _fogRenderMode, bool _grassRenderMode) const;
+	void Render(Camera& _myCamera, double _time, bool _fogRenderMode, bool _grassRenderMode);
 
 	void BindTexture(unsigned int _texNum) const;
 
@@ -53,7 +56,8 @@ protected:
 	glm::mat4 m_modelMat = glm::mat4(1.0f);
 
 	TerrainMesh* m_mesh;
-	Shader m_shader;
+	Shader m_grassShader;
+	Shader m_baseShader;
 	Texture* m_tex0{};
 	Texture* m_tex1{};
 };

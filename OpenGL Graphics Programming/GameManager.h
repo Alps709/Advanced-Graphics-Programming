@@ -104,5 +104,6 @@ private:
 	bool m_FogRenderMode = true;
 	bool m_WireframeRenderMode = false;
 	bool m_postProcessingMode = true;
+	bool m_terrainGrassShaderMode = false;
 };
 

@@ -18,6 +18,7 @@ public:
 
 	//Getter
 	glm::vec3 GetPosition() const { return m_position; }
+	float GetRotationAngle() const { return m_rotationY; }
 	glm::vec3 GetScale() const { return m_scale; }
 	Mesh* GetMesh() const { return m_mesh; }
 	glm::mat4 GetModelMat() const { return m_modelMat; }
@@ -45,7 +46,7 @@ public:
 
 protected:
 	glm::vec3 m_position{0.0f, 0.0f, 0.0f};
-	float m_rotationZ = 0.0f;
+	float m_rotationY = 0.0f;
 	glm::vec3 m_scale{ 1.0f, 1.0f, 1.0f };
 	double m_colliderRadius = 1.0f;
 
