@@ -9,8 +9,6 @@
 
 #include <fmod.hpp>
 
-
-
 class Cube;
 class GeometryObject;
 class TessellationObject;
@@ -105,5 +103,6 @@ private:
 	//Debug stuff
 	bool m_FogRenderMode = true;
 	bool m_WireframeRenderMode = false;
+	bool m_postProcessingMode = true;
 };
 

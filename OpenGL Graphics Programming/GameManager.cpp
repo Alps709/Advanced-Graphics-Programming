@@ -97,6 +97,12 @@ void GameManager::ProcessInput()
 		Reset();
 	}
 
+	//'p' key is pressed
+	if (inputManager.KeyState['p'] == INPUT_DOWN_FIRST || inputManager.KeyState['p'] == INPUT_DOWN_FIRST)
+	{
+		m_postProcessingMode = !m_postProcessingMode;
+	}
+
 	//'O' key is pressed
 	if (inputManager.KeyState['o'] == INPUT_DOWN_FIRST || inputManager.KeyState['O'] == INPUT_DOWN_FIRST)
 	{
@@ -190,7 +196,10 @@ void GameManager::Render()
 	//Clear the screen before every frame
 	GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT));
 
-	m_frameBuffer->Prepare();
+	if(m_postProcessingMode)
+	{
+		m_frameBuffer->Prepare();
+	}
 	
 	//Draw CubeMap
 	m_CubeMap.Render(*m_camera, m_FogRenderMode);
@@ -221,7 +230,11 @@ void GameManager::Render()
 	//Transparent water terrain
 	m_waterTerrain->Render(*m_camera, m_clock.GetTimeElapsedMS(), m_FogRenderMode);
 
-	m_frameBuffer->Render();
+	if(m_postProcessingMode)
+	{
+		m_frameBuffer->Render();
+	}
+	
 	
 	//transparent text
 	if (m_gameState == GAME_MENU)
