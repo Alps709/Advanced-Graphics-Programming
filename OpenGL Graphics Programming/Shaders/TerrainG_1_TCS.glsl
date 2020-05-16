@@ -9,6 +9,7 @@ layout (vertices = 3) out;
 in VERTEX_INFO
 {
 	vec4 WorldPos;
+	vec3 FragPos;
 	vec3 Normal;
 	vec2 TexCoord;
 } vertex_info_TCS_in[];
@@ -16,6 +17,7 @@ in VERTEX_INFO
 out VERTEX_INFO
 {
 	vec4 WorldPos;
+	vec3 FragPos;
 	vec3 Normal;
 	vec2 TexCoord;
 } vertex_info_TES_in[];
@@ -26,6 +28,7 @@ void main()
 {
 	// Set the control points of the output patch
 	vertex_info_TES_in[gl_InvocationID].WorldPos = vertex_info_TCS_in[gl_InvocationID].WorldPos;
+	vertex_info_TES_in[gl_InvocationID].FragPos = vertex_info_TCS_in[gl_InvocationID].FragPos;
     vertex_info_TES_in[gl_InvocationID].Normal   = vertex_info_TCS_in[gl_InvocationID].Normal;
     vertex_info_TES_in[gl_InvocationID].TexCoord = vertex_info_TCS_in[gl_InvocationID].TexCoord;
 
@@ -36,10 +39,10 @@ void main()
 		//Calculate camera distance from control point, to determine LOD
 		float camDistance = distance(u_cameraPos, worldPos.xyz);
 
-		gl_TessLevelInner[0] = min(30.0 / camDistance, 3);	   	   
-		gl_TessLevelOuter[0] = min(30.0 / camDistance, 5);
-		gl_TessLevelOuter[1] = min(30.0 / camDistance, 5);
-		gl_TessLevelOuter[2] = min(30.0 / camDistance, 5);
+		gl_TessLevelInner[0] = min(40.0 / camDistance, 2);	   	   
+		gl_TessLevelOuter[0] = min(40.0 / camDistance, 4);
+		gl_TessLevelOuter[1] = min(40.0 / camDistance, 4);
+		gl_TessLevelOuter[2] = min(40.0 / camDistance, 4);
 	}	
 
 	gl_out[gl_InvocationID].gl_Position = worldPos;

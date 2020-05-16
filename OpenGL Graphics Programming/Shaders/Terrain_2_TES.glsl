@@ -9,6 +9,7 @@ uniform mat4 u_PV;
 in VERTEX_INFO
 {
 	vec3 WorldPos;
+	vec3 FragPos;
 	vec3 Normal;
 	vec2 TexCoord;
 } vertex_info_TES_in[];
@@ -16,6 +17,7 @@ in VERTEX_INFO
 out VERTEX_INFO
 {
 	vec3 WorldPos;
+	vec3 FragPos;
 	vec3 Normal;
 	vec2 TexCoord;
 } vertex_info_FS_in;
@@ -37,6 +39,7 @@ void main(void)
 
 	//HOW TO DO IT IF YOU'RE USING A DISPLACEMENT HEIGHTMAP TEXTURE
 	vertex_info_FS_in.WorldPos = interpolate3D(vertex_info_TES_in[0].WorldPos, vertex_info_TES_in[1].WorldPos, vertex_info_TES_in[2].WorldPos);
+	vertex_info_FS_in.FragPos = interpolate3D(vertex_info_TES_in[0].FragPos, vertex_info_TES_in[1].FragPos, vertex_info_TES_in[2].FragPos);
 	//Displace the vertex along the normal
     //float Displacement = texture(gDisplacementMap, vertex_info_FS_in.TexCoord.xy).x;
     //vertex_info_FS_in.WorldPos += vertex_info_FS_in.Normal * Displacement * gDispFactor;
