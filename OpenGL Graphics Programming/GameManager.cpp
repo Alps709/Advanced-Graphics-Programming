@@ -48,9 +48,16 @@ GameManager::GameManager()
 	m_cube2 = new Cube(glm::vec3(70.0f, 10.0f, 68.0f), m_grassTexture, glm::vec4(0.1f, 0.4f, 0.1f, 1.0f), false);
 
 	//Create the text objects
-	m_fpsText = new TextLabel("FPS: ", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.5f));
-	m_menuTitleText = new TextLabel("Graphics showcase!", "Resources/Fonts/arial.ttf", glm::vec2(-625, 160), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f);
-	m_menuInstructText = new TextLabel("Press enter to continue", "Resources/Fonts/arial.ttf", glm::vec2(-600, -200), glm::vec3(0.0f, 1.0f, 1.0f), 1.5f);
+	glm::vec3 colour = glm::vec3(1.0f, 1.0f, 1.0f);
+	m_fpsText                = new TextLabel("FPS: ", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.5f));
+	m_toggleOptionsText      = new TextLabel("Toggle options: ", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f), colour, 0.5f);
+	m_frameBufferInfoText    = new TextLabel("p - Framebuffer", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 2.0f), colour, 0.5f);
+	m_wireFrameInfoText      = new TextLabel("o - Wireframe mode", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 3.0f), colour, 0.5f);
+	m_fogInfoText            = new TextLabel("i - Fog render mode", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 4.0f), colour, 0.5f);
+	m_geomertryGrassInfoText = new TextLabel("u - Geometry shader grass", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 5.0f), colour, 0.5f);
+	m_thirdPersonInfoText    = new TextLabel("m - Third person mode (use WASD to move)", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 6.0f), colour, 0.5f);
+	m_menuTitleText          = new TextLabel("Graphics showcase!", "Resources/Fonts/arial.ttf", glm::vec2(-625, 160), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f);
+	m_menuInstructText       = new TextLabel("Press enter to continue", "Resources/Fonts/arial.ttf", glm::vec2(-600, -200), glm::vec3(0.0f, 1.0f, 1.0f), 1.5f);
 
 	//Create the camera
 	//Set freeview to false at the start
@@ -68,12 +75,22 @@ GameManager::~GameManager()
 	delete m_grassTexture;
 	delete m_noiseTexture;
 	delete m_defaultShader;
+	delete m_geometryModelShader;
 	delete m_camera;
 	delete m_grassTerrain;
 	delete m_waterTerrain;
 	delete m_cube;
 	delete m_cube1;
 	delete m_cube2;
+	delete m_geometryObject;
+	delete m_tesselationObject;
+	delete m_frameBuffer;
+	delete m_toggleOptionsText;
+	delete m_frameBufferInfoText;
+	delete m_wireFrameInfoText;
+	delete m_fogInfoText;
+	delete m_geomertryGrassInfoText;
+	delete m_thirdPersonInfoText;
 }		   
 
 void GameManager::ProcessInput()
@@ -302,6 +319,12 @@ void GameManager::Render()
 	else if (m_gameState == GAME_PLAY)
 	{
 		m_fpsText->Render();
+		m_toggleOptionsText->Render();
+		m_frameBufferInfoText->Render();
+		m_wireFrameInfoText->Render();
+		m_fogInfoText->Render();
+		m_geomertryGrassInfoText->Render();
+		m_thirdPersonInfoText->Render();
 	}
 
 	//Draw crosshair

@@ -77,7 +77,7 @@ private:
 	TessellationObject* m_tesselationObject = nullptr;
 
 	//Frame buffer
-	FrameBuffer* m_frameBuffer;
+	FrameBuffer* m_frameBuffer = nullptr;
 
 	//The current object in the world that's being intersected by the mouse
 	GameObject* m_currentIntersected = nullptr;
@@ -95,6 +95,12 @@ private:
 	TextLabel* m_menuTitleText = nullptr;
 	TextLabel* m_menuInstructText = nullptr;
 	TextLabel* m_fpsText = nullptr;
+	TextLabel* m_toggleOptionsText = nullptr;
+	TextLabel* m_frameBufferInfoText = nullptr;
+	TextLabel* m_wireFrameInfoText = nullptr;
+	TextLabel* m_fogInfoText = nullptr;
+	TextLabel* m_geomertryGrassInfoText = nullptr;
+	TextLabel* m_thirdPersonInfoText = nullptr;
 
 	//Uniforms
 	GLfloat u_currentTime = 0;
