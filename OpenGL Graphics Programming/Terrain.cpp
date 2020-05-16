@@ -11,7 +11,7 @@ Terrain::Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, 
 	m_zSize = _zSize;
 
 	m_mesh = new TerrainMesh(_xSize, _zSize);
-	m_shader = Shader("Shaders/Terrain_0_VS.glsl", "Shaders/Terrain_1_TCS.glsl", "Shaders/Terrain_2_TES.glsl", "Shaders/Terrain_3_FS.glsl");
+	m_shader = Shader("Shaders/Terrain_0_VS.glsl", "Shaders/Terrain_1_TCS.glsl", "Shaders/Terrain_2_TES.glsl", "Shaders/Terrain_3_GS.glsl", "Shaders/Terrain_4_FS.glsl");
 	m_position = _position;
 	m_tex0 = _terrainTexture;
 
@@ -134,12 +134,14 @@ void Terrain::SetShaderUniforms(Camera& _myCamera, double _time, bool _fogRender
 {
 	//Prepare renderer (eg. create PVM matrix etc.)
 	glm::mat4 pvMat = _myCamera.GetProjView();
+	glm::mat4 pvmMat = _myCamera.GetProjView() * m_modelMat;
 	glm::mat4 modelMat = m_modelMat;
 	glm::vec3 camPos = _myCamera.GetPosition();
 
 	//Set object specific uniforms
 	m_shader.SetUniform1i("u_grassTex", 0);
 	m_shader.SetUniformMat4f("u_PV", pvMat);
+	m_shader.SetUniformMat4f("u_PVM", pvmMat);
 	m_shader.SetUniformMat4f("u_modelMat", modelMat);
 	m_shader.SetUniform3f("u_cameraPos", camPos);
 	m_shader.SetUniform1i("u_fogRenderMode", _fogRenderMode);
@@ -159,10 +161,14 @@ void Terrain::Render(Camera& _myCamera, double _time, bool _fogRenderMode)
 
 	//Tells opengl that the tessellation patches are triangles
 	glPatchParameteri(GL_PATCH_VERTICES, 3);
+
+	GLCall(glDisable(GL_CULL_FACE));
 	
 	//Draw the object
 	GLCall(glDrawElements(GL_PATCHES, m_mesh->GetindicesCount(), GL_UNSIGNED_INT, static_cast<void*>(0)));
 
+	GLCall(glEnable(GL_CULL_FACE));
+	
 	Mesh::Unbind();
 	Shader::Unbind();
 }

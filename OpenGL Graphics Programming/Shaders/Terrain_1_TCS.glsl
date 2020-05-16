@@ -8,14 +8,14 @@ layout (vertices = 3) out;
 //Need the world pos for the fog
 in VERTEX_INFO
 {
-	vec3 WorldPos;
+	vec4 WorldPos;
 	vec3 Normal;
 	vec2 TexCoord;
 } vertex_info_TCS_in[];
 
 out VERTEX_INFO
 {
-	vec3 WorldPos;
+	vec4 WorldPos;
 	vec3 Normal;
 	vec2 TexCoord;
 } vertex_info_TES_in[];
@@ -36,12 +36,12 @@ void main()
 		//Calculate camera distance from control point, to determine LOD
 		float camDistance = distance(u_cameraPos, worldPos.xyz);
 
-		gl_TessLevelInner[0] = min(20.0 / camDistance, 3);	   	   
-		gl_TessLevelOuter[0] = min(20.0 / camDistance, 5);
-		gl_TessLevelOuter[1] = min(20.0 / camDistance, 5);
-		gl_TessLevelOuter[2] = min(20.0 / camDistance, 5);
+		gl_TessLevelInner[0] = min(30.0 / camDistance, 4);	   	   
+		gl_TessLevelOuter[0] = min(30.0 / camDistance, 7);
+		gl_TessLevelOuter[1] = min(30.0 / camDistance, 7);
+		gl_TessLevelOuter[2] = min(30.0 / camDistance, 7);
 	}	
 
 	gl_out[gl_InvocationID].gl_Position = worldPos;
-	vertex_info_TES_in[gl_InvocationID].WorldPos = worldPos.xyz;
+	vertex_info_TES_in[gl_InvocationID].WorldPos = worldPos;
 }

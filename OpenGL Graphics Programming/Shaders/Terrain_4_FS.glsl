@@ -1,10 +1,9 @@
 #version 450 core
 
 //Vertex inputs
-
 in VERTEX_INFO
 {
-	vec3 WorldPos;
+	vec4 WorldPos;
 	vec3 Normal;
 	vec2 TexCoord;
 } vertex_info_FS_in;
