@@ -43,6 +43,9 @@ void TessellationObject::Render(Camera& _myCamera)
 
 	GLCall(glDisable(GL_CULL_FACE));
 
+	//Tells opengl that the tessellation patches are quads
+	glPatchParameteri(GL_PATCH_VERTICES, 4);
+	
 	//Draw the object
 	GLCall(glDrawArrays(GL_PATCHES, 0, m_mesh->GetindicesCount()));
 

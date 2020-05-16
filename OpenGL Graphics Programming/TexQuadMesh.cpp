@@ -20,6 +20,7 @@ TexQuadMesh::TexQuadMesh(std::vector<float> _vertices, std::vector<unsigned> _in
 	GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indicesCount * sizeof(unsigned int), static_cast<const void*>(_indices.data()), GL_STATIC_DRAW));
 
 	SetVertexAttributes();
+	Unbind();
 }
 
 void TexQuadMesh::SetVertexAttributes()

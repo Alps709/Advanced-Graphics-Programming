@@ -21,6 +21,7 @@ TerrainMesh::TerrainMesh(unsigned int _xSize = 128, unsigned int _zSize = 128)
 	GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indicesCount * sizeof(unsigned int), static_cast<const void*>(m_indices.data()), GL_STATIC_DRAW));
 
 	SetVertexAttributes();
+	Unbind();
 }
 
 void TerrainMesh::AddVAOBuffer(const VertexBufferInfo _info)
@@ -53,7 +54,7 @@ void TerrainMesh::SetVertexAttributes()
 	AddVAOBuffer(vbInfo);
 }
 
-std::vector<float> TerrainMesh::GetTerrainHeights()
+std::vector<float> TerrainMesh::GetTerrainHeights() const
 {
 	return m_heightMap;
 }
@@ -98,13 +99,14 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 	{
 		for (unsigned int x = 0; x < _xSize; x++)
 		{
-			float height = noiseGenerator.GetNoise((float)x, (float)z) * noiseHeightMod * -1;
+			//Get the height fro the x,z from the Perlin noise function
+			float height = noiseGenerator.GetNoise(static_cast<float>(x), static_cast<float>(z)) * noiseHeightMod * -1;
 			m_heightMap[z * _zSize + x] = height;
 
 			//Positions
-			vertices[vertexIndex]     = (float)(x * SIZE);
+			vertices[vertexIndex]     = static_cast<float>(x * SIZE);
 			vertices[vertexIndex + 1] = height;
-			vertices[vertexIndex + 2] = (float)(z * SIZE);
+			vertices[vertexIndex + 2] = static_cast<float>(z * SIZE);
 
 			//Calculate the normals afterwards
 			//Normals				
@@ -113,8 +115,8 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 			//vertices[vertexIndex + 5] = 0;
 
 			//Texture co-ords		
-			vertices[vertexIndex + 6] = (float)x / (_xSize - 1) * 5; //We times by 5 here cause we want the texture to repeat 5 times 
-			vertices[vertexIndex + 7] = (float)z / (_zSize - 1) * 5; //across the x and y of the mesh
+			vertices[vertexIndex + 6] = static_cast<float>(x) / (_xSize - 1) * 5; //We times by 5 here cause we want the texture to repeat 5 times 
+			vertices[vertexIndex + 7] = static_cast<float>(z) / (_zSize - 1) * 5; //across the x and y of the mesh
 			vertexIndex += 8;
 		}
 	}

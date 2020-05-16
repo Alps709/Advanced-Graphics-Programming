@@ -4,25 +4,20 @@ layout (location = 0) in vec3 position;
 layout (location = 1) in vec3 normal;
 layout (location = 2) in vec2 textureCoord;
 
-uniform mat4 u_PVM;
 uniform mat4 u_modelMat;
 
-uniform sampler2D u_grassTex;
-
-//Need the world pos for the fog
-out vec4 mWorldPos;
-
-out vec3 fragmentPos;
-out vec3 fragmentNormal;
-out vec2 fragmentTextureCoord;
+out VERTEX_INFO
+{
+	vec3 WorldPos;
+	vec3 Normal;
+	vec2 TexCoord;
+} vertex_info_TCS_in;
 
 void main(void)
 {
-	gl_Position = u_PVM * vec4(position, 1.0f);
+	gl_Position = u_modelMat * vec4(position, 1.0f);
 	
-	mWorldPos = u_modelMat * vec4(position, 1.0f);
-
-	fragmentPos = vec3(u_modelMat * vec4(position, 1.0f));
-	fragmentNormal = normal;
-	fragmentTextureCoord = textureCoord; 
+	vertex_info_TCS_in.WorldPos = vec3(u_modelMat * vec4(position, 1.0f));
+	vertex_info_TCS_in.Normal = normal;
+	vertex_info_TCS_in.TexCoord = textureCoord; 
 }

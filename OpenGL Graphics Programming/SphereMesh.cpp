@@ -77,6 +77,7 @@ SphereMesh::SphereMesh()
 
 	m_indicesCount = sizeof(indices) / sizeof(GLuint);
 	DrawType = GL_TRIANGLES;
+	Unbind();
 }
 
 SphereMesh::~SphereMesh()

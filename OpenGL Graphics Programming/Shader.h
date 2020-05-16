@@ -11,6 +11,7 @@ public:
 	Shader(const char* _vertexSrc, const char* _fragmentSrc);
 	Shader(const char* _vertexSrc, const char* _geometrySrc, const char* _fragmentSrc);
 	Shader(const char* _vertexSrc, const char* _tesselationControlSrc, const char* _tesselationEvaluationSrc, const char* _fragmentSrc);
+	Shader(const char* _vertexSrc, const char* _tessellationControlSrc, const char* _tesselationEvaluationSrc, const char* _geometrySrc, const char* _fragmentSrc);
 	~Shader() = default;
 
 	void Bind() const;

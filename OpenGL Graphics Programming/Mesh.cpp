@@ -5,6 +5,9 @@ Mesh::Mesh(std::vector<float> _vertices, std::vector<unsigned int> _indices)
 	m_vertices = _vertices;
 	m_indicesCount = _indices.size();
 
+	//Tells opengl that if this is going to be using a tessellation shader, then it will tessellate quads
+	glPatchParameteri(GL_PATCH_VERTICES, 4);
+
 	//Generate vao
 	GLCall(glGenVertexArrays(1, &m_vaoID));
 	GLCall(glBindVertexArray(m_vaoID));
@@ -20,15 +23,13 @@ Mesh::Mesh(std::vector<float> _vertices, std::vector<unsigned int> _indices)
 	GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indicesCount * sizeof(unsigned int), static_cast<const void*>(_indices.data()), GL_STATIC_DRAW));
 
 	SetVertexAttributes();
+	Unbind();
 }
 
 Mesh::Mesh(std::vector<float> _vertices)
 {
 	m_vertices = _vertices;
 	m_indicesCount = _vertices.size() / 3;
-
-	//Tells opengl that if this is going to be using a tessellation shader, then it will tessellate quads
-	glPatchParameteri(GL_PATCH_VERTICES, 4);
 	
 	//Generate vao
 	GLCall(glGenVertexArrays(1, &m_vaoID));
@@ -40,6 +41,7 @@ Mesh::Mesh(std::vector<float> _vertices)
 	GLCall(glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(float), static_cast<const void*>(_vertices.data()), GL_STATIC_DRAW));
 
 	SetVertexSingleAttribute();
+	Unbind();
 }
 
 void Mesh::AddVAOBuffer(const VertexBufferInfo _info)
