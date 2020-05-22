@@ -30,13 +30,12 @@ GameManager::GameManager()
 	m_CubeMap.ChangePRS(0.0f, 0.0f, 0.0f, 0.0f, 200000.0f, 200000.0f, 200000.f);
 
 	//Set background mesh and texture
-	//m_backgroundMesh = new Mesh(Objects::verticesBackground, Objects::indicesBackground);
 	m_grassTexture = new Texture("Resources/Textures/Grass.png", 0);
 	m_noiseTexture = new Texture("Resources/Textures/perlin_noise.png", 1);
 
 	//Terrain
-	m_grassTerrain = new Terrain(128, 128, glm::vec3(0.0f), m_grassTexture);
-	m_waterTerrain = new WaterTerrain(128, 128, glm::vec3(0.0f), m_grassTexture, m_noiseTexture);
+	m_grassTerrain = new Terrain(128, 128, glm::vec3(0.0f));
+	m_waterTerrain = new WaterTerrain(128, 128, glm::vec3(0.0f), m_noiseTexture);
 
 	m_geometryObject = new GeometryObject(glm::vec3(70.0f, 10.0f, 64.0f), glm::vec4(0.5f, 0.0f, 0.7f, 1.0f));
 	m_tesselationObject = new TessellationObject(glm::vec3(70.0f, 12.0f, 64.0f), glm::vec4(0.5f, 0.0f, 0.7f, 1.0f));

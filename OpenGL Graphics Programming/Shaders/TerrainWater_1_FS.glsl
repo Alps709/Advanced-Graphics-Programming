@@ -10,7 +10,7 @@ in vec4 mWorldPos;
 out vec4 colour;
 
 //Texture
-uniform sampler2D u_grassTex;
+uniform sampler2D u_terrainTex;
 uniform vec3 u_camPos;
 uniform bool u_fogRenderMode;
 
@@ -23,7 +23,7 @@ void main(void)
 	lerp = clamp(lerp, 0.0, 1.0);
 	
 	//Make the texture blue and slightly transparent
-	vec4 texColour = texture(u_grassTex, fragmentTextureCoord) * vec4(0.0f, 0.1f, 1.0f, 0.75f);
+	vec4 texColour = texture(u_terrainTex, fragmentTextureCoord) * vec4(0.0f, 0.1f, 1.0f, 0.75f);
 
 	if(u_fogRenderMode)
 	{

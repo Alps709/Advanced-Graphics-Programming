@@ -9,12 +9,15 @@ in VERTEX_INFO
 	vec2 TexCoord;
 } vertex_info_FS_in;
 
+in flat int useGrassTexture;
+
 //Colour output
 out vec4 colour;
 
 //Uniforms
 
-//Texture
+//Textures
+uniform sampler2D u_terrainTex;
 uniform sampler2D u_grassTex;
 
 uniform vec3 u_camPos;
@@ -27,9 +30,14 @@ void main(void)
 {
 	//Fog
 	float d = distance(vertex_info_FS_in.WorldPos.xyz, u_camPos);
-	float lerp = (d - 5.0f)/50.f;
-	lerp = clamp(lerp, 0.0, 1.0);
-	vec4 texColour = texture(u_grassTex, vertex_info_FS_in.TexCoord);
+	float lerp = (d - 5.0f)/50.0f;
+	lerp = clamp(lerp, 0.0f, 1.0f);
+	vec4 texColour = (useGrassTexture == 0) ? texture(u_terrainTex, vertex_info_FS_in.TexCoord) : texture(u_grassTex, vertex_info_FS_in.TexCoord);
+
+	if(texColour.a < 0.5f)
+	{
+		discard;
+	}
 
 	if(vertex_info_FS_in.FragPos.y < 0.0f)
 	{

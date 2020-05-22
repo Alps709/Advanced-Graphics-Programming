@@ -16,7 +16,7 @@ out vec4 colour;
 //Uniforms
 
 //Texture
-uniform sampler2D u_grassTex;
+uniform sampler2D u_terrainTex;
 
 uniform vec3 u_camPos;
 uniform bool u_fogRenderMode;
@@ -29,7 +29,7 @@ void main(void)
 	float d = distance(vertex_info_FS_in.WorldPos.xyz, u_camPos);
 	float lerp = (d - 5.0f)/50.f;
 	lerp = clamp(lerp, 0.0, 1.0);
-	vec4 texColour = texture(u_grassTex, vertex_info_FS_in.TexCoord);
+	vec4 texColour = texture(u_terrainTex, vertex_info_FS_in.TexCoord);
 
 	if(vertex_info_FS_in.FragPos.y < 0.0f)
 	{

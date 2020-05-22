@@ -36,9 +36,10 @@ void main(void)
 	//Interpolate the attributes of the output vertex using the barycentric coordinates
     vertex_info_GS_in.TexCoord = interpolate2D(vertex_info_TES_in[0].TexCoord, vertex_info_TES_in[1].TexCoord, vertex_info_TES_in[2].TexCoord);
 
-	//HOW TO DO IT IF YOU'RE USING A DISPLACEMENT HEIGHTMAP TEXTURE
 	vertex_info_GS_in.WorldPos = interpolate3D(vertex_info_TES_in[0].WorldPos, vertex_info_TES_in[1].WorldPos, vertex_info_TES_in[2].WorldPos);
 	vertex_info_GS_in.FragPos = vec4(interpolate3D(vec4(vertex_info_TES_in[0].FragPos, 1.0f), vec4(vertex_info_TES_in[1].FragPos, 1.0f), vec4(vertex_info_TES_in[2].FragPos, 1.0f))).xyz;
+
+	//HOW TO DO IT IF YOU'RE USING A DISPLACEMENT HEIGHTMAP TEXTURE
 	//Displace the vertex along the normal
     //float Displacement = texture(gDisplacementMap, vertex_info_FS_in.TexCoord.xy).x;
     //vertex_info_FS_in.WorldPos += vertex_info_FS_in.Normal * Displacement * gDispFactor;
