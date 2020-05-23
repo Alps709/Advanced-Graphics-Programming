@@ -37,7 +37,12 @@ void main(void)
     vertex_info_GS_in.TexCoord = interpolate2D(vertex_info_TES_in[0].TexCoord, vertex_info_TES_in[1].TexCoord, vertex_info_TES_in[2].TexCoord);
 
 	vertex_info_GS_in.WorldPos = interpolate3D(vertex_info_TES_in[0].WorldPos, vertex_info_TES_in[1].WorldPos, vertex_info_TES_in[2].WorldPos);
-	vertex_info_GS_in.FragPos = vec4(interpolate3D(vec4(vertex_info_TES_in[0].FragPos, 1.0f), vec4(vertex_info_TES_in[1].FragPos, 1.0f), vec4(vertex_info_TES_in[2].FragPos, 1.0f))).xyz;
+
+	vec4 fragPos0 = vec4(vertex_info_TES_in[0].FragPos, 1.0f);
+	vec4 fragPos1 = vec4(vertex_info_TES_in[1].FragPos, 1.0f);
+	vec4 fragPos2 = vec4(vertex_info_TES_in[2].FragPos, 1.0f);
+
+	vertex_info_GS_in.FragPos = interpolate3D(fragPos0, fragPos1, fragPos2).xyz;
 
 	//HOW TO DO IT IF YOU'RE USING A DISPLACEMENT HEIGHTMAP TEXTURE
 	//Displace the vertex along the normal
@@ -48,7 +53,5 @@ void main(void)
 //	gl_Position = (gl_TessCoord.x * gl_in[0].gl_Position +
 //	               gl_TessCoord.y * gl_in[1].gl_Position +
 //	               gl_TessCoord.z * gl_in[2].gl_Position );
-	
-	vertex_info_GS_in.WorldPos = gl_Position;
 }
 

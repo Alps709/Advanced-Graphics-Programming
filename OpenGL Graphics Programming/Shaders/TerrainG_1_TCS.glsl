@@ -26,7 +26,7 @@ uniform vec3 u_cameraPos;
 
 void main() 
 {
-	vec4 worldPos = gl_in[gl_InvocationID].gl_Position;
+	vec4 worldPos = vertex_info_TCS_in[gl_InvocationID].WorldPos;
 
 	// Set the control points of the output patch
 	vertex_info_TES_in[gl_InvocationID].WorldPos = worldPos;
