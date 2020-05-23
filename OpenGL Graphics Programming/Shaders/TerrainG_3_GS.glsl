@@ -54,12 +54,12 @@ void main()
 	EndPrimitive();
 
 	//Only generate grass if it's above a world height of 1, so it doesn't generate underwater
-	if(vertex_info_GS_in[0].WorldPos.y > 1.0f)
+	if(vertex_info_GS_in[0].WorldPos.y > 0.5f)
 	{
 
 		///First grass quad
 
-		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.0f,  0.0f, -0.2f, 0.0f); 
+		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.5f,  0.0f, 0.0f, 0.0f); 
 		vertex_info_FS_in.WorldPos = u_PV * vertex_info_GS_in[0].WorldPos;
 		vertex_info_FS_in.FragPos = vertex_info_GS_in[0].FragPos;
 		vertex_info_FS_in.Normal   = vertex_info_GS_in[0].Normal;
@@ -67,7 +67,7 @@ void main()
 		useGrassTexture = 1;
 		EmitVertex();
 
-		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.0f,  0.5f,  -0.2f,  0.0f); 
+		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.5f,  0.5f,  0.2f,  0.0f); 
 		vertex_info_FS_in.WorldPos = u_PV * vertex_info_GS_in[0].WorldPos;
 		vertex_info_FS_in.FragPos = vertex_info_GS_in[0].FragPos;
 		vertex_info_FS_in.Normal   = vertex_info_GS_in[0].Normal;
@@ -75,7 +75,7 @@ void main()
 		useGrassTexture = 1;
 		EmitVertex();
 
-		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.0f,  0.0f,  0.2f, 0.0f); 
+		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.0f,  0.0f,  0.5f, 0.0f); 
 		vertex_info_FS_in.WorldPos = u_PV * vertex_info_GS_in[0].WorldPos;
 		vertex_info_FS_in.FragPos = vertex_info_GS_in[0].FragPos;
 		vertex_info_FS_in.Normal   = vertex_info_GS_in[0].Normal;
@@ -83,7 +83,7 @@ void main()
 		useGrassTexture = 1;
 		EmitVertex();
 
-		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.0f,  0.5f,  0.2f,  0.0f); 
+		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.2f,  0.5f,  0.5f,  0.0f); 
 		vertex_info_FS_in.WorldPos = u_PV * vertex_info_GS_in[0].WorldPos;
 		vertex_info_FS_in.FragPos = vertex_info_GS_in[0].FragPos;
 		vertex_info_FS_in.Normal   = vertex_info_GS_in[0].Normal;
@@ -95,7 +95,7 @@ void main()
 
 
 		///Second grass quad
-		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.0f,  0.0f, -0.2f, 0.0f); 
+		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.0f,  0.0f, -0.5f, 0.0f); 
 		vertex_info_FS_in.WorldPos = u_PV * vertex_info_GS_in[0].WorldPos;
 		vertex_info_FS_in.FragPos = vertex_info_GS_in[0].FragPos;
 		vertex_info_FS_in.Normal   = vertex_info_GS_in[0].Normal;
@@ -103,7 +103,7 @@ void main()
 		useGrassTexture = 1;
 		EmitVertex();
 
-		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.0f,  0.5f,  -0.2f,  0.0f); 
+		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.0f,  0.5f,  -0.5f,  0.0f); 
 		vertex_info_FS_in.WorldPos = u_PV * vertex_info_GS_in[0].WorldPos;
 		vertex_info_FS_in.FragPos = vertex_info_GS_in[0].FragPos;
 		vertex_info_FS_in.Normal   = vertex_info_GS_in[0].Normal;
@@ -111,7 +111,7 @@ void main()
 		useGrassTexture = 1;
 		EmitVertex();
 
-		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.2f,  0.0f,  0.2f, 0.0f); 
+		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.5f,  0.0f,  0.5f, 0.0f); 
 		vertex_info_FS_in.WorldPos = u_PV * vertex_info_GS_in[0].WorldPos;
 		vertex_info_FS_in.FragPos = vertex_info_GS_in[0].FragPos;
 		vertex_info_FS_in.Normal   = vertex_info_GS_in[0].Normal;
@@ -119,7 +119,7 @@ void main()
 		useGrassTexture = 1;
 		EmitVertex();
 
-		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.2f,  0.5f,  0.2f,  0.0f); 
+		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.5f,  0.5f,  0.5f,  0.0f); 
 		vertex_info_FS_in.WorldPos = u_PV * vertex_info_GS_in[0].WorldPos;
 		vertex_info_FS_in.FragPos = vertex_info_GS_in[0].FragPos;
 		vertex_info_FS_in.Normal   = vertex_info_GS_in[0].Normal;
@@ -132,7 +132,7 @@ void main()
 
 
 		///Third grass quad
-		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.2f,  0.0f, -0.2f, 0.0f); 
+		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.5f,  0.0f, 0.0f, 0.0f); 
 		vertex_info_FS_in.WorldPos = u_PV * vertex_info_GS_in[0].WorldPos;
 		vertex_info_FS_in.FragPos = vertex_info_GS_in[0].FragPos;
 		vertex_info_FS_in.Normal   = vertex_info_GS_in[0].Normal;
@@ -140,7 +140,7 @@ void main()
 		useGrassTexture = 1;
 		EmitVertex();
 
-		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.2f,  0.5f,  -0.2f,  0.0f); 
+		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.5f,  0.5f,  0.2f,  0.0f); 
 		vertex_info_FS_in.WorldPos = u_PV * vertex_info_GS_in[0].WorldPos;
 		vertex_info_FS_in.FragPos = vertex_info_GS_in[0].FragPos;
 		vertex_info_FS_in.Normal   = vertex_info_GS_in[0].Normal;
@@ -148,7 +148,7 @@ void main()
 		useGrassTexture = 1;
 		EmitVertex();
 
-		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.2f,  0.0f,  0.2f, 0.0f); 
+		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(-0.5f,  0.0f,  0.0f, 0.0f); 
 		vertex_info_FS_in.WorldPos = u_PV * vertex_info_GS_in[0].WorldPos;
 		vertex_info_FS_in.FragPos = vertex_info_GS_in[0].FragPos;
 		vertex_info_FS_in.Normal   = vertex_info_GS_in[0].Normal;
@@ -156,7 +156,7 @@ void main()
 		useGrassTexture = 1;
 		EmitVertex();
 
-		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(0.2f,  0.5f,  0.2f,  0.0f); 
+		gl_Position = u_PV * vertex_info_GS_in[0].WorldPos + u_PVM * vec4(-0.5f,  0.5f,  0.2f,  0.0f); 
 		vertex_info_FS_in.WorldPos = u_PV * vertex_info_GS_in[0].WorldPos;
 		vertex_info_FS_in.FragPos = vertex_info_GS_in[0].FragPos;
 		vertex_info_FS_in.Normal   = vertex_info_GS_in[0].Normal;

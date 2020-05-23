@@ -41,7 +41,7 @@ public:
 	virtual void Render(Camera& _myCamera, double _time, bool _fogRenderMode);
 	
 	void SetShaderUniforms(Camera& _myCamera, double _time, bool _fogRenderMode, bool _grassRenderMode) const;
-	void Render(Camera& _myCamera, double _time, bool _fogRenderMode, bool _grassRenderMode);
+	void Render(Camera& _myCamera, double _time, bool _fogRenderMode, bool _grassRenderMode) const;
 
 	void BindTexture(unsigned int _texNum) const;
 

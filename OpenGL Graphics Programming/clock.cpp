@@ -62,8 +62,12 @@ CClock::Process()
 
 	m_fCurrentTime = std::chrono::high_resolution_clock::now();
 
-	m_fDeltaTime = (double)std::chrono::duration_cast<std::chrono::milliseconds>(m_fCurrentTime - m_fLastTime).count();
+	//Get change in time as microseconds so that level of precision is stored after the decimal place when converted to milliseconds
+	m_fDeltaTime = static_cast<double>(std::chrono::duration_cast<std::chrono::microseconds>(m_fCurrentTime - m_fLastTime).count());
 
+	//Convert to milliseconds
+	m_fDeltaTime /= 1000.0;
+	
 	m_fTimeElapsed += m_fDeltaTime;
 }
 
@@ -88,5 +92,5 @@ double CClock::GetTimeElapsedMS() const
 //Get time elapsed in seconds
 double CClock::GetTimeElapsedS() const
 {
-	return (m_fTimeElapsed / 1000);
+	return (m_fTimeElapsed / 1000.0);
 }

@@ -130,10 +130,12 @@ void Terrain::UpdateModelMat()
 	m_modelMat = Math::Create2DModelMatrix(m_position.x, m_position.y, m_position.z, m_rotationZ, m_scale.x, m_scale.y, m_scale.z);
 }
 
+//This empty implementation is needed so that the linker can have base classes can override it
 void Terrain::SetShaderUniforms(Camera& _myCamera, double _time, bool _fogRenderMode) const
 {
 }
 
+//This empty implementation is needed so that the linker can have base classes can override it
 void Terrain::Render(Camera& _myCamera, double _time, bool _fogRenderMode)
 {
 }
@@ -168,7 +170,7 @@ void Terrain::SetShaderUniforms(Camera& _myCamera, double _time, bool _fogRender
 	}
 }
 
-void Terrain::Render(Camera& _myCamera, double _time, bool _fogRenderMode, bool _grassRenderMode)
+void Terrain::Render(Camera& _myCamera, double _time, bool _fogRenderMode, bool _grassRenderMode) const
 {
 	//Bind the mesh that all the model will use
 	m_mesh->Bind();
@@ -176,25 +178,17 @@ void Terrain::Render(Camera& _myCamera, double _time, bool _fogRenderMode, bool 
 	if(_grassRenderMode)
 	{
 		m_grassShader.Bind();
-	}
-	else
-	{
-		m_baseShader.Bind();
-	}
-	
-	//Prepare the object for drawing
-	SetShaderUniforms(_myCamera, _time, _fogRenderMode, _grassRenderMode);
-
-	//Bind grass texture
-	if (_grassRenderMode)
-	{
 		BindTexture(0);
 		BindTexture(1);
 	}
 	else
 	{
+		m_baseShader.Bind();
 		BindTexture(0);
 	}
+	
+	//Prepare the object for drawing
+	SetShaderUniforms(_myCamera, _time, _fogRenderMode, _grassRenderMode);
 
 	//Tells opengl that the tessellation patches are triangles
 	glPatchParameteri(GL_PATCH_VERTICES, 3);
