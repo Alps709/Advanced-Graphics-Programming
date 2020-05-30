@@ -122,6 +122,9 @@
     <ClCompile Include="TexQuadMesh.cpp">
       <Filter>Source Files\Object stuff\Meshes\Derived</Filter>
     </ClCompile>
+    <ClCompile Include="NoiseTextureGenerator.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VertexBufferInfo.h">
@@ -210,6 +213,9 @@
     </ClInclude>
     <ClInclude Include="TexQuadMesh.h">
       <Filter>Source Files\Object stuff\Meshes\Derived</Filter>
+    </ClInclude>
+    <ClInclude Include="NoiseTextureGenerator.h">
+      <Filter>Source Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

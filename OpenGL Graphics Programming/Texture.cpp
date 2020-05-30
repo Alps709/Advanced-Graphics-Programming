@@ -35,6 +35,32 @@ Texture::Texture(const char* _filePath, unsigned short _slot)
 	GLCall(glBindTexture(GL_TEXTURE_2D, 0));
 }
 
+Texture::Texture(unsigned char* _pixelArray, unsigned short _slot)
+	: m_slot(_slot), m_width(4096), m_height(4096)
+{
+	//Make sure slot is not higher than 16
+	if (m_slot >= 16)
+	{
+		//Throw error
+		std::string is = "ERROR: The texture slot shouldn't be 16 or over as certain systems do not have that many texture slots";
+		std::cout << is << std::endl;
+		throw std::logic_error(is.c_str());
+	}
+
+	GLCall(glGenTextures(1, &m_textureID));
+	GLCall(glBindTexture(GL_TEXTURE_2D, m_textureID));
+
+	GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16, 4096, 4096, 0, GL_RGBA, GL_UNSIGNED_BYTE, _pixelArray));
+
+	GLCall(glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
+	GLCall(glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));
+	GLCall(glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
+	GLCall(glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
+	GLCall(glGenerateMipmap(GL_TEXTURE_2D));
+
+	GLCall(glBindTexture(GL_TEXTURE_2D, 0));
+}
+
 Texture::~Texture()
 {
 	GLCall(glDeleteTextures(1, &m_textureID));

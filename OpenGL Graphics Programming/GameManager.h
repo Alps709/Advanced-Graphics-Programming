@@ -85,7 +85,7 @@ private:
 
 	//Game terrain textures
 	Texture* m_grassTexture = nullptr;
-	Texture* m_noiseTexture = nullptr;
+	Texture m_noiseTexture;
 
 	//Shaders
 	Shader* m_defaultShader = nullptr;

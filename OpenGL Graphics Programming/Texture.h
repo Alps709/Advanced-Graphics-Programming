@@ -3,7 +3,13 @@ class Texture
 {
 public:
 	Texture() = default;
+	
+	//Constuctor for loading a texture from file
 	Texture(const char* _filePath, unsigned short _slot);
+
+	//Constructor for creating a texture from an array of pixel data
+	Texture(unsigned char* _pixelArray, unsigned short _slot);
+	
 	~Texture();
 
 	void Bind() const;
@@ -13,7 +19,7 @@ public:
 
 private:
 	unsigned int m_textureID{};
-	const char* m_filePath;
+	const char* m_filePath{};
 	int m_width{0};
 	int m_height{0};
 

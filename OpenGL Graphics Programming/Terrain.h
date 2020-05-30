@@ -10,7 +10,7 @@ class Terrain
 {
 public:
 	Terrain() = default;
-	Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position);
+	Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, bool _generateHeightMap);
 	virtual ~Terrain();
 
 	//Getters
@@ -20,8 +20,8 @@ public:
 	//Setters
 	void SetPosition(glm::vec3 _pos);
 	void SetScale(glm::vec3 _scale);
-	void SetTexture0(Texture* _tex);
-	void SetTexture1(Texture* _tex);
+	void SetTexture0(Texture _tex);
+	void SetTexture1(Texture _tex);
 
 	//Getters
 	float GetTerrainHeight(float _worldX, float _worldZ);
@@ -58,7 +58,8 @@ protected:
 	TerrainMesh* m_mesh;
 	Shader m_grassShader;
 	Shader m_baseShader;
-	Texture* m_tex0{};
-	Texture* m_tex1{};
+	Texture m_tex0{};
+	Texture m_tex1{};
+	Texture* m_heightMapTex{};
 };
 

@@ -31,10 +31,10 @@ GameManager::GameManager()
 
 	//Set background mesh and texture
 	m_grassTexture = new Texture("Resources/Textures/Grass.png", 0);
-	m_noiseTexture = new Texture("Resources/Textures/perlin_noise.png", 1);
+	m_noiseTexture = Texture("Resources/Textures/perlin_noise.png", 1);
 
 	//Terrain
-	m_grassTerrain = new Terrain(128, 128, glm::vec3(0.0f));
+	m_grassTerrain = new Terrain(128, 128, glm::vec3(0.0f), true);
 	m_waterTerrain = new WaterTerrain(128, 128, glm::vec3(0.0f), m_noiseTexture);
 
 	m_geometryObject = new GeometryObject(glm::vec3(70.0f, 10.0f, 64.0f), glm::vec4(0.5f, 0.0f, 0.7f, 1.0f));
@@ -72,7 +72,6 @@ GameManager::~GameManager()
 	delete m_menuTitleText;
 	delete m_menuInstructText;
 	delete m_grassTexture;
-	delete m_noiseTexture;
 	delete m_defaultShader;
 	delete m_geometryModelShader;
 	delete m_camera;

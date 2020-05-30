@@ -2,8 +2,8 @@
 
 #include "Mesh.h"
 
-WaterTerrain::WaterTerrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, Texture* _noiseTexture)
-	: Terrain(_xSize, _zSize, _position)
+WaterTerrain::WaterTerrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, Texture _noiseTexture)
+	: Terrain(_xSize, _zSize, _position, false)
 {
 	m_grassShader = Shader("Shaders/TerrainWater_0_VS.glsl", "Shaders/TerrainWater_1_FS.glsl");
 	m_tex1 = _noiseTexture;

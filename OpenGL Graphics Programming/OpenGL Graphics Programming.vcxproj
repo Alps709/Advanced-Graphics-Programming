@@ -163,6 +163,7 @@
     <ClCompile Include="ModelMesh.cpp" />
     <ClCompile Include="MousePicker.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="NoiseTextureGenerator.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="SphereMesh.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="ModelMesh.h" />
     <ClInclude Include="MousePicker.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="NoiseTextureGenerator.h" />
     <ClInclude Include="Obj.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderLoader.h" />
