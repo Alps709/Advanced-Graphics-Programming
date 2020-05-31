@@ -70,7 +70,16 @@ void CubeMap::Initialise()
 	//TEXTURE
 	//Construct cubemap textures
 	GLCall(glGenTextures(1, &m_texID));
-	GLCall(glBindTexture(GL_TEXTURE_2D, m_texID));
+	GLCall(glBindTexture(GL_TEXTURE_CUBE_MAP, m_texID));
+
+	GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+	GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
+	GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE));
+	GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
+	GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
+	GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_BASE_LEVEL, 0));
+	GLCall(glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAX_LEVEL, 0));
+	GLCall(glGenerateMipmap(GL_TEXTURE_CUBE_MAP));
 
 	std::vector<std::string> textureNames{ "right.jpg", "left.jpg" , "top.jpg", "bottom.jpg", "back.jpg", "front.jpg" };
 
@@ -86,13 +95,6 @@ void CubeMap::Initialise()
 		GLCall(glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA16, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image));
 		SOIL_free_image_data(image);
 	}
-
-	GLCall(glTextureParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
-	GLCall(glTextureParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
-	GLCall(glTextureParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE));
-	GLCall(glTextureParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
-	GLCall(glTextureParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR));
-	GLCall(glGenerateMipmap(GL_TEXTURE_CUBE_MAP));
 
 	GLCall(glBindTexture(GL_TEXTURE_CUBE_MAP, 0));
 }

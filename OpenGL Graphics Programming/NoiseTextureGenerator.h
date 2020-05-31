@@ -22,6 +22,11 @@ struct Pixel
 		a = _a;
 	}
 
+	Pixel operator=(const Pixel& other) const
+	{
+		return other;
+	}
+
 	bool operator==(const Pixel& other) const
 	{
 		return (r == other.r
@@ -37,10 +42,13 @@ public:
 	NoiseTextureGenerator() = default;
 
 	Texture* GenerateTexture();
+	std::vector<Pixel>* GetPixelData() const { return m_pixelData; }
 
 private:
 	const int m_width = 4096;
 	const int m_height = 4096;
+
+	std::vector<Pixel>* m_pixelData;
 
 	CClock m_clock;
 };

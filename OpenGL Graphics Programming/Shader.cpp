@@ -95,7 +95,7 @@ void Shader::SetUniformMat4f(const std::string& _name, glm::mat4& _matrix) const
 
 int Shader::GetUniformLocation(const std::string& _name) const
 {
-	int uniformLocation = GLCall(glGetUniformLocation(m_programID, _name.c_str()));
+	int uniformLocation = glGetUniformLocation(m_programID, _name.c_str());
 
 	if(uniformLocation == -1)
 	{

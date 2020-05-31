@@ -2,11 +2,10 @@
 
 #include "Math.h"
 
-#include "NoiseTextureGenerator.h"
 #include "GameObject.h"
 #include "Camera.h"
 
-Terrain::Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, bool _generateHeightMap)
+Terrain::Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, bool _genNoiseTex)
 {
 	m_xSize = _xSize;
 	m_zSize = _zSize;
@@ -15,15 +14,14 @@ Terrain::Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, 
 	m_grassShader = Shader("Shaders/TerrainG_0_VS.glsl", "Shaders/TerrainG_1_TCS.glsl", "Shaders/TerrainG_2_TES.glsl", "Shaders/TerrainG_3_GS.glsl", "Shaders/TerrainG_4_FS.glsl");
 	m_baseShader = Shader("Shaders/Terrain_0_VS.glsl", "Shaders/Terrain_1_TCS.glsl", "Shaders/Terrain_2_TES.glsl", "Shaders/Terrain_3_FS.glsl");
 	m_position = _position;
-	m_tex0 = Texture("Resources/Textures/terrainTex.png", 0);
-	m_tex1 = Texture("Resources/Textures/grassTexS.png", 1);
+	m_tex0 = new Texture("Resources/Textures/terrainTex.png", 0);
+	m_tex1 = new Texture("Resources/Textures/grassTexS.png", 1);
 
-	if (_generateHeightMap)
+	if(_genNoiseTex)
 	{
-		NoiseTextureGenerator heightmap;
-		m_heightMapTex = heightmap.GenerateTexture();
+		m_perlinNoiseTexture = m__noiseTexGenerator.GenerateTexture();
 	}
-	
+
 	//Update the stored model matrix
 	UpdateModelMat();
 }
@@ -46,12 +44,12 @@ void Terrain::SetScale(glm::vec3 _scale)
 	m_scale = _scale;
 }
 
-void Terrain::SetTexture0(Texture _tex)
+void Terrain::SetTexture0(Texture* _tex)
 {
 	m_tex0 = _tex;
 }
 
-void Terrain::SetTexture1(Texture _tex)
+void Terrain::SetTexture1(Texture* _tex)
 {
 	m_tex1 = _tex;
 }
@@ -169,7 +167,7 @@ void Terrain::SetShaderUniforms(Camera& _myCamera, double _time, bool _fogRender
 	else
 	{
 		//Set object specific uniforms
-		m_baseShader.SetUniform1i("u_terrainTex", 0);
+		m_baseShader.SetUniform1i("u_terrainTex", 2);
 		m_grassShader.SetUniformMat4f("u_PV", pvMat);
 		m_baseShader.SetUniformMat4f("u_modelMat", modelMat);
 		m_baseShader.SetUniform3f("u_cameraPos", camPos);
@@ -191,7 +189,7 @@ void Terrain::Render(Camera& _myCamera, double _time, bool _fogRenderMode, bool 
 	else
 	{
 		m_baseShader.Bind();
-		BindTexture(0);
+		BindTexture(2);
 	}
 	
 	//Prepare the object for drawing
@@ -216,14 +214,14 @@ void Terrain::BindTexture(unsigned int _texNum) const
 	//Meant to be expanded if the object needs more than one texture
 	if (_texNum == 0)
 	{
-		m_tex0.Bind();
+		m_tex0->Bind();
 	}
 	else if (_texNum == 1)
 	{
-		m_tex1.Bind();
+		m_tex1->Bind();
 	}
 	else if (_texNum == 2)
 	{
-		m_heightMapTex->Bind();
+		m_perlinNoiseTexture->Bind();
 	}
 }

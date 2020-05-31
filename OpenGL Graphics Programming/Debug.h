@@ -54,10 +54,10 @@ bool inline GLCheckError()
 }
 
 
-#ifdef DEBUG
+#ifdef _DEBUG
 #define GLCall(x) GLClearError();\
     x;\
-    ASSERT(GLCheckError())
+    //ASSERT(GLCheckError())
 #else
 #define GLCall(x) x
 #endif

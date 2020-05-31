@@ -6,11 +6,13 @@
 #include <detail/type_vec3.hpp>
 #include <detail/type_mat4x4.hpp>
 
+#include "NoiseTextureGenerator.h"
+
 class Terrain
 {
 public:
 	Terrain() = default;
-	Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, bool _generateHeightMap);
+	Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, bool _genNoiseTex);
 	virtual ~Terrain();
 
 	//Getters
@@ -20,8 +22,8 @@ public:
 	//Setters
 	void SetPosition(glm::vec3 _pos);
 	void SetScale(glm::vec3 _scale);
-	void SetTexture0(Texture _tex);
-	void SetTexture1(Texture _tex);
+	void SetTexture0(Texture* _tex);
+	void SetTexture1(Texture* _tex);
 
 	//Getters
 	float GetTerrainHeight(float _worldX, float _worldZ);
@@ -55,11 +57,15 @@ protected:
 
 	glm::mat4 m_modelMat = glm::mat4(1.0f);
 
+	bool m_generateNoiseTex = false;
+
+	NoiseTextureGenerator m__noiseTexGenerator;
+
 	TerrainMesh* m_mesh;
 	Shader m_grassShader;
 	Shader m_baseShader;
-	Texture m_tex0{};
-	Texture m_tex1{};
-	Texture* m_heightMapTex{};
+	Texture* m_tex0{};
+	Texture* m_tex1{};
+	Texture* m_perlinNoiseTexture{};
 };
 

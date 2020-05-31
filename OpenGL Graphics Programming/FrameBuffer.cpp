@@ -47,7 +47,7 @@ FrameBuffer::FrameBuffer(unsigned _xSize, unsigned _ySize)
 							  GL_RENDERBUFFER, //renderbufferTarget 
 							  m_RBO)); // render buffer
 
-	if (GLCall(glCheckFramebufferStatus(GL_FRAMEBUFFER)) != GL_FRAMEBUFFER_COMPLETE)
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
 		std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
 		system("pause");

@@ -115,8 +115,8 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 			//vertices[vertexIndex + 5] = 0;
 
 			//Texture co-ords		
-			vertices[vertexIndex + 6] = static_cast<float>(x) / (_xSize - 1); //We times by 5 here cause we want the texture to repeat 5 times 
-			vertices[vertexIndex + 7] = static_cast<float>(z) / (_zSize - 1); //across the x and y of the mesh
+			vertices[vertexIndex + 6] = static_cast<float>(x) / (_xSize - 1) * 5; //We times by 5 here cause we want the texture to repeat 5 times 
+			vertices[vertexIndex + 7] = static_cast<float>(z) / (_zSize - 1) * 5; //across the x and y of the mesh
 			vertexIndex += 8;
 		}
 	}

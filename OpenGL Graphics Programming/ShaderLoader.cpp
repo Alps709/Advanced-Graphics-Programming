@@ -5,7 +5,7 @@
 
 GLuint ShaderLoader::CreateProgram(const char* _vertexShaderFilename, const char* _fragmentShaderFilename)
 {
-	GLuint program = GLCall(glCreateProgram());
+	GLuint program = glCreateProgram();
 
 	const GLuint vertexID = CreateShader(GL_VERTEX_SHADER, _vertexShaderFilename);
 	const GLuint fragmentID = CreateShader(GL_FRAGMENT_SHADER, _fragmentShaderFilename);
@@ -40,7 +40,7 @@ GLuint ShaderLoader::CreateProgram(const char* _vertexShaderFilename, const char
 
 GLuint ShaderLoader::CreateProgram(const char* _vertexShaderFilename, const char* _geometryShaderFilename, const char* _fragmentShaderFilename)
 {
-	GLuint program = GLCall(glCreateProgram());
+	GLuint program = glCreateProgram();
 
 	const GLuint vertexID = CreateShader(GL_VERTEX_SHADER, _vertexShaderFilename);
 	const GLuint geometryID = CreateShader(GL_GEOMETRY_SHADER, _geometryShaderFilename);
@@ -80,7 +80,7 @@ GLuint ShaderLoader::CreateProgram(const char* _vertexShaderFilename, const char
 GLuint ShaderLoader::CreateProgram(const char* _vertexShaderFilename, const char* _tessellationControlShaderFilename,
 	                               const char* _tessellationEvaluationShaderFilename, const char* _fragmentShaderFilename)
 {
-	GLuint program = GLCall(glCreateProgram());
+	GLuint program = glCreateProgram();
 
 	const GLuint vertexID = CreateShader(GL_VERTEX_SHADER, _vertexShaderFilename);
 	const GLuint tesselationControlID = CreateShader(GL_TESS_CONTROL_SHADER, _tessellationControlShaderFilename);
@@ -126,7 +126,7 @@ GLuint ShaderLoader::CreateProgram(const char* _vertexShaderFilename, const char
 	                               const char* _tessellationEvaluationShaderFilename, const char* _geometryShaderFilename,
 	                               const char* _fragmentShaderFilename)
 {
-	GLuint program = GLCall(glCreateProgram());
+	GLuint program = glCreateProgram();
 
 	const GLuint vertexID = CreateShader(GL_VERTEX_SHADER, _vertexShaderFilename);
 	const GLuint tessellationControlID = CreateShader(GL_TESS_CONTROL_SHADER, _tessellationControlShaderFilename);
@@ -172,7 +172,7 @@ GLuint ShaderLoader::CreateProgram(const char* _vertexShaderFilename, const char
 GLuint ShaderLoader::CreateShader(GLenum shaderType, const char* shaderName)
 {
 	//Create Shader
-	const GLuint shaderID = GLCall(glCreateShader(shaderType));
+	const GLuint shaderID = glCreateShader(shaderType);
 
 	std::string strShader = ReadShaderFile(shaderName);
 	const char* cstrShader = strShader.c_str();
@@ -221,13 +221,13 @@ void ShaderLoader::PrintErrorDetails(bool isShader, GLuint id, const char* name)
 {
 	int infoLogLength = 0;
 	// Retrieve the length of m_characters needed to contain the info log
-	(isShader) ? GLCall(glGetShaderiv(id, GL_INFO_LOG_LENGTH, &infoLogLength)) : GLCall(glGetProgramiv(id, GL_INFO_LOG_LENGTH, &infoLogLength));
+	(isShader) ? glGetShaderiv(id, GL_INFO_LOG_LENGTH, &infoLogLength) : glGetProgramiv(id, GL_INFO_LOG_LENGTH, &infoLogLength);
 
 	//Dynamically assign a char* string on the stack to be used for error message printing
 	char* log = static_cast<char*>(alloca(static_cast<size_t>(infoLogLength * sizeof(char))));
 
 	// Retrieve the log info and populate log variable
-	(isShader) ? GLCall(glGetShaderInfoLog(id, infoLogLength, nullptr, log)) : GLCall(glGetProgramInfoLog(id, infoLogLength, nullptr, log));
+	(isShader) ? glGetShaderInfoLog(id, infoLogLength, nullptr, log) : glGetProgramInfoLog(id, infoLogLength, nullptr, log);
 	std::cout << "Error compiling " << ((isShader) ? "shader" : "m_program") << ": " << name << std::endl;
 	std::cout << log << std::endl;
 }
