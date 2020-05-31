@@ -11,7 +11,7 @@ Texture* NoiseTextureGenerator::GenerateTexture()
 	noiseGenerator.SetFractalOctaves(4);
 	noiseGenerator.SetFractalLacunarity(2.2f);
 
-	m_pixelData = new std::vector<Pixel>();
+	m_pixelData = new std::vector<unsigned char>();
 	m_pixelData->resize(m_width * m_height);
 
 	m_clock.Initialise();
@@ -22,9 +22,9 @@ Texture* NoiseTextureGenerator::GenerateTexture()
 		for (int x = 0; x < m_width; x++)
 		{
 			//Get the height from the x,z from the Perlin noise function
-			const float height = (noiseGenerator.GetNoise(static_cast<float>(x), static_cast<float>(y)) + 1.0f) /2.0f * 255.0f;
+			const float height = (noiseGenerator.GetNoise(static_cast<float>(x)/32.0f, static_cast<float>(y)/32.0f) + 1.0f) /2.0f * 255.0f;
 			const auto temp = static_cast<unsigned char>(height);
-			(*m_pixelData)[y * m_width + x] = Pixel(temp, temp, temp, 1);
+			(*m_pixelData)[y * m_width + x] = temp; // Pixel(temp, temp, temp, 255);
 		}
 	}
 
