@@ -1,9 +1,9 @@
 #include "TerrainMesh.h"
 #include "FastNoise.h"
 
-TerrainMesh::TerrainMesh(unsigned int _xSize = 128, unsigned int _zSize = 128)
+TerrainMesh::TerrainMesh(unsigned int _xSize = 128, unsigned int _zSize = 128, std::vector<float>* _heightMapData = nullptr)
 {
-	GenerateTerrainMesh(_xSize, _zSize);
+	GenerateTerrainMesh(_xSize, _zSize, _heightMapData);
 	m_indicesCount = m_indices.size();
 
 	//Generate vao
@@ -74,15 +74,22 @@ TerrainMesh::~TerrainMesh()
 {
 }
 
-void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
+void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize, std::vector<float>* _heightMapData)
 {
+	bool useHeightMapData = false;
+	if(_heightMapData != nullptr)
+	{
+		useHeightMapData = true;
+	}
+	
 	FastNoise noiseGenerator;
 	noiseGenerator.SetNoiseType(FastNoise::NoiseType::PerlinFractal);
-	noiseGenerator.SetFractalOctaves(4);
+	noiseGenerator.SetFractalOctaves(3);
 	noiseGenerator.SetFractalLacunarity(2.2f);
+	noiseGenerator.SetFrequency(1);
 
-	const int SIZE = 1;
-	const int noiseHeightMod = SIZE * 30;
+	const float SIZE = 128.0f / _zSize;
+	const float noiseHeightMod = 30;
 	const int count = _xSize * _zSize;
 
 	//const float topLeftX = (_xSize - 1) / -2.0f;
@@ -95,12 +102,29 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize)
 
 	unsigned int vertexIndex = 0;
 
+	//Size the of the texture (in this case hard coded 4096) divided by the zSize of the terrain
+	//This gives us the multiplier to what y index of the heightmap to get
+	int hmZIdxMult = 4096 / _zSize;
+	int hmXIdxMult = 4096 / _xSize;
 	for (unsigned int z = 0; z < _zSize; z++)
 	{
+		const int temp = 42;
+		
 		for (unsigned int x = 0; x < _xSize; x++)
 		{
 			//Get the height fro the x,z from the Perlin noise function
-			float height = noiseGenerator.GetNoise(static_cast<float>(x), static_cast<float>(z)) * noiseHeightMod * -1;
+			float height;
+			if(useHeightMapData) 
+			{
+				const int index = (z * hmZIdxMult) * (4096) + (x * hmXIdxMult);
+				height = (*_heightMapData)[index];
+				height *= static_cast<float>(noiseHeightMod);
+			}
+			else
+			{
+				height = noiseGenerator.GetNoise(static_cast<float>(x)/_xSize, static_cast<float>(z)/_zSize) * noiseHeightMod * -1;
+			} 
+
 			m_heightMap[z * _zSize + x] = height;
 
 			//Positions

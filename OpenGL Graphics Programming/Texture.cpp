@@ -52,7 +52,7 @@ Texture::Texture(unsigned char* _pixelArray, unsigned short _slot)
 	GLCall(glGenTextures(1, &m_textureID));
 	GLCall(glBindTexture(GL_TEXTURE_2D, m_textureID));
 
-	GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_R8, 4096, 4096, 0, GL_RED, GL_UNSIGNED_BYTE, _pixelArray));
+	GLCall(glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, 4096, 4096, 0, GL_RED, GL_FLOAT, _pixelArray));
 
 	GLCall(glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT));
 	GLCall(glTextureParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT));

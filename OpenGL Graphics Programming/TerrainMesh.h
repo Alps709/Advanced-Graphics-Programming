@@ -6,10 +6,10 @@ class TerrainMesh
 {
 public:
 	TerrainMesh() = default;
-	TerrainMesh(unsigned int _xSize, unsigned int _zSize);
+	TerrainMesh(unsigned int _xSize, unsigned int _zSize, std::vector<float>* _heightMapData);
 	~TerrainMesh();
-
-	void GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize);
+	
+	void GenerateTerrainMesh(unsigned _xSize, unsigned _zSize, std::vector<float>* _heightMapData);
 
 	void AddVAOBuffer(const VertexBufferInfo _info);
 	void SetVertexAttributes();

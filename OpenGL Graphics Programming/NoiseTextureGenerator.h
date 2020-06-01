@@ -42,13 +42,14 @@ public:
 	NoiseTextureGenerator() = default;
 
 	Texture* GenerateTexture();
-	std::vector<unsigned char>* GetPixelData() const { return m_pixelData; }
+	std::vector<float>* GetPixelData() const { return m_pixelData; }
 
 private:
+	
 	const int m_width = 4096;
 	const int m_height = 4096;
 
-	std::vector<unsigned char>* m_pixelData;
+	std::vector<float>* m_pixelData;
 
 	CClock m_clock;
 };
