@@ -188,12 +188,14 @@ void Terrain::Render(Camera& _myCamera, double _time, bool _fogRenderMode, bool 
 	if(_grassRenderMode)
 	{
 		m_grassShader.Bind();
-		BindTexture(2);
+		BindTexture(0);
 		BindTexture(1);
+		BindTexture(2);
 	}
 	else
 	{
 		m_baseShader.Bind();
+		BindTexture(0);
 		BindTexture(2);
 	}
 	

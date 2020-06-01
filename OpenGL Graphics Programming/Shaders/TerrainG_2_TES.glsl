@@ -2,8 +2,8 @@
 
 layout (triangles, equal_spacing, ccw) in;
 
-//uniform sampler2D gDisplacementMap;
-//uniform float gDispFactor;
+uniform sampler2D u_heightMapTex;
+uniform float u_heightModifier = 1.0f;
 
 in VERTEX_INFO
 {
@@ -46,8 +46,9 @@ void main(void)
 
 	//HOW TO DO IT IF YOU'RE USING A DISPLACEMENT HEIGHTMAP TEXTURE
 	//Displace the vertex along the normal
-    //float Displacement = texture(gDisplacementMap, vertex_info_FS_in.TexCoord.xy).x;
-    //vertex_info_FS_in.WorldPos += vertex_info_FS_in.Normal * Displacement * gDispFactor;
+	float Displacement = texture(u_heightMapTex, vertex_info_GS_in.TexCoord.xy).r;
+	vertex_info_GS_in.WorldPos.y += Displacement * u_heightModifier;
+
     gl_Position = vertex_info_GS_in.WorldPos;
 
 //	gl_Position = (gl_TessCoord.x * gl_in[0].gl_Position +
