@@ -104,6 +104,7 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize, 
 
 	//Size the of the texture (in this case hard coded 4096) divided by the zSize of the terrain
 	//This gives us the multiplier to what y index of the heightmap to get
+	const int textureWidth = 4096;
 	int hmZIdxMult = 4096 / _zSize;
 	int hmXIdxMult = 4096 / _xSize;
 	for (unsigned int z = 0; z < _zSize; z++)
@@ -112,11 +113,12 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize, 
 		
 		for (unsigned int x = 0; x < _xSize; x++)
 		{
-			//Get the height fro the x,z from the Perlin noise function
+			//Get the height from the x,z from the Perlin noise function
 			float height;
 			if(useHeightMapData) 
 			{
-				const int index = (z * hmZIdxMult) * (4096) + (x * hmXIdxMult);
+				//Get the index of the 4k x 4k texture as though it's _zSize x _zSize
+				const int index = (z * hmZIdxMult) * (textureWidth) + (x * hmXIdxMult);
 				height = (*_heightMapData)[index];
 				height *= static_cast<float>(noiseHeightMod);
 			}

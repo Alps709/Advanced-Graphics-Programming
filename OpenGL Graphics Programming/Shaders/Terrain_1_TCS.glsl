@@ -39,10 +39,10 @@ void main()
 		//Calculate camera distance from control point, to determine LOD
 		float camDistance = distance(u_cameraPos, worldPos.xyz);
 
-		gl_TessLevelInner[0] = min(20.0 / camDistance, 3);	   	   
-		gl_TessLevelOuter[0] = min(20.0 / camDistance, 5);
-		gl_TessLevelOuter[1] = min(20.0 / camDistance, 5);
-		gl_TessLevelOuter[2] = min(20.0 / camDistance, 5);
+		gl_TessLevelInner[0] = min(20.0 / camDistance, 6);	   	   
+		gl_TessLevelOuter[0] = 1;
+		gl_TessLevelOuter[1] = 1;
+		gl_TessLevelOuter[2] = 1;
 	}	
 
 	gl_out[gl_InvocationID].gl_Position = worldPos;

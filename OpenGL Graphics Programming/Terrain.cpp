@@ -211,7 +211,8 @@ void Terrain::Render(Camera& _myCamera, double _time, bool _fogRenderMode, bool 
 	GLCall(glDrawElements(GL_PATCHES, m_mesh->GetindicesCount(), GL_UNSIGNED_INT, static_cast<void*>(0)));
 
 	GLCall(glEnable(GL_CULL_FACE));
-	
+
+	Texture::Unbind();
 	Mesh::Unbind();
 	Shader::Unbind();
 }

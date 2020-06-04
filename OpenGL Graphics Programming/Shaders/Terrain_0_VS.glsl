@@ -7,7 +7,7 @@ layout (location = 2) in vec2 textureCoord;
 uniform mat4 u_modelMat;
 
 uniform sampler2D u_heightMapTex;
-uniform float u_heightModifier = 1.0f;
+uniform float u_heightModifier = 10.0f;
 
 out VERTEX_INFO
 {
@@ -23,12 +23,12 @@ void main(void)
 	float Displacement = texture(u_heightMapTex, textureCoord.xy).r;
 	vec3 tempPos = position;
 
-	tempPos.y += Displacement * u_heightModifier;
+	tempPos.y = Displacement * u_heightModifier - 0.5f * u_heightModifier;
 
 	gl_Position = u_modelMat * vec4(tempPos, 1.0f);
 	
-	vertex_info_TCS_in.WorldPos = vec3(u_modelMat * vec4(tempPos, 1.0f));
-	vertex_info_TCS_in.FragPos= vec3(u_modelMat * vec4(tempPos, 1.0f));
+	vertex_info_TCS_in.WorldPos = gl_Position.xyz;
+	vertex_info_TCS_in.FragPos= gl_Position.xyz;
 	vertex_info_TCS_in.Normal = normal;
 	vertex_info_TCS_in.TexCoord = textureCoord; 
 }
