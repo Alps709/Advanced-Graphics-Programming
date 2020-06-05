@@ -10,7 +10,7 @@ Texture* NoiseTextureGenerator::GenerateTexture()
 	noiseGenerator.SetNoiseType(FastNoise::NoiseType::PerlinFractal);
 	noiseGenerator.SetFractalOctaves(5);
 	noiseGenerator.SetFractalLacunarity(2.2f);
-	noiseGenerator.SetFrequency(1);
+	noiseGenerator.SetFrequency(2);
 
 	m_pixelData = new std::vector<float>();
 	m_pixelData->resize(m_width * m_height);

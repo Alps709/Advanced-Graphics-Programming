@@ -4,6 +4,7 @@ layout (triangles, equal_spacing, ccw) in;
 
 uniform sampler2D u_heightMapTex;
 float heightModifier = 30.0f;
+
 uniform mat4 u_PV;
 
 in VERTEX_INFO

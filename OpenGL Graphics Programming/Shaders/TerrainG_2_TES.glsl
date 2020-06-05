@@ -3,7 +3,7 @@
 layout (triangles, equal_spacing, ccw) in;
 
 uniform sampler2D u_heightMapTex;
-uniform float u_heightModifier = 1.0f;
+uniform float u_heightModifier = 30.0f;
 
 in VERTEX_INFO
 {
@@ -34,7 +34,7 @@ vec4 interpolate3D(vec4 v0, vec4 v1, vec4 v2)
 void main(void)
 {
 	//Interpolate the attributes of the output vertex using the barycentric coordinates
-    vertex_info_GS_in.TexCoord = interpolate2D(vertex_info_TES_in[0].TexCoord, vertex_info_TES_in[1].TexCoord, vertex_info_TES_in[2].TexCoord);
+	vertex_info_GS_in.TexCoord = interpolate2D(vertex_info_TES_in[0].TexCoord, vertex_info_TES_in[1].TexCoord, vertex_info_TES_in[2].TexCoord);
 
 	vertex_info_GS_in.WorldPos = interpolate3D(vertex_info_TES_in[0].WorldPos, vertex_info_TES_in[1].WorldPos, vertex_info_TES_in[2].WorldPos);
 
@@ -45,14 +45,11 @@ void main(void)
 	vertex_info_GS_in.FragPos = interpolate3D(fragPos0, fragPos1, fragPos2).xyz;
 
 	//HOW TO DO IT IF YOU'RE USING A DISPLACEMENT HEIGHTMAP TEXTURE
-	//Displace the vertex along the normal
-	float Displacement = texture(u_heightMapTex, vertex_info_GS_in.TexCoord.xy).r;
-	vertex_info_GS_in.WorldPos.y += Displacement * u_heightModifier;
+    float Displacement = texture(u_heightMapTex, vertex_info_GS_in.TexCoord.xy).r;
+	vertex_info_GS_in.WorldPos.y = Displacement * u_heightModifier;
 
     gl_Position = vertex_info_GS_in.WorldPos;
-
-//	gl_Position = (gl_TessCoord.x * gl_in[0].gl_Position +
-//	               gl_TessCoord.y * gl_in[1].gl_Position +
-//	               gl_TessCoord.z * gl_in[2].gl_Position );
+	
+	vertex_info_GS_in.WorldPos = gl_Position;
 }
 

@@ -165,6 +165,7 @@ void main()
 		EmitVertex();
 
 		EndPrimitive();
-
 	}
+
+	//Draw a triangle along the normal to see which way the normal is pointing
 }

@@ -185,9 +185,9 @@ void Terrain::Render(Camera& _myCamera, double _time, bool _fogRenderMode, bool 
 	//Bind the mesh that all the model will use
 	m_mesh->Bind();
 
+	Texture::Unbind();
 	if(_grassRenderMode)
 	{
-		Texture::Unbind();
 		m_grassShader.Bind();
 
 		//Bind the extra grass texture used for rendering the grass
@@ -195,7 +195,6 @@ void Terrain::Render(Camera& _myCamera, double _time, bool _fogRenderMode, bool 
 	}
 	else
 	{
-		Texture::Unbind();
 		m_baseShader.Bind();
 	}
 

@@ -48,6 +48,7 @@ void main(void)
 	{
 		texColour.r = 0.0f;
 		texColour.g = 0.0f;
+		texColour.b = 1.0f;
 	}
 
 	//Final colour can be affected by fog
