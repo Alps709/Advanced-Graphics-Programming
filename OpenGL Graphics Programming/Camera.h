@@ -15,8 +15,9 @@ public:
 	glm::mat4 GetProjView() const { return m_projViewMat; }
 	
 	glm::vec3 GetPosition() const { return m_camPosition; }
-	glm::vec3 GetLookDirection() const { return m_camLookDir; }
-	glm::vec3 GetCamRight() const { return m_camRight; }
+	glm::vec3 GetForwardVector() const { return m_camLookDir; }
+	glm::vec3 GetRightVector() const { return m_camRight; }
+	glm::vec3 GetUpVector() const { return glm::cross(m_camLookDir, m_camRight); }
 	double GetCamSpeed() const { return m_camSpeed; }
 	bool GetThirdPersonMode() const { return m_thirdPersonMode; }
 

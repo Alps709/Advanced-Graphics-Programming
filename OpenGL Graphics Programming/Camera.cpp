@@ -112,7 +112,7 @@ void Camera::ProcessInput(double _deltaTime)
 			inputManager.KeyState['W'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['W'] == inputManager.INPUT_DOWN)
 		{
 			//move camera forward
-			SetPosition(GetPosition() + GetLookDirection() * (float)GetCamSpeed() * (float)_deltaTime);
+			SetPosition(GetPosition() + GetForwardVector() * (float)GetCamSpeed() * (float)_deltaTime);
 
 			//Print camera m_position for debugging
 			//std::cout << "Camera pos: x: " << m_camera->GetPosition().x << " y: " << m_camera->GetPosition().y << " z: " << m_camera->GetPosition().z  << std::endl;
@@ -122,21 +122,21 @@ void Camera::ProcessInput(double _deltaTime)
 			inputManager.KeyState['A'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['A'] == inputManager.INPUT_DOWN)
 		{
 			//move camera left
-			SetPosition(GetPosition() - GetCamRight() * (float)GetCamSpeed() * (float)_deltaTime);
+			SetPosition(GetPosition() - GetRightVector() * (float)GetCamSpeed() * (float)_deltaTime);
 		}
 		//Move the camera backwards with the s button
 		if (inputManager.KeyState['s'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['s'] == inputManager.INPUT_DOWN ||
 			inputManager.KeyState['S'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['S'] == inputManager.INPUT_DOWN)
 		{
 			//move camera backward
-			SetPosition(GetPosition() - GetLookDirection() * (float)GetCamSpeed() * (float)_deltaTime);
+			SetPosition(GetPosition() - GetForwardVector() * (float)GetCamSpeed() * (float)_deltaTime);
 		}
 		//Move the camera to the right witht the d button
 		if (inputManager.KeyState['d'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['d'] == inputManager.INPUT_DOWN ||
 			inputManager.KeyState['D'] == inputManager.INPUT_DOWN_FIRST || inputManager.KeyState['D'] == inputManager.INPUT_DOWN)
 		{
 			//move camera right
-			SetPosition(GetPosition() + GetCamRight() * (float)GetCamSpeed() * (float)_deltaTime);
+			SetPosition(GetPosition() + GetRightVector() * (float)GetCamSpeed() * (float)_deltaTime);
 		}
 
 		//Move the camera up with the space button
