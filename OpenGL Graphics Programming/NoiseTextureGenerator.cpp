@@ -24,17 +24,16 @@ Texture* NoiseTextureGenerator::GenerateTexture()
 		for (int x = 0; x < m_width; x++)
 		{
 			//Get the height from the x,z from the Perlin noise function
-			//Mult by -1 to inverse the noise, then + 1.0f / 2.0f to bring range from 0 - 1, then mult by 255 to being range from 0 - 255;
+			//Mult by -1 to inverse the noise, divide x and y by the width and height so the noise is from a range of 0 - 1
 			height = noiseGenerator.GetNoise(static_cast<float>(x)/m_width, static_cast<float>(z)/ m_height) * -1.0f;
 			(*m_pixelData)[z * m_width + x] = height;
 		}
 	}
 
-	Texture* tex = new Texture(reinterpret_cast<float*>(m_pixelData->data()), 2);
+	Texture* tex = new Texture(m_pixelData->data(), 1);
 
 	m_clock.Process();
-	std::cout << "It took " << m_clock.GetTimeElapsedMS() << " milliseconds to generate the perlin noise texture!" << std::endl;
-	//system("pause");
+	std::cout << "It took " << m_clock.GetTimeElapsedMS() << " milliseconds to generate the Perlin noise height map texture!" << std::endl;
 
 	return tex;
 }

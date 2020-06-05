@@ -23,7 +23,7 @@ Terrain::Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, 
 	m_baseShader = Shader("Shaders/Terrain_0_VS.glsl", "Shaders/Terrain_1_TCS.glsl", "Shaders/Terrain_2_TES.glsl", "Shaders/Terrain_3_FS.glsl");
 	m_position = _position;
 	m_tex0 = new Texture("Resources/Textures/terrainTex.png", 0);
-	m_tex1 = new Texture("Resources/Textures/grassTexS.png", 1);
+	m_tex1 = new Texture("Resources/Textures/grassTexS.png", 2);
 
 	//Update the stored model matrix
 	UpdateModelMat();
@@ -160,8 +160,8 @@ void Terrain::SetShaderUniforms(Camera& _myCamera, double _time, bool _fogRender
 	{
 		//Set object specific uniforms
 		m_grassShader.SetUniform1i("u_terrainTex", 0);
-		m_grassShader.SetUniform1i("u_grassTex", 1);
-		m_grassShader.SetUniform1i("u_heightMapTex", 2);
+		m_grassShader.SetUniform1i("u_heightMapTex", 1);
+		m_grassShader.SetUniform1i("u_grassTex", 2);
 		m_grassShader.SetUniformMat4f("u_PV", pvMat);
 		m_grassShader.SetUniformMat4f("u_PVM", pvmMat);
 		m_grassShader.SetUniformMat4f("u_modelMat", modelMat);
@@ -172,8 +172,8 @@ void Terrain::SetShaderUniforms(Camera& _myCamera, double _time, bool _fogRender
 	{
 		//Set object specific uniforms
 		m_baseShader.SetUniform1i("u_terrainTex", 0);
-		m_grassShader.SetUniform1i("u_heightMapTex", 2);
-		m_grassShader.SetUniformMat4f("u_PV", pvMat);
+		m_baseShader.SetUniform1i("u_heightMapTex", 1);
+		m_baseShader.SetUniformMat4f("u_PV", pvMat);
 		m_baseShader.SetUniformMat4f("u_modelMat", modelMat);
 		m_baseShader.SetUniform3f("u_cameraPos", camPos);
 		m_baseShader.SetUniform1i("u_fogRenderMode", _fogRenderMode);
@@ -187,20 +187,24 @@ void Terrain::Render(Camera& _myCamera, double _time, bool _fogRenderMode, bool 
 
 	if(_grassRenderMode)
 	{
+		Texture::Unbind();
 		m_grassShader.Bind();
-		BindTexture(0);
-		BindTexture(1);
+
+		//Bind the extra grass texture used for rendering the grass
 		BindTexture(2);
 	}
 	else
 	{
+		Texture::Unbind();
 		m_baseShader.Bind();
-		BindTexture(0);
-		BindTexture(2);
 	}
+
+	BindTexture(0);
+	BindTexture(1);
 	
 	//Prepare the object for drawing
 	SetShaderUniforms(_myCamera, _time, _fogRenderMode, _grassRenderMode);
+	
 
 	//Tells opengl that the tessellation patches are triangles
 	glPatchParameteri(GL_PATCH_VERTICES, 3);
@@ -224,11 +228,11 @@ void Terrain::BindTexture(unsigned int _texNum) const
 	{
 		m_tex0->Bind();
 	}
-	else if (_texNum == 1)
+	else if (_texNum == 2)
 	{
 		m_tex1->Bind();
 	}
-	else if (_texNum == 2)
+	else if (_texNum == 1)
 	{
 		m_perlinNoiseTexture->Bind();
 	}

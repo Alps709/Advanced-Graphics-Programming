@@ -301,7 +301,7 @@ void GameManager::Render()
 	///Render transparent objects last
 
 	//Transparent water terrain
-	m_waterTerrain->Render(*m_camera, m_clock.GetTimeElapsedMS(), m_FogRenderMode);
+	//m_waterTerrain->Render(*m_camera, m_clock.GetTimeElapsedMS(), m_FogRenderMode);
 
 	if(m_postProcessingMode)
 	{

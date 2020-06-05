@@ -7,7 +7,7 @@ layout (location = 2) in vec2 textureCoord;
 uniform mat4 u_modelMat;
 
 uniform sampler2D u_heightMapTex;
-uniform float u_heightModifier = 10.0f;
+uniform float u_heightModifier = 30.0f;
 
 out VERTEX_INFO
 {
@@ -23,7 +23,7 @@ void main(void)
 	float Displacement = texture(u_heightMapTex, textureCoord.xy).r;
 	vec3 tempPos = position;
 
-	tempPos.y = Displacement * u_heightModifier - 0.5f * u_heightModifier;
+	tempPos.y = Displacement * u_heightModifier;
 
 	gl_Position = u_modelMat * vec4(tempPos, 1.0f);
 	

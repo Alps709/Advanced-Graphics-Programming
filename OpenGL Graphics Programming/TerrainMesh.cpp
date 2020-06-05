@@ -107,11 +107,11 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize, 
 	const int textureWidth = 4096;
 	int hmZIdxMult = 4096 / _zSize;
 	int hmXIdxMult = 4096 / _xSize;
-	for (unsigned int z = 0; z < _zSize; z++)
+	for (unsigned int x = 0; x < _xSize; x++)
 	{
 		const int temp = 42;
 		
-		for (unsigned int x = 0; x < _xSize; x++)
+		for (unsigned int z = 0; z < _zSize; z++)
 		{
 			//Get the height from the x,z from the Perlin noise function
 			float height;
@@ -124,7 +124,7 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize, 
 			}
 			else
 			{
-				height = noiseGenerator.GetNoise(static_cast<float>(x)/_xSize, static_cast<float>(z)/_zSize) * noiseHeightMod * -1;
+				height = noiseGenerator.GetNoise(static_cast<float>(z)/_xSize, static_cast<float>(x)/_zSize) * noiseHeightMod * -1;
 			} 
 
 			m_heightMap[z * _zSize + x] = height;
@@ -141,8 +141,8 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize, 
 			//vertices[vertexIndex + 5] = 0;
 
 			//Texture co-ords		
-			vertices[vertexIndex + 6] = static_cast<float>(x) / (_xSize - 1); //We times by 5 here cause we want the texture to repeat 5 times 
-			vertices[vertexIndex + 7] = static_cast<float>(z) / (_zSize - 1); //across the x and y of the mesh
+			vertices[vertexIndex + 6] = static_cast<float>(x) / (_xSize + 1) + (1.0f / _xSize);
+			vertices[vertexIndex + 7] = static_cast<float>(z) / (_zSize + 1) + (1.0f / _zSize);
 			vertexIndex += 8;
 		}
 	}
@@ -150,9 +150,9 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize, 
 
 	//Calculate normals
 	vertexIndex = 0;
-	for (unsigned int z = 1; z < _zSize - 1; z++)
+	for (unsigned int x = 1; x < _xSize - 1; x++)
 	{
-		for (unsigned int x = 1; x < _xSize - 1; x++)
+		for (unsigned int z = 1; z < _xSize - 1; z++)
 		{
 
 			float top    = m_heightMap[(z - 1) * _zSize + x];

@@ -3,7 +3,7 @@
 layout (triangles, equal_spacing, ccw) in;
 
 uniform sampler2D u_heightMapTex;
-float heightModifier = 1.0f;
+float heightModifier = 30.0f;
 uniform mat4 u_PV;
 
 in VERTEX_INFO
@@ -40,17 +40,12 @@ void main(void)
 	vertex_info_FS_in.WorldPos = interpolate3D(vertex_info_TES_in[0].WorldPos, vertex_info_TES_in[1].WorldPos, vertex_info_TES_in[2].WorldPos);
 
 	//HOW TO DO IT IF YOU'RE USING A DISPLACEMENT HEIGHTMAP TEXTURE
-	//Displace the vertex along the normal
     float Displacement = texture(u_heightMapTex, vertex_info_FS_in.TexCoord.xy).r;
-    vertex_info_FS_in.WorldPos.y += Displacement * heightModifier;
+    vertex_info_FS_in.WorldPos.y = Displacement * heightModifier;
 
 	vertex_info_FS_in.FragPos = vertex_info_FS_in.WorldPos;
 
     gl_Position = u_PV * vec4(vertex_info_FS_in.WorldPos, 1.0);
-
-//	gl_Position = (gl_TessCoord.x * gl_in[0].gl_Position +
-//	               gl_TessCoord.y * gl_in[1].gl_Position +
-//	               gl_TessCoord.z * gl_in[2].gl_Position );
 	
 	vertex_info_FS_in.WorldPos = gl_Position.xyz;
 }
