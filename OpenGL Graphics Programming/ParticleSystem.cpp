@@ -16,7 +16,8 @@ static float randomFloat()
 ParticleSystem::ParticleSystem(glm::vec3 _position, float _radius)
 {
 	m_particleShader = Shader("Shaders/Particle_0_VS.glsl", "Shaders/Particle_1_GS.glsl", "Shaders/Particle_2_FS.glsl");
-
+	m_particleTexture = new Texture("Resources/Textures/Snowflake.png", 0);
+	
 	m_originalPosition = _position;
 	m_circleRadius = _radius;
 	
@@ -72,7 +73,6 @@ void ParticleSystem::Update(Camera& _camera, float _deltaTime)
 		                     (m_circleRadius * cos(static_cast<float>(m_timer))) + m_originalPosition.z);
 	
 	//Update partcles and their positions for the VBO
-#pragma omp parallel for
 	for (int i = 0; i < (int)m_NumParticles; i++)
 	{
 		m_particles[i].Update(_camera, m_position, _deltaTime);
@@ -102,8 +102,8 @@ void ParticleSystem::Render(Camera& camera)
 	m_particleShader.SetUniform3f("u_Quad2", vQuad2);
 	m_particleShader.SetUniformMat4f("u_PV", ProjView);
 
-	//m_particleShader.SetUniform1i("u_tex", 0);
-	//m_particleTexture.Bind();
+	m_particleShader.SetUniform1i("u_tex", 0);
+	m_particleTexture->Bind();
 
 	glDepthMask(GL_FALSE);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);

@@ -27,7 +27,7 @@ void Particle::Update(Camera& _camera, glm::vec3 _particleSysPosition, double _d
 		m_velocity = glm::vec3(5.0f * cos(m_id * deltaTimeMS) + 5.0f * randomFloat() - 2.5f,
 							   20.0f + 5.0f * randomFloat() - 2.5f, 
 							   5.0f * sin(m_id * deltaTimeMS) + 5.0f * randomFloat() - 2.5f);
-		this->m_lifeTimeS = 0.125f + randomFloat();
+		this->m_lifeTimeS = 0.5f + randomFloat();
 	}
 
 	m_cameraDistance = glm::distance(_camera.GetPosition(), m_position);

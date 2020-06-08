@@ -30,7 +30,7 @@ private:
 	double m_timer = 0.0f;
 	
 	unsigned int m_vao, m_vbo;
-	Texture m_particleTexture;
+	Texture* m_particleTexture;
 	Shader m_particleShader;
 };
 
