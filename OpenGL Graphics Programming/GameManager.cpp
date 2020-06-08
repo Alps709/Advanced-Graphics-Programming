@@ -31,7 +31,7 @@ GameManager::GameManager()
 
 	//Set background mesh and texture
 	m_grassTexture = new Texture("Resources/Textures/Grass.png", 0);
-	m_noiseTexture = new Texture("Resources/Textures/perlin_noise.png", 1);
+	m_noiseTexture = new Texture("Resources/Textures/perlin_noise.png", 2);
 
 	//Terrain
 	m_grassTerrain = new Terrain(128, 128, glm::vec3(0.0f), true);
@@ -62,6 +62,8 @@ GameManager::GameManager()
 	//Set freeview to false at the start
 	m_camera = new Camera(false);
 	m_camera->SetThirdPersonGameObject(m_cube);
+
+	m_particleSystem = ParticleSystem(glm::vec3(70.0f, 10.0f, 64.0f), 5.0f);
 }
 
 
@@ -250,8 +252,7 @@ void GameManager::Update()
 	//Update game play state here
 	if (m_gameState == GAME_PLAY)
 	{
-		
-
+		m_particleSystem.Update(*m_camera, (float)deltaTime);
 	}
 
 	//Update key states with new input for the frame after this one
@@ -266,6 +267,7 @@ void GameManager::Update()
 
 void GameManager::Render()
 {
+	const double deltaTime = m_clock.GetDeltaTick();
 	//Clear the screen before every frame
 	GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT));
 
@@ -295,19 +297,12 @@ void GameManager::Render()
 	else if (m_gameState == GAME_PLAY)
 	{
 		
-
 	}
 
 	///Render transparent objects last
 
 	//Transparent water terrain
-	//m_waterTerrain->Render(*m_camera, m_clock.GetTimeElapsedMS(), m_FogRenderMode);
-
-	if(m_postProcessingMode)
-	{
-		m_frameBuffer->Render(static_cast<float>(m_clock.GetTimeElapsedS()));
-	}
-	
+	m_waterTerrain->Render(*m_camera, m_clock.GetTimeElapsedMS(), m_FogRenderMode);
 	
 	//transparent text
 	if (m_gameState == GAME_MENU)
@@ -317,6 +312,8 @@ void GameManager::Render()
 	}
 	else if (m_gameState == GAME_PLAY)
 	{
+		m_particleSystem.Render(*m_camera);
+		
 		m_fpsText->Render();
 		m_toggleOptionsText->Render();
 		m_frameBufferInfoText->Render();
@@ -324,6 +321,11 @@ void GameManager::Render()
 		m_fogInfoText->Render();
 		m_geomertryGrassInfoText->Render();
 		m_thirdPersonInfoText->Render();
+	}
+
+	if (m_postProcessingMode)
+	{
+		m_frameBuffer->Render(static_cast<float>(m_clock.GetTimeElapsedS()));
 	}
 
 	//Draw crosshair

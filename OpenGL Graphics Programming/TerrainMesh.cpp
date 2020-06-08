@@ -175,17 +175,17 @@ void TerrainMesh::GenerateTerrainMesh(unsigned int _xSize, unsigned int _zSize, 
 
 	int countIndices = 0;
 	unsigned int index = 0;
-	for (unsigned int gz = 0; gz < _zSize - 1; gz++) 
+	for (unsigned int gx = 0; gx < _xSize - 1; gx++) 
 	{
-		for (unsigned int gx = 0; gx < _xSize - 1; gx++) 
+		for (unsigned int gz = 0; gz < _zSize - 1; gz++) 
 		{
 			indices[index]     = countIndices;
-			indices[index + 1] = countIndices + _xSize;
-			indices[index + 2] = countIndices + _xSize + 1;
+			indices[index + 1] = countIndices + _xSize + 1;
+			indices[index + 2] = countIndices + _xSize;
 
 			indices[index + 3] = countIndices + _xSize + 1;
-			indices[index + 4] = countIndices + 1;
-			indices[index + 5] = countIndices;
+			indices[index + 4] = countIndices;
+			indices[index + 5] = countIndices + 1;
 
 			index += 6;
 			countIndices++;

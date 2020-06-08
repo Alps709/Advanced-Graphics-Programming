@@ -49,7 +49,5 @@ void main(void)
 	vertex_info_GS_in.WorldPos.y = Displacement * u_heightModifier;
 
     gl_Position = vertex_info_GS_in.WorldPos;
-	
-	vertex_info_GS_in.WorldPos = gl_Position;
 }
 

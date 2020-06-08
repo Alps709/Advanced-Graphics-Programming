@@ -17,7 +17,7 @@ public:
 	glm::vec3 GetPosition() const { return m_camPosition; }
 	glm::vec3 GetForwardVector() const { return m_camLookDir; }
 	glm::vec3 GetRightVector() const { return m_camRight; }
-	glm::vec3 GetUpVector() const { return glm::cross(m_camLookDir, m_camRight); }
+	glm::vec3 GetUpVector() const;
 	double GetCamSpeed() const { return m_camSpeed; }
 	bool GetThirdPersonMode() const { return m_thirdPersonMode; }
 

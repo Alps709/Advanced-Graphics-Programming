@@ -9,6 +9,8 @@
 
 #include <fmod.hpp>
 
+#include "ParticleSystem.h"
+
 class Cube;
 class GeometryObject;
 class TessellationObject;
@@ -55,6 +57,8 @@ private:
 	//Camera
 	Camera* m_camera = nullptr;
 
+	//Particle system
+	ParticleSystem m_particleSystem;
 
 	///Objects
 

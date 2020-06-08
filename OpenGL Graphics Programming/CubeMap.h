@@ -21,7 +21,7 @@ public:
 	void operator=(CubeMap const&) = delete;
 
 private:
-	CubeMap() {};
+	CubeMap() = default;
 
 public:
 	virtual ~CubeMap() { delete m_shader; };
@@ -49,7 +49,7 @@ public:
 	virtual void SetShaderUniforms(Camera& _myCamera, bool _fogRenderMode) const;
 	virtual void Render(Camera& _myCamera, bool _fogRenderMode);
 
-	GLuint m_texID;
+	GLuint m_texID{};
 
 protected:
 	glm::vec3 m_position{ 0.0f, 0.0f, 0.0f };
@@ -59,10 +59,10 @@ protected:
 
 	glm::mat4 m_modelMat = glm::mat4(1.0f);
 
-	GLuint m_vaoID;
-	GLuint m_vboID;
-	GLuint m_iboID;
-	int m_indicesCount;
-	Shader* m_shader;
+	GLuint m_vaoID{};
+	GLuint m_vboID{};
+	GLuint m_iboID{};
+	int m_indicesCount{};
+	Shader* m_shader{};
 };
 

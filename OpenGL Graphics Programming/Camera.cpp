@@ -21,6 +21,11 @@ Camera::Camera(bool isFreeView)
 Camera::~Camera()
 = default;
 
+glm::vec3 Camera::GetUpVector() const
+{
+	return glm::cross(m_camLookDir, m_camRight);
+}
+
 void Camera::SetPosition(glm::vec3 _newPos)
 {
 	m_camPosition = _newPos;

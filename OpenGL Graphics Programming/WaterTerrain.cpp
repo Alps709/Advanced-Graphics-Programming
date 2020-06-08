@@ -18,7 +18,7 @@ void WaterTerrain::SetShaderUniforms(Camera& _myCamera, double _time, bool _fogR
 
 	//Set object specific uniforms
 	m_grassShader.SetUniform1i("u_terrainTex", 0);
-	m_grassShader.SetUniform1i("u_perlinNoiseTex", 1);
+	m_grassShader.SetUniform1i("u_perlinNoiseTex", 2);
 
 	m_grassShader.SetUniform1i("u_fogRenderMode", _fogRenderMode);
 			
@@ -42,7 +42,7 @@ void WaterTerrain::Render(Camera& _myCamera, double _time, bool _fogRenderMode)
 	BindTexture(0);
 
 	//Bind noise texture
-	BindTexture(1);
+	BindTexture(2);
 
 	//Draw the object
 	GLCall(glDrawElements(GL_TRIANGLES, m_mesh->GetindicesCount(), GL_UNSIGNED_INT, static_cast<void*>(0)));

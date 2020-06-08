@@ -1,6 +1,10 @@
 #include "Particle.h"
 
+
+#include <iostream>
 #include <random>
+
+#include "Camera.h"
 
 //Generates a random float from 0 - 1
 static float randomFloat()
@@ -10,19 +14,21 @@ static float randomFloat()
 }
 
 
-bool Particle::Update(double _deltaTime)
+void Particle::Update(Camera& _camera, glm::vec3 _particleSysPosition, double _deltaTime)
 {
-	m_velocity.y += m_gravityVal * _deltaTime;
+	float deltaTimeMS = static_cast<float>(_deltaTime) * 0.001f;
+	m_velocity.y += m_gravityVal;
 
-	m_position += m_velocity;
-	m_timeElapsed += _deltaTime;
-
-	if (m_timeElapsed >= m_lifeTimeS) {
-		m_position = m_posOrigin;
-		m_velocity = glm::vec3(0.25 * cos(m_id * .0167) + randomFloat() * 0.25f - 0.125f, 
-							   1.5f + 0.25f * randomFloat() - 0.125f, 
-							   0.25 * sin(m_id * .0167) + randomFloat() * 0.25f - 0.125f);
-		this->m_lifeTimeS = randomFloat() + 0.125;
-		m_timeElapsed = 0.0f;
+	m_position += m_velocity * deltaTimeMS;
+	m_lifeTimeS -= deltaTimeMS;
+	
+	if (m_lifeTimeS < 0.0f) {
+		m_position = _particleSysPosition;
+		m_velocity = glm::vec3(5.0f * cos(m_id * deltaTimeMS) + 5.0f * randomFloat() - 2.5f,
+							   20.0f + 5.0f * randomFloat() - 2.5f, 
+							   5.0f * sin(m_id * deltaTimeMS) + 5.0f * randomFloat() - 2.5f);
+		this->m_lifeTimeS = 0.125f + randomFloat();
 	}
+
+	m_cameraDistance = glm::distance(_camera.GetPosition(), m_position);
 }

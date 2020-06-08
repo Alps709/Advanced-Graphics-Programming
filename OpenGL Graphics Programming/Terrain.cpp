@@ -82,7 +82,7 @@ float Terrain::GetTerrainHeight(float _worldX, float _worldZ)
 	float xCoord = fmod(localX, gridSquaresSize) / gridSquaresSize;
 	float zCoord = fmod(localZ, gridSquaresSize) / gridSquaresSize;
 
-	float answer = 0;
+	float answer;
 	
 	if (zCoord <= 1 - xCoord)
 	{

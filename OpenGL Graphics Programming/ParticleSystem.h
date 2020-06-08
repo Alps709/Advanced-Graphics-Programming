@@ -3,8 +3,6 @@
 #include <iostream>
 #include <vector>
 
-
-#include "Camera.h"
 #include "Particle.h"
 #include "Shader.h"
 #include "Texture.h"
@@ -12,18 +10,27 @@
 class ParticleSystem
 {
 public:
-	ParticleSystem(glm::vec3 _position);
+	ParticleSystem() = default;
+	ParticleSystem(glm::vec3 _position, float _radius);
 	~ParticleSystem();
 	
-	void Render(Camera& camera, float _deltaTime);
+	void Update(Camera& _camera, float _deltaTime);
+	void Render(Camera& camera);
+	
 	std::vector<Particle> m_particles;
 	std::vector<glm::vec3> m_particlePositions;
 	
 private:
+	unsigned int m_NumParticles = 4000;
+	
+	glm::vec3 m_originalPosition;
 	glm::vec3 m_position;
+	
+	float m_circleRadius = 5.0f;
+	double m_timer = 0.0f;
+	
 	unsigned int m_vao, m_vbo;
 	Texture m_particleTexture;
 	Shader m_particleShader;
-	float m_NumParticles;
 };
 
