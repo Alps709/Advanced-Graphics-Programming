@@ -173,6 +173,7 @@
     <ClCompile Include="NoiseTextureGenerator.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="ParticleSystemCS.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="SphereMesh.cpp" />
@@ -207,6 +208,7 @@
     <ClInclude Include="Obj.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="ParticleSystemCS.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="SphereMesh.h" />

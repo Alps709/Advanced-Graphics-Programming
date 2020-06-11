@@ -11,17 +11,19 @@ class ParticleSystem
 {
 public:
 	ParticleSystem() = default;
-	ParticleSystem(glm::vec3 _position, float _radius);
+	ParticleSystem(glm::vec3 _position, float _radius, bool _useComputerShader);
 	~ParticleSystem();
 	
 	void Update(Camera& _camera, float _deltaTime);
 	void Render(Camera& camera);
-	
-	std::vector<Particle> m_particles;
-	std::vector<glm::vec3> m_particlePositions;
+
+	void SetUseComputeShader(bool _useComputeShader);
 	
 private:
+	bool m_useComputerShader = false;
+	
 	unsigned int m_NumParticles = 4000;
+	unsigned int m_csNumParticles = 128 * 20000;
 	
 	glm::vec3 m_originalPosition;
 	glm::vec3 m_position;
@@ -32,5 +34,12 @@ private:
 	unsigned int m_vao, m_vbo;
 	Texture* m_particleTexture;
 	Shader m_particleShader;
+
+	std::vector<Particle> m_particles;
+	std::vector<glm::vec3> m_particlePositions;
+
+	std::vector<glm::vec4> csInitialposition;
+	std::vector<glm::vec4> csInitialvelocity;
+	GLuint csPosVbo, csVelVbo, csInitVelVbo, csParticleVao;
 };
 

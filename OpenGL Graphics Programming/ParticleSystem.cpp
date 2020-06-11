@@ -57,8 +57,10 @@ ParticleSystem::ParticleSystem(glm::vec3 _position, float _radius)
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 	
 	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * m_particlePositions.size(), &m_particlePositions[0], GL_DYNAMIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), static_cast<GLvoid*>(0)); glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0); glBindVertexArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), static_cast<GLvoid*>(0));
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
 }
 
 ParticleSystem::~ParticleSystem()
@@ -67,7 +69,7 @@ ParticleSystem::~ParticleSystem()
 
 void ParticleSystem::Update(Camera& _camera, float _deltaTime)
 {
-	m_timer += _deltaTime * 0.001f;
+	m_timer += 0.001f * _deltaTime;
 	m_position = glm::vec3((m_circleRadius * sin(static_cast<float>(m_timer))) + m_originalPosition.x,
 		                     m_originalPosition.y,
 		                     (m_circleRadius * cos(static_cast<float>(m_timer))) + m_originalPosition.z);

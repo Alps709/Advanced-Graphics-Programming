@@ -3,6 +3,40 @@
 #include <vector>
 
 
+GLuint ShaderLoader::CreateProgram(const char* _computeShaderFilename)
+{
+	GLuint program = glCreateProgram();
+
+	const GLuint computeID = CreateShader(GL_COMPUTE_SHADER, _computeShaderFilename);
+
+	std::string ID = std::to_string(computeID);
+
+	GLCall(glAttachShader(program, computeID));
+
+
+	glLinkProgram(program);
+
+	const auto shader = m_shaderMap->find(program);
+
+	if (shader != m_shaderMap->end() && shader->second == ID)
+	{
+		std::cout << "Shader has already been compiled before!" << std::endl;
+		return shader->first;
+	}
+
+	// Check for link errors
+	int link_result = 0;
+	GLCall(glGetProgramiv(program, GL_LINK_STATUS, &link_result));
+	if (link_result == GL_FALSE)
+	{
+		std::string programName = _computeShaderFilename;
+		PrintErrorDetails(false, program, programName.c_str());
+		return 0;
+	}
+	m_shaderMap->insert(std::pair<GLuint, std::string>(program, ID));
+	return program;
+}
+
 GLuint ShaderLoader::CreateProgram(const char* _vertexShaderFilename, const char* _fragmentShaderFilename)
 {
 	GLuint program = glCreateProgram();

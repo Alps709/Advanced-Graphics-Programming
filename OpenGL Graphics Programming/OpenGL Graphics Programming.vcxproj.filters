@@ -131,6 +131,9 @@
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleSystemCS.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="VertexBufferInfo.h">
@@ -227,6 +230,9 @@
       <Filter>Source Files\Object stuff</Filter>
     </ClInclude>
     <ClInclude Include="ParticleSystem.h">
+      <Filter>Source Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystemCS.h">
       <Filter>Source Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>

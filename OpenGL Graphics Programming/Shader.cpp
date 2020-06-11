@@ -11,6 +11,11 @@ Shader::Shader()
 	m_programID = ShaderLoader::CreateProgram("Shaders/Default_0_VS.glsl", "Shaders/Default_1_FS.glsl");
 }
 
+Shader::Shader(const char* _computeSrc)
+{
+	m_programID = ShaderLoader::CreateProgram(_computeSrc);
+}
+
 Shader::Shader(const char* _vertexSrc, const char* _fragmentSrc)
 {
 	m_VSFile = _vertexSrc;

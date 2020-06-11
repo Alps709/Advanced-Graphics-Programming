@@ -22,6 +22,7 @@ public:
 		return instance;
 	}
 
+	static GLuint CreateProgram(const char* _computeShaderFilename);
 	static GLuint CreateProgram(const char* _vertexShaderFilename, const char* _fragmentShaderFilename);
 	static GLuint CreateProgram(const char* _vertexShaderFilename, const char* _geometryShaderFilename, const char* _fragmentShaderFilename);
 	static GLuint CreateProgram(const char* _vertexShaderFilename, const char* _tessellationControlShaderFilename, const char* _tessellationEvaluationShaderFilename, const char* _fragmentShaderFilename);

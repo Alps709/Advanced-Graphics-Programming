@@ -8,6 +8,7 @@ class Shader
 {
 public:
 	Shader();
+	Shader(const char* _computeSrc);
 	Shader(const char* _vertexSrc, const char* _fragmentSrc);
 	Shader(const char* _vertexSrc, const char* _geometrySrc, const char* _fragmentSrc);
 	Shader(const char* _vertexSrc, const char* _tesselationControlSrc, const char* _tesselationEvaluationSrc, const char* _fragmentSrc);
@@ -33,6 +34,7 @@ public:
 private:
 	unsigned int m_programID{};
 
+	std::string m_CSFile;
 	std::string m_VSFile;
 	std::string m_TCSFile;
 	std::string m_TESFile;
