@@ -56,8 +56,8 @@ ParticleSystem::ParticleSystem(glm::vec3 _position, float _radius)
 	glGenVertexArrays(1, &m_vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 	
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * m_particlePositions.size(), &m_particlePositions[0], GL_DYNAMIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), static_cast<GLvoid*>(0));
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * m_particlePositions.size(), &m_particlePositions[0], GL_DYNAMIC_DRAW);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(glm::vec4), static_cast<GLvoid*>(0));
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -78,7 +78,7 @@ void ParticleSystem::Update(Camera& _camera, float _deltaTime)
 	for (int i = 0; i < (int)m_NumParticles; i++)
 	{
 		m_particles[i].Update(_camera, m_position, _deltaTime);
-		m_particlePositions[i] = m_particles[i].GetPosition();
+		m_particlePositions[i] = glm::vec4(m_particles[i].GetPosition(), 1.0f);
 	}
 
 	std::sort(m_particles.begin(), m_particles.end(), 
@@ -109,7 +109,7 @@ void ParticleSystem::Render(Camera& camera)
 
 	glDepthMask(GL_FALSE);
 	glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * m_particlePositions.size(), &m_particlePositions[0], GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec4) * m_particlePositions.size(), &m_particlePositions[0], GL_DYNAMIC_DRAW);
 	
 	glBindVertexArray(m_vao);
 	glDrawArrays(GL_POINTS, 0, m_NumParticles);

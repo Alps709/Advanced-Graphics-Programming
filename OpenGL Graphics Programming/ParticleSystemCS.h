@@ -14,7 +14,7 @@ public:
 	ParticleSystemCS(glm::vec3 _position, float _radius);
 	~ParticleSystemCS();
 
-	void Update(Camera& _camera, float _deltaTime);
+	void Update(float _deltaTime);
 	void Render(Camera& camera);
 
 private:

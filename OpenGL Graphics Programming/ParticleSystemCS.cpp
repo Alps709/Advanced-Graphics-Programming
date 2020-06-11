@@ -27,18 +27,18 @@ ParticleSystemCS::ParticleSystemCS(glm::vec3 _position, float _radius)
 	m_InitialVelocity.resize(m_NumParticles);
 
 #pragma omp parallel for
-	for (unsigned int i = 0; i < m_NumParticles; i++)
+	for (int i = 0; i < (int)m_NumParticles; i++)
 	{
 		m_InitialPosition[i] = glm::vec4(0.0f, 0.0f, 0.0f, 0.125f + randomFloat());
 
 		m_InitialVelocity[i] = glm::vec4(//vel x
-										 10.0f * cos(i * .0167f) + randomFloat() * 0.25f - 0.125f,
+										 2.5f * cos(i * .0167f) + randomFloat() * 5.0f,
 									 	 //vel y
-										 15.25f + 0.25f * randomFloat() - 0.125f,
+										 5.0f + 10.0f * randomFloat(),
 										 //vel z
-										 10.0f * sin(i * .0167f) + randomFloat() * 0.25f - 0.125f,
-										 //idk
-										 0.125f + randomFloat());
+										 2.5f * sin(i * .0167f) + randomFloat() * 5.0f,
+										 //Time alive
+										 1.0f + randomFloat() * 4.0f);
 	}
 
 	glGenBuffers(1, &m_posVbo);
@@ -73,38 +73,32 @@ ParticleSystemCS::~ParticleSystemCS()
 }
 
 
-//void ParticleSystemCS::Update(Camera& _camera, float _deltaTime)
-//{
-//	m_timer += _deltaTime * 0.001f;
-//	m_position = glm::vec3((m_circleRadius * sin(static_cast<float>(m_timer))) + m_originalPosition.x,
-//		m_originalPosition.y,
-//		(m_circleRadius * cos(static_cast<float>(m_timer))) + m_originalPosition.z);
-//
-//	//Update partcles and their positions for the VBO
-//	for (int i = 0; i < (int)m_NumParticles; i++)
-//	{
-//		m_particles[i].Update(_camera, m_position, _deltaTime);
-//		m_particlePositions[i] = m_particles[i].GetPosition();
-//	}
-//
-//	std::sort(m_particles.begin(), m_particles.end(),
-//		[](Particle a, Particle b) -> float {return a.GetCamDistance() > b.GetCamDistance(); });
-//}
-
-void ParticleSystemCS::Render(Camera& camera)
+void ParticleSystemCS::Update(float _deltaTime)
 {
+	const float deltaTimeMS = static_cast<float>(_deltaTime) * 0.001f;
+	m_timer += deltaTimeMS;
+	
+	m_position = glm::vec3((m_circleRadius * sin(static_cast<float>(m_timer))) + m_originalPosition.x,
+						   m_originalPosition.y,
+						   (m_circleRadius * cos(static_cast<float>(m_timer))) + m_originalPosition.z);
+	
 	//Run computer shader first
 	m_computeShader.Bind();
 
+	m_computeShader.SetUniform3f("u_gravity", glm::vec3(0.0f, -9.8f, 0.0f) * deltaTimeMS);
+	m_computeShader.SetUniform1f("u_deltaTime", deltaTimeMS);
 	m_computeShader.SetUniform3f("u_particleSystemPos", m_position);
+	
 	glDispatchCompute(m_NumParticles / 128, 1, 1);
 
 	//Wait for it to finish
 	glMemoryBarrier(GL_ALL_BARRIER_BITS);
 
 	glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
+}
 
-	
+void ParticleSystemCS::Render(Camera& camera)
+{
 	glm::mat4 viewMat = camera.GetView();
 	glm::vec3 vQuad1, vQuad2;
 	glm::vec3 vView = camera.GetForwardVector();
@@ -134,6 +128,6 @@ void ParticleSystemCS::Render(Camera& camera)
 	
 	glDisableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	m_particleShader.Unbind();
+	Shader::Unbind();
 	glDepthMask(GL_TRUE);
 }

@@ -64,6 +64,7 @@ GameManager::GameManager()
 	m_camera->SetThirdPersonGameObject(m_cube);
 
 	m_particleSystem = ParticleSystem(glm::vec3(70.0f, 10.0f, 64.0f), 5.0f);
+	m_particleSystemCS = ParticleSystemCS(glm::vec3(70.0f, 10.0f, 64.0f), 5.0f);
 }
 
 
@@ -166,13 +167,19 @@ void GameManager::ProcessInput()
 		Reset();
 	}
 
-	//'p' key is pressed
+	//'U' key is pressed
 	if (inputManager.KeyState['u'] == INPUT_DOWN_FIRST || inputManager.KeyState['U'] == INPUT_DOWN_FIRST)
 	{
 		m_terrainGrassShaderMode = !m_terrainGrassShaderMode;
 	}
 
-	//'p' key is pressed
+	//'U' key is pressed
+	if (inputManager.KeyState['y'] == INPUT_DOWN_FIRST || inputManager.KeyState['Y'] == INPUT_DOWN_FIRST)
+	{
+		m_particleComputerShaderMode = !m_particleComputerShaderMode;
+	}
+
+	//'P' key is pressed
 	if (inputManager.KeyState['p'] == INPUT_DOWN_FIRST || inputManager.KeyState['P'] == INPUT_DOWN_FIRST)
 	{
 		m_postProcessingMode = !m_postProcessingMode;
@@ -194,7 +201,7 @@ void GameManager::ProcessInput()
 		}
 	}
 
-	//'O' key is pressed
+	//'I' key is pressed
 	if (inputManager.KeyState['i'] == INPUT_DOWN_FIRST || inputManager.KeyState['I'] == INPUT_DOWN_FIRST)
 	{
 		//Turn fog render mode on/off
@@ -252,7 +259,15 @@ void GameManager::Update()
 	//Update game play state here
 	if (m_gameState == GAME_PLAY)
 	{
-		m_particleSystem.Update(*m_camera, (float)deltaTime);
+		if(m_particleComputerShaderMode)
+		{
+			m_particleSystemCS.Update((float)deltaTime);
+		}
+		else
+		{
+			m_particleSystem.Update(*m_camera, (float)deltaTime);
+		}
+		
 	}
 
 	//Update key states with new input for the frame after this one
@@ -312,8 +327,15 @@ void GameManager::Render()
 	}
 	else if (m_gameState == GAME_PLAY)
 	{
-		m_particleSystem.Render(*m_camera);
-		
+		if(m_particleComputerShaderMode)
+		{
+			m_particleSystemCS.Render(*m_camera);
+		}
+		else
+		{
+			m_particleSystem.Render(*m_camera);
+		}
+	
 		m_fpsText->Render();
 		m_toggleOptionsText->Render();
 		m_frameBufferInfoText->Render();

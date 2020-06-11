@@ -10,6 +10,7 @@
 #include <fmod.hpp>
 
 #include "ParticleSystem.h"
+#include "ParticleSystemCS.h"
 
 class Cube;
 class GeometryObject;
@@ -59,6 +60,7 @@ private:
 
 	//Particle system
 	ParticleSystem m_particleSystem;
+	ParticleSystemCS m_particleSystemCS;
 
 	///Objects
 
@@ -115,5 +117,6 @@ private:
 	bool m_WireframeRenderMode = false;
 	bool m_postProcessingMode = true;
 	bool m_terrainGrassShaderMode = false;
+	bool m_particleComputerShaderMode = false;
 };
 
