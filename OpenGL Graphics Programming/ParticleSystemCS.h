@@ -18,7 +18,7 @@ public:
 	void Render(Camera& camera);
 
 private:
-	unsigned int m_NumParticles = 128 * 2000;
+	unsigned int m_NumParticles = 128 * 4000;
 
 	glm::vec3 m_originalPosition;
 	glm::vec3 m_position;

@@ -59,8 +59,8 @@ private:
 	Camera* m_camera = nullptr;
 
 	//Particle system
-	ParticleSystem m_particleSystem;
-	ParticleSystemCS m_particleSystemCS;
+	ParticleSystem* m_particleSystem;
+	ParticleSystemCS* m_particleSystemCS;
 
 	///Objects
 
@@ -102,11 +102,12 @@ private:
 	TextLabel* m_menuInstructText = nullptr;
 	TextLabel* m_fpsText = nullptr;
 	TextLabel* m_toggleOptionsText = nullptr;
-	TextLabel* m_frameBufferInfoText = nullptr;
+	TextLabel* m_particleSystemInfoText = nullptr;
 	TextLabel* m_wireFrameInfoText = nullptr;
 	TextLabel* m_fogInfoText = nullptr;
 	TextLabel* m_geomertryGrassInfoText = nullptr;
 	TextLabel* m_thirdPersonInfoText = nullptr;
+	TextLabel* m_animatedWaterInfoText = nullptr;
 
 	//Uniforms
 	GLfloat u_currentTime = 0;
@@ -115,8 +116,9 @@ private:
 	//Debug stuff
 	bool m_FogRenderMode = true;
 	bool m_WireframeRenderMode = false;
-	bool m_postProcessingMode = true;
+	bool m_postProcessingMode = false;
 	bool m_terrainGrassShaderMode = false;
 	bool m_particleComputerShaderMode = false;
+	bool m_animatedWaterMode = true;
 };
 

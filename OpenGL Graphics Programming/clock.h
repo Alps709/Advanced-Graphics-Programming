@@ -22,6 +22,7 @@ public:
 	double GetDeltaTick() const;
 	double GetTimeElapsedMS() const;
 	double GetTimeElapsedS() const;
+	double GetCurrentTime() const;
 	void ResetElaspedTime() { m_fTimeElapsed = 0.0; }
 
 private:

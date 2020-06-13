@@ -59,7 +59,7 @@ protected:
 
 	bool m_generateNoiseTex = false;
 
-	NoiseTextureGenerator m__noiseTexGenerator;
+	NoiseTextureGenerator m_noiseTexGenerator;
 
 	TerrainMesh* m_mesh;
 	Shader m_grassShader;

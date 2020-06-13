@@ -32,11 +32,11 @@ ParticleSystemCS::ParticleSystemCS(glm::vec3 _position, float _radius)
 		m_InitialPosition[i] = glm::vec4(0.0f, 0.0f, 0.0f, 0.125f + randomFloat());
 
 		m_InitialVelocity[i] = glm::vec4(//vel x
-										 2.5f * cos(i * .0167f) + randomFloat() * 5.0f,
+										 2.5f * cos(i * .0167f) * randomFloat() * 10.0f,
 									 	 //vel y
-										 5.0f + 10.0f * randomFloat(),
+										 10.0f + randomFloat() * 20.0f,
 										 //vel z
-										 2.5f * sin(i * .0167f) + randomFloat() * 5.0f,
+										 2.5f * sin(i * .0167f) * randomFloat() * 10.0f,
 										 //Time alive
 										 1.0f + randomFloat() * 4.0f);
 	}
@@ -70,6 +70,7 @@ ParticleSystemCS::ParticleSystemCS(glm::vec3 _position, float _radius)
 
 ParticleSystemCS::~ParticleSystemCS()
 {
+	delete m_particleTexture;
 }
 
 

@@ -18,6 +18,7 @@ void ProcessInput();
 
 void SetGlobalGLSettings();
 
+
 int main(int argc, char ** argv)
 {
 	//Setup and create at glut controlled window
@@ -25,7 +26,7 @@ int main(int argc, char ** argv)
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA | GLUT_MULTISAMPLE);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize((int)inputManager.GL_SCREEN_WIDTH, (int)inputManager.GL_SCREEN_HEIGHT);
-	glutCreateWindow("Advanced graphics showcase #1 - By Anton Le Prevost-Smith");
+	glutCreateWindow("Advanced graphics showcase #3 - By Anton Le Prevost-Smith");
 
 	//Print openGL version
 	std::cout << "Currently using OpenGL version: " << glGetString(GL_VERSION) << std::endl;
@@ -111,5 +112,5 @@ void SetGlobalGLSettings()
 	glDepthFunc(GL_LESS);
 
 	//Sets the clear colour when calling glClear()
-	GLCall(glClearColor(0.0f, 0.0f, 1.0f, 1.0f));
+	GLCall(glClearColor(0.6f, 0.6f, 0.6f, 1.0f));
 }

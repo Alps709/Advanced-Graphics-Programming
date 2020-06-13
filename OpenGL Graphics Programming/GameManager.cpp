@@ -50,11 +50,12 @@ GameManager::GameManager()
 	glm::vec3 colour = glm::vec3(1.0f, 1.0f, 1.0f);
 	m_fpsText                = new TextLabel("FPS: ", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.5f));
 	m_toggleOptionsText      = new TextLabel("Toggle options: ", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f), colour, 0.5f);
-	m_frameBufferInfoText    = new TextLabel("p - Framebuffer", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 2.0f), colour, 0.5f);
+	m_particleSystemInfoText = new TextLabel("y - Particle system GPU mode", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 2.0f), colour, 0.5f);
 	m_wireFrameInfoText      = new TextLabel("o - Wireframe mode", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 3.0f), colour, 0.5f);
 	m_fogInfoText            = new TextLabel("i - Fog render mode", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 4.0f), colour, 0.5f);
 	m_geomertryGrassInfoText = new TextLabel("u - Geometry shader grass", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 5.0f), colour, 0.5f);
 	m_thirdPersonInfoText    = new TextLabel("m - Third person mode (use WASD to move)", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 6.0f), colour, 0.5f);
+	m_animatedWaterInfoText  = new TextLabel("p - Animated water", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 7.0f), colour, 0.5f);
 	m_menuTitleText          = new TextLabel("Graphics showcase!", "Resources/Fonts/arial.ttf", glm::vec2(-625, 160), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f);
 	m_menuInstructText       = new TextLabel("Press enter to continue", "Resources/Fonts/arial.ttf", glm::vec2(-600, -200), glm::vec3(0.0f, 1.0f, 1.0f), 1.5f);
 
@@ -63,8 +64,8 @@ GameManager::GameManager()
 	m_camera = new Camera(false);
 	m_camera->SetThirdPersonGameObject(m_cube);
 
-	m_particleSystem = ParticleSystem(glm::vec3(70.0f, 10.0f, 64.0f), 5.0f);
-	m_particleSystemCS = ParticleSystemCS(glm::vec3(70.0f, 10.0f, 64.0f), 5.0f);
+	m_particleSystem = new ParticleSystem(glm::vec3(70.0f, 10.0f, 64.0f), 5.0f);
+	m_particleSystemCS = new ParticleSystemCS(glm::vec3(70.0f, 25.0f, 64.0f), 10.0f);
 }
 
 
@@ -74,7 +75,6 @@ GameManager::~GameManager()
 	delete m_fpsText;
 	delete m_menuTitleText;
 	delete m_menuInstructText;
-	delete m_grassTexture;
 	delete m_noiseTexture;
 	delete m_defaultShader;
 	delete m_geometryModelShader;
@@ -84,15 +84,20 @@ GameManager::~GameManager()
 	delete m_cube;
 	delete m_cube1;
 	delete m_cube2;
+	delete m_grassTexture;
 	delete m_geometryObject;
 	delete m_tesselationObject;
 	delete m_frameBuffer;
 	delete m_toggleOptionsText;
-	delete m_frameBufferInfoText;
+	delete m_particleSystemInfoText;
 	delete m_wireFrameInfoText;
 	delete m_fogInfoText;
 	delete m_geomertryGrassInfoText;
 	delete m_thirdPersonInfoText;
+	delete m_animatedWaterInfoText;
+	delete m_particleSystemInfoText;
+	delete m_particleSystem;
+	delete m_particleSystemCS;
 }		   
 
 void GameManager::ProcessInput()
@@ -179,10 +184,16 @@ void GameManager::ProcessInput()
 		m_particleComputerShaderMode = !m_particleComputerShaderMode;
 	}
 
+	////'P' key is pressed
+	//if (inputManager.KeyState['p'] == INPUT_DOWN_FIRST || inputManager.KeyState['P'] == INPUT_DOWN_FIRST)
+	//{
+	//	m_postProcessingMode = !m_postProcessingMode;
+	//}
+	//
 	//'P' key is pressed
 	if (inputManager.KeyState['p'] == INPUT_DOWN_FIRST || inputManager.KeyState['P'] == INPUT_DOWN_FIRST)
 	{
-		m_postProcessingMode = !m_postProcessingMode;
+		m_animatedWaterMode = !m_animatedWaterMode;
 	}
 
 	//'O' key is pressed
@@ -261,13 +272,12 @@ void GameManager::Update()
 	{
 		if(m_particleComputerShaderMode)
 		{
-			m_particleSystemCS.Update((float)deltaTime);
+			m_particleSystemCS->Update((float)deltaTime);
 		}
 		else
 		{
-			m_particleSystem.Update(*m_camera, (float)deltaTime);
+			m_particleSystem->Update(*m_camera, (float)deltaTime);
 		}
-		
 	}
 
 	//Update key states with new input for the frame after this one
@@ -315,9 +325,11 @@ void GameManager::Render()
 	}
 
 	///Render transparent objects last
-
 	//Transparent water terrain
-	m_waterTerrain->Render(*m_camera, m_clock.GetTimeElapsedMS(), m_FogRenderMode);
+	if(m_animatedWaterMode)
+	{
+		m_waterTerrain->Render(*m_camera, m_clock.GetTimeElapsedMS(), m_FogRenderMode);
+	}
 	
 	//transparent text
 	if (m_gameState == GAME_MENU)
@@ -329,20 +341,21 @@ void GameManager::Render()
 	{
 		if(m_particleComputerShaderMode)
 		{
-			m_particleSystemCS.Render(*m_camera);
+			m_particleSystemCS->Render(*m_camera);
 		}
 		else
 		{
-			m_particleSystem.Render(*m_camera);
+			m_particleSystem->Render(*m_camera);
 		}
 	
 		m_fpsText->Render();
 		m_toggleOptionsText->Render();
-		m_frameBufferInfoText->Render();
+		m_particleSystemInfoText->Render();
 		m_wireFrameInfoText->Render();
 		m_fogInfoText->Render();
 		m_geomertryGrassInfoText->Render();
 		m_thirdPersonInfoText->Render();
+		m_animatedWaterInfoText->Render();
 	}
 
 	if (m_postProcessingMode)

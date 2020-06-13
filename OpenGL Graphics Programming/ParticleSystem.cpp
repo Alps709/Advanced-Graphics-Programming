@@ -65,6 +65,7 @@ ParticleSystem::ParticleSystem(glm::vec3 _position, float _radius)
 
 ParticleSystem::~ParticleSystem()
 {
+	delete m_particleTexture;
 }
 
 void ParticleSystem::Update(Camera& _camera, float _deltaTime)

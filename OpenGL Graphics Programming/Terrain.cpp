@@ -14,8 +14,8 @@ Terrain::Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, 
 
 	if (_genNoiseTex)
 	{
-		m_perlinNoiseTexture = m__noiseTexGenerator.GenerateTexture();
-		heightMapData = m__noiseTexGenerator.GetPixelData();
+		m_perlinNoiseTexture = m_noiseTexGenerator.GenerateTexture();
+		heightMapData = m_noiseTexGenerator.GetPixelData();
 	}
 
 	m_mesh = new TerrainMesh(_xSize, _zSize, heightMapData);
@@ -32,6 +32,8 @@ Terrain::Terrain(unsigned int _xSize, unsigned int _zSize, glm::vec3 _position, 
 Terrain::~Terrain()
 {
 	delete m_mesh;
+	delete m_tex0;
+	delete m_tex1;
 }
 
 void Terrain::SetPosition(glm::vec3 _pos)

@@ -94,3 +94,10 @@ double CClock::GetTimeElapsedS() const
 {
 	return (m_fTimeElapsed / 1000.0);
 }
+
+double CClock::GetCurrentTime() const
+{
+	auto current_time = std::chrono::system_clock::now();
+	auto duration_in_seconds = std::chrono::duration<double>(current_time.time_since_epoch());
+	return duration_in_seconds.count();
+}

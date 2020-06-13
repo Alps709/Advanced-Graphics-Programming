@@ -4,9 +4,18 @@
 
 #include "FastNoise.h"
 
+NoiseTextureGenerator::~NoiseTextureGenerator()
+{
+	delete m_tex;
+	delete m_pixelData;
+}
+
 Texture* NoiseTextureGenerator::GenerateTexture()
 {
+	m_clock.Initialise();
+	
 	FastNoise noiseGenerator;
+	noiseGenerator.SetSeed(static_cast<int>(m_clock.GetCurrentTime()));
 	noiseGenerator.SetNoiseType(FastNoise::NoiseType::PerlinFractal);
 	noiseGenerator.SetFractalOctaves(5);
 	noiseGenerator.SetFractalLacunarity(2.2f);
@@ -15,7 +24,7 @@ Texture* NoiseTextureGenerator::GenerateTexture()
 	m_pixelData = new std::vector<float>();
 	m_pixelData->resize(m_width * m_height);
 
-	m_clock.Initialise();
+	
 
 #pragma omp parallel for
 	for (int z = 0; z < m_height; z++)
@@ -30,10 +39,10 @@ Texture* NoiseTextureGenerator::GenerateTexture()
 		}
 	}
 
-	Texture* tex = new Texture(m_pixelData->data(), 1);
+	m_tex = new Texture(m_pixelData->data(), 1);
 
 	m_clock.Process();
 	std::cout << "It took " << m_clock.GetTimeElapsedMS() << " milliseconds to generate the Perlin noise height map texture!" << std::endl;
 
-	return tex;
+	return m_tex;
 }

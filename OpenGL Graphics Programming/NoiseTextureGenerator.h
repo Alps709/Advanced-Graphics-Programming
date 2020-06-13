@@ -40,11 +40,14 @@ class NoiseTextureGenerator
 {
 public:
 	NoiseTextureGenerator() = default;
+	~NoiseTextureGenerator();
 
 	Texture* GenerateTexture();
 	std::vector<float>* GetPixelData() const { return m_pixelData; }
 
 private:
+
+	Texture* m_tex;
 	
 	const int m_width = 4096;
 	const int m_height = 4096;
