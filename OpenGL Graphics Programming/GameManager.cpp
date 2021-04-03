@@ -48,16 +48,17 @@ GameManager::GameManager()
 
 	//Create the text objects
 	glm::vec3 colour = glm::vec3(1.0f, 1.0f, 1.0f);
-	m_fpsText                = new TextLabel("FPS: ", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.5f));
-	m_toggleOptionsText      = new TextLabel("Toggle options: ", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f), colour, 0.5f);
-	m_particleSystemInfoText = new TextLabel("y - Particle system GPU mode", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 2.0f), colour, 0.5f);
-	m_wireFrameInfoText      = new TextLabel("o - Wireframe mode", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 3.0f), colour, 0.5f);
-	m_fogInfoText            = new TextLabel("i - Fog render mode", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 4.0f), colour, 0.5f);
-	m_geomertryGrassInfoText = new TextLabel("u - Geometry shader grass", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 5.0f), colour, 0.5f);
-	m_thirdPersonInfoText    = new TextLabel("m - Third person mode (use WASD to move)", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 6.0f), colour, 0.5f);
-	m_animatedWaterInfoText  = new TextLabel("p - Animated water", "Resources/Fonts/arial.ttf", glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 7.0f), colour, 0.5f);
-	m_menuTitleText          = new TextLabel("Graphics showcase!", "Resources/Fonts/arial.ttf", glm::vec2(-625, 160), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f);
-	m_menuInstructText       = new TextLabel("Press enter to continue", "Resources/Fonts/arial.ttf", glm::vec2(-600, -200), glm::vec3(0.0f, 1.0f, 1.0f), 1.5f);
+	string arialFont = "Resources/Fonts/arial.ttf";
+	m_fpsText                = new TextLabel("FPS: ", arialFont, glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.5f));
+	m_toggleOptionsText      = new TextLabel("Toggle options: ", arialFont, glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f), colour, 0.5f);
+	m_particleSystemInfoText = new TextLabel("y - Particle system GPU mode", arialFont, glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 2.0f), colour, 0.5f);
+	m_wireFrameInfoText      = new TextLabel("o - Wireframe mode", arialFont, glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 3.0f), colour, 0.5f);
+	m_fogInfoText            = new TextLabel("i - Fog render mode", arialFont, glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 4.0f), colour, 0.5f);
+	m_geomertryGrassInfoText = new TextLabel("u - Geometry shader grass", arialFont, glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 5.0f), colour, 0.5f);
+	m_thirdPersonInfoText    = new TextLabel("m - Third person mode (use WASD to move)", arialFont, glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 6.0f), colour, 0.5f);
+	m_animatedWaterInfoText  = new TextLabel("p - Animated water", arialFont, glm::vec2(-inputManager.GL_HSCREEN_WIDTH + 20.0f, inputManager.GL_HSCREEN_HEIGHT * 0.25f - 50.0f * 7.0f), colour, 0.5f);
+	m_menuTitleText          = new TextLabel("Graphics showcase!", arialFont, glm::vec2(-625, 160), glm::vec3(0.0f, 1.0f, 1.0f), 2.0f);
+	m_menuInstructText       = new TextLabel("Press enter to continue", arialFont, glm::vec2(-600, -200), glm::vec3(0.0f, 1.0f, 1.0f), 1.5f);
 
 	//Create the camera
 	//Set freeview to false at the start

@@ -24,7 +24,7 @@ Texture* NoiseTextureGenerator::GenerateTexture()
 	m_pixelData = new std::vector<float>();
 	m_pixelData->resize(m_width * m_height);
 
-	
+	std::cout << "Generating 4k perlin noise texture for the terrain!\nIf you are in debug mode without omp enabled this may take some time..." << std::endl;
 
 #pragma omp parallel for
 	for (int z = 0; z < m_height; z++)
